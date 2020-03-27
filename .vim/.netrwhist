@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/olivermead/Documents/uniCourseWork/Algorithmics/Assignment 1'
+let g:netrw_dirhist_1='/home/olivermead/Documents/uniCourseWork/Algorithmics/Assignment 1/graphjava'
+let g:netrw_dirhist_0='/home/olivermead/Documents/uniCourseWork/Algorithmics/Assignment 1'
+let g:netrw_dirhist_9='/home/olivermead/Documents/uniCourseWork/Programming 1 Coursework/src'
+let g:netrw_dirhist_8='/home/olivermead/Documents/uniCourseWork/Programming 1 Coursework'
+let g:netrw_dirhist_7='/home/olivermead/Documents/uniCourseWork/DataManagement/comp1204-labs'
+let g:netrw_dirhist_6='/home/olivermead/Documents/uniCourseWork/DataManagement'
+let g:netrw_dirhist_5='/home/olivermead/Documents/uniCourseWork/Programming 1 Coursework/src'
+let g:netrw_dirhist_4='/home/olivermead/Documents/uniCourseWork/Programming 1 Coursework'
+let g:netrw_dirhist_3='/home/olivermead/Documents/uniCourseWork/Programming 1 Coursework/src'

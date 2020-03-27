@@ -1,0 +1,6 @@
+pane	0	1	:zsh	1	:*	0	:/home/olivermead	1	zsh	:
+pane	main	0	:editor	1	:*	0	:/home/olivermead	1	nvim	:
+pane	main	0	:editor	1	:*	1	:/home/olivermead	0	zsh	:
+window	0	1	1	:*	88a1,400x111,0,0,4
+window	main	0	1	:*	e228,226x61,0,0[226x47,0,0,7,226x13,0,48,10]
+state	main	
