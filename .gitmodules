@@ -1,9 +1,6 @@
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
-	url = ./.oh-my-zsh
-[submodule ".tmux/plugins/tmux-battery"]
-	path = .tmux/plugins/tmux-battery
-	url = ./.tmux/plugins/tmux-battery
+	url = https://github.com/ohmyzsh/ohmyzsh
 [submodule ".emacs.d"]
 	path = .emacs.d
-	url = ./.emacs.d
+	url = https://github.com/hlissner/doom-emacs
