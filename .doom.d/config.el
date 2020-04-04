@@ -153,5 +153,6 @@
 (setq org-plantuml-jar-path "~/myJars/plantuml.jar")
 (setq org-ditaa-jar-path "~/myJars/ditaa0_9.jar")
 
-(load-file "~/git-downloads/discord-emacs.el/discord-emacs.el")
+;; (load-file "~/git-downloads/discord-emacs.el/discord-emacs.el")
+(require discord-emacs)
 (discord-emacs-run "384815451978334208")
