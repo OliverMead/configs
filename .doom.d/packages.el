@@ -21,7 +21,7 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
-(package! jdee)
+;; (package! jdee)
 (package! mu4e)
 (package! ecb)
 (package! evil-textobj-syntax)
@@ -34,8 +34,8 @@
 (package! evil-ledger)
 (package! flycheck-ledger)
 (package! sx)
-(package! discord-emacs
-  :recipe (:host github :repo "nitros12/discord-emacs.el"))
+;; (package! discord-emacs
+;;   :recipe (:host github :repo "nitros12/discord-emacs.el"))
 
 ;; To install a package directly from a particular repo, you'll need to specify
 ;; a `:recipe'. You'll find documentation on what `:recipe' accepts here:

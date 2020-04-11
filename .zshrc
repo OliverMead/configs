@@ -2,7 +2,8 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-ZSH=/home/olivermead/.oh-my-zsh/
+ZSH=/home/olivermead/.config/oh-my-zsh/
+[ -d "$ZSH" ] || git clone https://github.com/robbyrussel/oh-my-zsh "$ZSH"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -52,8 +53,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-[ -d "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/" ] \
-    || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+[ -d ~/.config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting/ ] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 plugins=(git zsh-syntax-highlighting)
 
 
@@ -71,8 +71,9 @@ export LANG=en_GB.UTF-8
 #   export EDITOR='mvim'
 # fi
 
-export EDITOR='emacsclient'
-export GIT_EDITOR='emacsclient'
+export EDITOR='emacsclient -c'
+export GIT_EDITOR='emacsclient -c'
+export LESSHISTFILE=/dev/null
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -95,7 +96,6 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
 fi
 
 source $ZSH/oh-my-zsh.sh
-source ~/.bin/tmuxinator.zsh
 
 #export LC_COLLATE="C"
 export MANPATH=/usr/local/texlive/2019/index.html:$MANPATH
@@ -127,8 +127,6 @@ alias n="nvim"
 alias please="sudo"
 #alias stack="cabal v1-exec stack"
 
-# I found this via SU. Here's the basic example, though I'm still customizing it for myself:
-
 # bindkey -v
 # function zle-line-init zle-keymap-select {
 #     RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
@@ -159,11 +157,11 @@ alias please="sudo"
 # }
 
 # # define right prompt, regardless of whether the theme defined it
-# RPS1='$(vi_mode_prompt_info)'
-# RPS2=$RPS1
+RPS1=''
+RPS2=$RPS1
 
 # zle -N zle-line-init
 # zle -N zle-keymap-select
 
-# if [ `date +%P` = "am" ]; then echo 'Good morning, Oliver'; else echo 'Good afternoon, Oliver'; fi
+[ `date +%P` = "am" ] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'
 

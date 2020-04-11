@@ -19,7 +19,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "monospace" :size 24))
+(setq doom-font (font-spec :family "monospace" :size 12))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -56,18 +56,18 @@
 
 ;; (use-package jdee)
 ;; (require jdee)
-(setq jdee-server-dir "~/myJars")
-;; (add-to-list jdee-lib-directory-names "~/myJars")
-(setq jdee-global-classpath '("~/myJars/lib"
-                              "."))
+;; (setq jdee-server-dir "~/myJars")
+;; ;; (add-to-list jdee-lib-directory-names "~/myJars")
+;; (setq jdee-global-classpath '("~/myJars/lib"
+;;                               "."))
 
-(custom-set-variables
- '(jdee-jdk (quote ("13.0")))
- '(jdee-jdk-registry
-   (quote
-    (("13.0" . "/usr/lib/jvm/java-13-openjdk/bin")
-     ("13.0" . "/usr/lib64/jvm/java-13-openjdk/bin"))))
- )
+;; (custom-set-variables
+;;  '(jdee-jdk (quote ("13.0")))
+;;  '(jdee-jdk-registry
+;;    (quote
+;;     (("13.0" . "/usr/lib/jvm/java-13-openjdk/bin")
+;;      ("13.0" . "/usr/lib64/jvm/java-13-openjdk/bin"))))
+;;  )
 
 ;; (use-package mu4e)
 ;; (require mu4e)
@@ -147,12 +147,5 @@
 
 (setq display-line-numbers-type 'relative)
 
-;; you sorry fool
-;; (add-to-list org-capture-templates '("j"))
-
-(setq org-plantuml-jar-path "~/myJars/plantuml.jar")
-(setq org-ditaa-jar-path "~/myJars/ditaa0_9.jar")
-
-;; (load-file "~/git-downloads/discord-emacs.el/discord-emacs.el")
-(require discord-emacs)
-(discord-emacs-run "384815451978334208")
+(setq org-plantuml-jar-path "~/plantuml.jar")
+;; (setq org-ditaa-jar-path "~/myJars/ditaa0_9.jar")
