@@ -1,5 +1,5 @@
 [submodule ".oh-my-zsh"]
-	path = .oh-my-zsh
+	path = .config/oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh
 [submodule ".emacs.d"]
 	path = .emacs.d

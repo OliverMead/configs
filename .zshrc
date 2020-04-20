@@ -125,6 +125,8 @@ alias q="exit"
 # alias onesync="onedrive --local-first --synchronize"
 alias n="nvim"
 alias please="sudo"
+export NEXT_ROTATE=1
+alias rotate="xrandr -o $NEXT_ROTATE && xsetwacom set stylus Rotate cw && export NEXT_ROTATE=$((($NEXT_ROTATE +1) % 4))"
 #alias stack="cabal v1-exec stack"
 
 # bindkey -v
