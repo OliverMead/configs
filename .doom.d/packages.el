@@ -21,14 +21,14 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
-;; (package! jdee)
-(package! mu4e)
+(package! jdee)
+;; (package! emacs-eclim)
+;; (package! mu4e)
 (package! evil-textobj-syntax)
 (package! mvn)
-(package! forecast)
+;; (package! forecast)
 (package! plantuml-mode)
 (package! org-mime)
-(package! sx)
 ;; (package! discord-emacs
 ;;   :recipe (:host github :repo "nitros12/discord-emacs.el"))
 

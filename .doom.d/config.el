@@ -54,22 +54,20 @@
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
-;; (use-package jdee)
-;; (require jdee)
-;; (setq jdee-server-dir "~/myJars")
-;; ;; (add-to-list jdee-lib-directory-names "~/myJars")
-;; (setq jdee-global-classpath '("~/myJars/lib"
-;;                               "."))
+(setq jdee-server-dir "~/myJars")
+;; (add-to-list jdee-lib-directory-names "~/myJars")
+(setq jdee-global-classpath '("~/myJars/lib"
+                              "."))
 
-;; (custom-set-variables
-;;  '(jdee-jdk (quote ("13.0")))
-;;  '(jdee-jdk-registry
-;;    (quote
-;;     (("13.0" . "/usr/lib/jvm/java-13-openjdk/bin")
-;;      ("13.0" . "/usr/lib64/jvm/java-13-openjdk/bin"))))
-;;  )
+(custom-set-variables
+ '(jdee-jdk (quote ("11")))
+ ;; '(jdee-jdk-registry
+ ;;   (quote
+ ;;    (("11" . "/nix/store/4d10db5mfy3z7rkqx0cbs96kzsi1dqyk-openjdk-11.0.4-ga/lib/openjdk/bin/"))
+ ;;    ))
+ )
 
-;; (use-package mu4e)
+
 ;; (require mu4e)
                                         ; smtp
 (setq message-send-mail-function 'smtpmail-send-it
@@ -126,8 +124,6 @@
             (set-fill-column 72)
             (flyspell-mode)))
 
-(setq ecb-tip-of-the-day nil)
-
 (add-hook 'java-mode-hook (lambda ()
           (setq c-basic-offset 2)))
 
@@ -140,8 +136,6 @@
 (define-key evil-visual-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
 
 (map! :leader "i U" #'company-math-symbols-unicode)
-
-(setq org-mobile-directory "~/org-mobile")
 
 (setq company-idle-delay 0.5)
 

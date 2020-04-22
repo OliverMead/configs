@@ -3,4 +3,5 @@
 	url = https://github.com/ohmyzsh/ohmyzsh
 [submodule ".emacs.d"]
 	path = .emacs.d
+  branch = develop
 	url = https://github.com/hlissner/doom-emacs
