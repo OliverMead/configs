@@ -54,18 +54,18 @@
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
 
-(setq jdee-server-dir "~/myJars")
-;; (add-to-list jdee-lib-directory-names "~/myJars")
-(setq jdee-global-classpath '("~/myJars/lib"
-                              "."))
+;; (setq jdee-server-dir "~/myJars")
+;; ;; (add-to-list jdee-lib-directory-names "~/myJars")
+;; (setq jdee-global-classpath '("~/myJars/lib"
+;;                               ))
 
-(custom-set-variables
- '(jdee-jdk (quote ("11")))
- ;; '(jdee-jdk-registry
- ;;   (quote
- ;;    (("11" . "/nix/store/4d10db5mfy3z7rkqx0cbs96kzsi1dqyk-openjdk-11.0.4-ga/lib/openjdk/bin/"))
- ;;    ))
- )
+;; (custom-set-variables
+;;  '(jdee-jdk (quote ("10")))
+;;  '(jdee-jdk-registry
+;;    (quote
+;;     (("11" . "/nix/store/4d10db5mfy3z7rkqx0cbs96kzsi1dqyk-openjdk-11.0.4-ga/lib/openjdk/bin/"))
+;;     ))
+;;  )
 
 
 ;; (require mu4e)

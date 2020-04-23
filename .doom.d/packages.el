@@ -21,7 +21,7 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
-(package! jdee)
+;; (package! jdee)
 ;; (package! emacs-eclim)
 ;; (package! mu4e)
 (package! evil-textobj-syntax)
