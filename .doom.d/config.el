@@ -137,9 +137,11 @@
 
 (map! :leader "i U" #'company-math-symbols-unicode)
 
-(setq company-idle-delay 0.5)
+(setq company-idle-delay 0.1)
 
 (setq display-line-numbers-type 'relative)
 
 (setq org-plantuml-jar-path "~/plantuml.jar")
 ;; (setq org-ditaa-jar-path "~/myJars/ditaa0_9.jar")
+
+(set-frame-parameter nil 'undecorated t)
