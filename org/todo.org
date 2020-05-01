@@ -1,0 +1,67 @@
+* Inbox
+** Algorithmics 'In Class Test' :32:1015:
+<2020-03-06 Fri 10:00-12:00>
+:PROPERTIES:
+:CATEGORY: EXAM
+:END:
+** DONE Programming Lab
+SCHEDULED: <2020-03-03 Tue 21:00>
+:LOGBOOK:
+CLOCK: [2020-03-03 Tue 23:27]--[2020-03-04 Wed 00:31] =>  1:04
+:END:
+DEADLINE: <2020-03-06 Fri 16:00>
+** TODO [3/3] [100%] Revise for algorithmics
+*** [X] Complexity
+*** [X] ADTs
+*** [2/2] Trees
+ - [X] BST
+   - [X] Balancing
+   - [X] AVL
+     left and right differ by at most 1, subtrees are also AVL trees
+     Balance factors:
+     + -1: right subtree deeper
+     + 0 : equal
+     + +1: left subtree deeper
+   - [X] Red-Black
+     + child of a red node must be black
+     + number of black nodes must be the same in all paths from root to leaves
+       or nodes with a single child
+       + Insertion:
+         + add new
+           + if root -> black else red
+           + if parent is red
+             + relabel or rotate
+               + relabel if 'uncle' exists and is also red
+               + rotate if 'uncle' not found or is black
+ - [X] Heaps!
+   + root at 0
+   + last at size()-1
+   + parent of k is floor((k-1)/2)
+   + children of k are 2k+1 and 2k+2
+*** [X] Hashes
++ address = hash code % table size
++ chain collisions (separate chaining)
++ linear probing:
+  + clash -> place in next spot
+  + primary clustering is an issue
++ Quadratic probing
+  + jump forward in squares
+  + 1,4,9,16 steps
+  + unlucky -> unable to add even though table isn't full
+    + prime size -> (<half full -> always a free position)
++ Double Hashing
+  + place at h(x) + i*h2(x) where
+    + i is number of failures
+    + h2 is a second hashing function
+      + e.g. h2(x) = R - (x%R) where R is prime < size
+  + needs prime table size so h2(x) is not factor of size
++ Lazy remove for probe hashes - add placeholder to fix empty spot
++ normally use chaining
+** TODO [3/5] Software Modelling and Design Coursework
+DEADLINE: <2020-04-24 Fri 16:00>
+*** [X] get group info
+*** DONE Meeting with group :zepler:
+<2020-03-05 Thu 13:15>
+*** DONE Paper notes on the spec
+*** TODO Get on the Google Doc :(
+*** TODO Do the coursework

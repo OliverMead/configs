@@ -27,6 +27,7 @@
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-laserwave)
 (setq doom-theme 'doom-gruvbox)
+;; (setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -137,7 +138,7 @@
 
 (map! :leader "i U" #'company-math-symbols-unicode)
 
-(setq company-idle-delay 0.1)
+(setq company-idle-delay 0.5)
 
 (setq display-line-numbers-type 'relative)
 
@@ -145,3 +146,9 @@
 ;; (setq org-ditaa-jar-path "~/myJars/ditaa0_9.jar")
 
 (set-frame-parameter nil 'undecorated t)
+
+(setq org-highlight-latex-and-related '(latex script entities))
+
+(load-file "~/git/discord-emacs.el/discord-emacs.el")
+(require 'discord-emacs)
+(discord-emacs-run "384815451978334208")
