@@ -3,21 +3,21 @@ let &packpath = &runtimepath
 nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
 call plug#begin('~/.config/nvim/plugged')
 
-" Documents
+" " Documents
 Plug 'vim-latex/vim-latex'
 
-" Appearance
+" " Appearance
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'morhetz/gruvbox'
 
-" Language Specific
+" " Language Specific
 " Plug 'cespare/vim-toml'
 "Plug 'alx741/vim-hindent'
 Plug 'meck/vim-brittany'
 Plug 'rust-lang/rust.vim'
 
-Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/goyo.vim'
 " Plug 'lkdjiin/vim-foldcomments'
 " Plug 'scrooloose/nerdtree'
 "Plug 'scrooloose/nerdcommenter'
@@ -25,15 +25,19 @@ Plug 'junegunn/goyo.vim'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'ryanoasis/vim-devicons'
 "
+" " Git and Hub integration  
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
+
 " Plug 'tpope/vim-tbone'
 " Plug 'tpope/vim-obsession'
+" " UNIX Helper
 Plug 'tpope/vim-eunuch'
+
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'inkarkat/vim-ReplaceWithRegister'
-Plug 'christoomey/vim-titlecase'
+" Plug 'inkarkat/vim-ReplaceWithRegister'
+" Plug 'christoomey/vim-titlecase'
 Plug 'christoomey/vim-sort-motion'
 " Plug 'christoomey/vim-system-copy'
 
@@ -41,7 +45,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
 Plug 'glts/vim-textobj-comment'
 Plug 'kana/vim-textobj-entire'
-" Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-indent'
 " Plug 'vimtaku/vim-textobj-keyvalue'
 Plug 'kana/vim-textobj-lastpat'
 Plug 'kana/vim-textobj-line'
@@ -57,8 +61,8 @@ call plug#end()
 let mapleader=" "
 let g:gruvbox_italic=1
 colorscheme gruvbox
-" set background=dark
-let g:gruvbox_termcolors=16
+set background=dark
+let g:gruvbox_termcolors=256
 
 let g:titlecase_map_keys=0
 nmap <leader>gt <Plug>Titlecase
@@ -111,7 +115,6 @@ set relativenumber
 " set cursorline
 " set clipboard+=unnamedplus
 "set mouse=a
-set thesaurus+=/home/olivermead/.thesaurus
 set tabstop=2 shiftwidth=2 expandtab
 "set splitright
 "set splitbelow
@@ -128,8 +131,6 @@ au filetype nroff map <Leader>tc :! qpdf --empty %:r.pdf --pages %:r.pdf 1,r1,2-
 "map ]] j0[[%/{<CR>
 "map [] k$][%?}<CR>
 map <C-s> :hi clear search<CR>
-map <C-g> :Goyo<CR>
-imap <C-g> <Esc>:Goyo<CR>i
 "nnoremap qq :wqa<CR>
 
 "inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"

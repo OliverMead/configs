@@ -2,32 +2,32 @@
 #+author: Oliver Mead
 
 #+COLUMNS: %36ITEM %TODO %3PRIORITY %TAGS
-* TODO [0/4] [0%] Java MathDoku Game
+* DONE [4/4] [100%] Java MathDoku Game
   DEADLINE: <2020-04-20 Mon 14:00>
   :PROPERTIES:
   :ID:       ef2771cc-b626-45f8-a1f6-84ba0372beb8
   :END:
-** TODO [0/1] 2D array for grid
+- [X] 2D array for grid [1/1]
    :PROPERTIES:
    :ID:       b96681b8-4fd9-4f0e-a5a4-8da68a408713
    :END:
-    - [ ] size based on highest cell referenced in config file
-** TODO [0/2] configuration file
+  - [X] size based on highest cell referenced in config file
+- [X] [2/2] configuration file
    :PROPERTIES:
    :ID:       fac57881-4753-4245-b51f-c91507d19d20
    :END:
-    - [ ] learn some file I/O
-    - [ ] parse csv(ish)
-** TODO [0/2] Undo System
+  - [X] learn some file I/O
+  - [X] parse csv(ish)
+- [X] [2/2] Undo System
    :PROPERTIES:
    :ID:       caa8ea88-bfdb-41d8-b319-d9c7342f664c
    :END:
-    - [ ] enum of actions
-    - [ ] [0/2] inverse : action -> action (symmetric inverse of an action)
-      - [ ] stack of actions performed
-      - [ ] stack of actions undone by inverse (to be redone)
-** TODO [1/4] Draw the grid for the game
-    - [X] canvas
-    - [ ] mapping: Grid datastructure -> displayed grid
-    - [ ] display borders around groups
-    - [ ] show target number and operation
+  - [X] enum of actions
+  - [X] [2/2] inverse : action -> action (symmetric inverse of an action)
+    - [X] stack of actions performed
+    - [X] stack of actions undone by inverse (to be redone)
+- [X] [4/4] Draw the grid for the game
+  - [X] canvas
+  - [X] mapping: Grid datastructure -> displayed grid
+  - [X] display borders around groups
+  - [X] show target number and operation

@@ -25,8 +25,8 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
-;; (setq doom-theme 'doom-laserwave)
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-laserwave)
+;; (setq doom-theme 'doom-gruvbox)
 ;; (setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -118,6 +118,22 @@
 ;; don't save message to Sent Messages, IMAP takes care of this
 (setq mu4e-sent-messages-behavior 'delete)
 
+(require 'eclim)
+(setq eclimd-autostart t)
+
+(defun my-java-mode-hook ()
+  (eclim-mode t))
+
+(custom-set-variables
+ '(eclim-eclipse-dirs '("/snap/eclipse/current/"))
+ '(eclim-executable "~/.eclipse/360744286_linux_gtk_x86_64/plugins/org.eclim_2.8.0/bin/eclim"))
+(require 'company)
+(require 'company-emacs-eclim)
+(company-emacs-eclim-setup)
+(global-company-mode t)
+
+(add-hook 'java-mode-hook 'my-java-mode-hook)
+
 ;; spell check
 (add-hook 'mu4e-compose-mode-hook
           (defun my-do-compose-stuff ()
@@ -126,7 +142,7 @@
             (flyspell-mode)))
 
 (add-hook 'java-mode-hook (lambda ()
-          (setq c-basic-offset 2)))
+                            (setq c-basic-offset 2)))
 
 (add-hook 'rust-mode-hook (lambda ())
           (setq rust-indent-offset 2))
@@ -152,3 +168,17 @@
 (load-file "~/git/discord-emacs.el/discord-emacs.el")
 (require 'discord-emacs)
 (discord-emacs-run "384815451978334208")
+
+(add-to-list 'load-path "~/git/fast-scroll")
+(require 'fast-scroll)
+;; If you would like to turn on/off other modes, like flycheck, add
+;; your own hooks.
+(add-hook 'fast-scroll-start-hook (lambda () (flycheck-mode -1)))
+(add-hook 'fast-scroll-end-hook (lambda () (flycheck-mode 1)))
+(fast-scroll-config)
+(fast-scroll-mode 1)
+(setq fast-scroll-throttle 1)
+
+(require 'exwm)
+(require 'exwm-config)
+(exwm-config-default)

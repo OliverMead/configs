@@ -101,7 +101,9 @@ source $ZSH/oh-my-zsh.sh
 export MANPATH=/usr/local/texlive/2019/index.html:$MANPATH
 export INFOPATH=/usr/local/texlive/2019/texmf-dist/doc/info:$INFOPATH
 export PATH=/home/olivermead/.local/bin:/usr/local/texlive/2019/bin/x86_64-linux:$PATH
+# export PATH="$HOME/.cargo/bin:$PATH"
 export VISUAL="nvr -cc split --remote-wait"
+export RUSTUP_HOME=".config/rustup"
 # export GTK_IM_MODULE=ibus
 # export XMODIFIERS=@im=ibus
 # export QT_IM_MODULE=ibus
@@ -128,7 +130,7 @@ alias please="sudo"
 export NEXT_ROTATE=1
 alias rotate="xrandr -o $NEXT_ROTATE && xsetwacom set stylus Rotate cw && export NEXT_ROTATE=$((($NEXT_ROTATE +1) % 4))"
 #alias stack="cabal v1-exec stack"
-
+alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
 # bindkey -v
 # function zle-line-init zle-keymap-select {
 #     RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
