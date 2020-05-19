@@ -1,7 +1,3 @@
-* Tasks
-** TODO 
-[2020-02-26 Wed]
-[[file:~/roam/20200225164555_programming_ii.org::*\[\[file:20200225170346_java_mathdoku_game.org\]\[Java MathDoku Game\]\]][Java MathDoku Game]]
 * Inbox
 ** [2020-05-01 Fri] Papa's Birthday
 SCHEDULED: <2020-05-25 Mon>

@@ -25,8 +25,8 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
-(setq doom-theme 'doom-laserwave)
-;; (setq doom-theme 'doom-gruvbox)
+;; (setq doom-theme 'doom-laserwave)
+(setq doom-theme 'doom-gruvbox)
 ;; (setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -57,53 +57,53 @@
 
 ;; (setq jdee-server-dir "~/myJars")
 ;; ;; (add-to-list jdee-lib-directory-names "~/myJars")
-;; (setq jdee-global-classpath '("~/myJars/lib"
+;; (setq jdee-global-classpath '("~/myJars/lib" "."
 ;;                               ))
 
 ;; (custom-set-variables
-;;  '(jdee-jdk (quote ("10")))
+;;  '(jdee-jdk (quote "11"))
 ;;  '(jdee-jdk-registry
 ;;    (quote
-;;     (("11" . "/nix/store/4d10db5mfy3z7rkqx0cbs96kzsi1dqyk-openjdk-11.0.4-ga/lib/openjdk/bin/"))
+;;     (("11" . "/usr/lib/jvm/default-java/bin"))
 ;;     ))
 ;;  )
 
 
 ;; (require mu4e)
-                                        ; smtp
-(setq message-send-mail-function 'smtpmail-send-it
-      ;; smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
-      ;; smtpmail-stream-type 'ssl
-      smtpmail-smtp-service 587
-      smtpmail-debug-info t)
+;;                                         smtp
+;; (setq message-send-mail-function 'smtpmail-send-it
+;;       ;; smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+;;       smtpmail-default-smtp-server "smtp.gmail.com"
+;;       smtpmail-smtp-server "smtp.gmail.com"
+;;       ;; smtpmail-stream-type 'ssl
+;;       smtpmail-smtp-service 587
+;;       smtpmail-debug-info t)
 
-;; (require 'mu4e)
+;; ;; (require 'mu4e)
 
-(setq mu4e-maildir (expand-file-name "~/email/mbsyncmail"))
-(setq mail-user-agent 'mu4e-user-agent)
+;; (setq mu4e-maildir (expand-file-name "~/email/mbsyncmail"))
+;; (setq mail-user-agent 'mu4e-user-agent)
 
-(setq mu4e-drafts-folder "/Drafts")
-(setq mu4e-sent-folder   "/Sent Items")
-(setq mu4e-trash-folder  "/Trash")
-(setq message-signature-file "~/.emacs.d/.signature") ; put your signature in this file
+;; (setq mu4e-drafts-folder "/Drafts")
+;; (setq mu4e-sent-folder   "/Sent Items")
+;; (setq mu4e-trash-folder  "/Trash")
+;; (setq message-signature-file "~/.emacs.d/.signature") ; put your signature in this file
 
-                                        ; get mail
-(setq mu4e-get-mail-command "mbsync -c ~/.emacs.d/.mbsyncrc -a"
-      mu4e-html2text-command "w3m -T text/html"
-      mu4e-update-interval 120
-      mu4e-headers-auto-update t
-      mu4e-compose-signature-auto-include nil)
+;;                                         ; get mail
+;; (setq mu4e-get-mail-command "mbsync -c ~/.emacs.d/.mbsyncrc -a"
+;;       mu4e-html2text-command "w3m -T text/html"
+;;       mu4e-update-interval 120
+;;       mu4e-headers-auto-update t
+;;       mu4e-compose-signature-auto-include nil)
 
-(setq mu4e-maildir-shortcuts
-      '( ("/INBOX"               . ?i)
-         ("/Sent Items"   . ?s)
-         ("/Trash"       . ?t)
-         ("/Drafts"    . ?d)))
+;; (setq mu4e-maildir-shortcuts
+;;       '( ("/INBOX"               . ?i)
+;;          ("/Sent Items"   . ?s)
+;;          ("/Trash"       . ?t)
+;;          ("/Drafts"    . ?d)))
 
-;; show images
-(setq mu4e-show-images t)
+;; ;; show images
+;; (setq mu4e-show-images t)
 
 ;; use imagemagick, if available
 (when (fboundp 'imagemagick-register-types)
@@ -117,22 +117,6 @@
 
 ;; don't save message to Sent Messages, IMAP takes care of this
 (setq mu4e-sent-messages-behavior 'delete)
-
-(require 'eclim)
-(setq eclimd-autostart t)
-
-(defun my-java-mode-hook ()
-  (eclim-mode t))
-
-(custom-set-variables
- '(eclim-eclipse-dirs '("/snap/eclipse/current/"))
- '(eclim-executable "~/.eclipse/360744286_linux_gtk_x86_64/plugins/org.eclim_2.8.0/bin/eclim"))
-(require 'company)
-(require 'company-emacs-eclim)
-(company-emacs-eclim-setup)
-(global-company-mode t)
-
-(add-hook 'java-mode-hook 'my-java-mode-hook)
 
 ;; spell check
 (add-hook 'mu4e-compose-mode-hook
@@ -165,20 +149,19 @@
 
 (setq org-highlight-latex-and-related '(latex script entities))
 
-(load-file "~/git/discord-emacs.el/discord-emacs.el")
-(require 'discord-emacs)
-(discord-emacs-run "384815451978334208")
+(require 'evil-quickscope)
+(global-evil-quickscope-mode 1)
 
-(add-to-list 'load-path "~/git/fast-scroll")
-(require 'fast-scroll)
-;; If you would like to turn on/off other modes, like flycheck, add
-;; your own hooks.
-(add-hook 'fast-scroll-start-hook (lambda () (flycheck-mode -1)))
-(add-hook 'fast-scroll-end-hook (lambda () (flycheck-mode 1)))
-(fast-scroll-config)
-(fast-scroll-mode 1)
-(setq fast-scroll-throttle 1)
+;; (load-file "~/git/discord-emacs.el/discord-emacs.el")
+;; (require 'discord-emacs)
+;; (discord-emacs-run "384815451978334208")
 
-(require 'exwm)
-(require 'exwm-config)
-(exwm-config-default)
+;; (add-to-list 'load-path "~/git/fast-scroll/")
+;; (require 'fast-scroll)
+;; ;; If you would like to turn on/off other modes, like flycheck, add
+;; ;; your own hooks.
+;; (add-hook 'fast-scroll-start-hook (lambda () (flycheck-mode -1)))
+;; (add-hook 'fast-scroll-end-hook (lambda () (flycheck-mode 1)))
+;; (fast-scroll-config)
+;; (fast-scroll-mode 1)
+;; (setq fast-scroll-throttle 1)

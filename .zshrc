@@ -71,8 +71,8 @@ export LANG=en_GB.UTF-8
 #   export EDITOR='mvim'
 # fi
 
-export EDITOR='emacsclient -c'
-export GIT_EDITOR='emacsclient -c'
+export EDITOR='emacsclient -nc'
+export GIT_EDITOR='emacsclient -nc'
 export LESSHISTFILE=/dev/null
 
 # Compilation flags

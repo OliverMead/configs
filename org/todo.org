@@ -1,10 +1,16 @@
 * Inbox
+** TODO Programming lab 9
+DEADLINE: <2020-05-18 Mon 16:00>
+** TODO Software Modelling Coursework 2
+DEADLINE: <2020-05-29 Fri 16:00>
+** TODO Decide whether or not to continue Origin Access Basic subscription (£19.99/annum)
+DEADLINE: <2021-05-09 Sun +1y -10d>
 ** TODO CGBoost Steam Punk Challenge
 DEADLINE: <2020-05-27 Wed 15:00>
 ** TODO Algorithmics Assignment 3
 DEADLINE: <2020-05-22 Fri 16:00>
 [[https://secure.ecs.soton.ac.uk/noteswiki/images/COMP1201_1920_Assignment3.pdf][Assignment 3 Brief]]
-** TODO Lab 8
+** DONE Lab 8
 DEADLINE: <2020-05-12 Tue 16:00>
 [[https://secure.ecs.soton.ac.uk/notes/comp1206/sheet8.html][Lab 8: Synchronisation]]
 ** TODO Decide if continuing MuseScore subscription ($29.99)

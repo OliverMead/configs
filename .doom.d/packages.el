@@ -22,14 +22,17 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
 ;; (package! mu4e)
+(package! jdee)
 (package! evil-textobj-syntax)
 (package! mvn)
 ;; (package! forecast)
 (package! plantuml-mode)
 (package! org-mime)
-(package! exwm)
+;; (package! exwm)
 ;; (package! discord-emacs
 ;;   :recipe (:host github :repo "nitros12/discord-emacs.el"))
+(package! evil-quickscope
+  :recipe (:host github :repo "blorbx/evil-quickscope"))
 
 ;; To install a package directly from a particular repo, you'll need to specify
 ;; a `:recipe'. You'll find documentation on what `:recipe' accepts here:
