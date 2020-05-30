@@ -93,6 +93,8 @@ command! MakeTags !ctags -R .
 nmap <leader>t :MakeTags<CR>
 nmap <C-P> :bp<CR>
 nmap <C-N> :bn<CR>
+nmap <C-?> :
+imap <C-?> <C-[>:
 
 syntax on
 syntax spell toplevel
@@ -112,7 +114,8 @@ set spell
 "set wrap!
 set number
 set relativenumber
-" set cursorline
+set cursorline
+set cursorcolumn
 " set clipboard+=unnamedplus
 "set mouse=a
 set tabstop=2 shiftwidth=2 expandtab
