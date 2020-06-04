@@ -19,7 +19,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "monospace" :size 12))
+;; (setq doom-font (font-spec :family "monospace" :size 12))
+(setq doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 12 :weight 'medium ))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -153,8 +154,9 @@
 (global-evil-quickscope-mode 1)
 
 ;; (load-file "~/git/discord-emacs.el/discord-emacs.el")
-;; (require 'discord-emacs)
-;; (discord-emacs-run "384815451978334208")
+(require 'discord-emacs)
+(setq discord-emacs-ipc-dir (format "/run/user/%i/snap.discord/" (user-uid)))
+(discord-emacs-run "384815451978334208")
 
 ;; (add-to-list 'load-path "~/git/fast-scroll/")
 ;; (require 'fast-scroll)
@@ -165,3 +167,4 @@
 ;; (fast-scroll-config)
 ;; (fast-scroll-mode 1)
 ;; (setq fast-scroll-throttle 1)
+

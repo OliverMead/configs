@@ -28,9 +28,10 @@
 ;; (package! forecast)
 (package! plantuml-mode)
 (package! org-mime)
+(package! hasklig-mode)
 ;; (package! exwm)
-;; (package! discord-emacs
-;;   :recipe (:host github :repo "nitros12/discord-emacs.el"))
+(package! discord-emacs
+  :recipe (:host github :repo "nitros12/discord-emacs.el"))
 (package! evil-quickscope
   :recipe (:host github :repo "blorbx/evil-quickscope"))
 
