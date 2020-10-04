@@ -159,19 +159,3 @@
 
 (require 'evil-quickscope)
 (global-evil-quickscope-mode 1)
-
-;; (load-file "~/git/discord-emacs.el/discord-emacs.el")
-(require 'discord-emacs)
-(setq discord-emacs-ipc-dir (format "/run/user/%i/snap.discord/" (user-uid)))
-(discord-emacs-run "384815451978334208")
-
-;; (add-to-list 'load-path "~/git/fast-scroll/")
-;; (require 'fast-scroll)
-;; ;; If you would like to turn on/off other modes, like flycheck, add
-;; ;; your own hooks.
-;; (add-hook 'fast-scroll-start-hook (lambda () (flycheck-mode -1)))
-;; (add-hook 'fast-scroll-end-hook (lambda () (flycheck-mode 1)))
-;; (fast-scroll-config)
-;; (fast-scroll-mode 1)
-;; (setq fast-scroll-throttle 1)
-
