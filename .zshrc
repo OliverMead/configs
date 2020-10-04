@@ -3,7 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 ZSH=/home/olivermead/.config/oh-my-zsh/
-[ -d "$ZSH" ] || git clone https://github.com/robbyrussel/oh-my-zsh "$ZSH"
+[ -d "$ZSH" ] || git clone git@github.com:ohmyzsh/ohmyzsh "$ZSH"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
