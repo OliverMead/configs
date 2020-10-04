@@ -28,6 +28,7 @@
 ;; (package! forecast)
 (package! plantuml-mode)
 (package! org-mime)
+(package! google-translate)
 ;; (package! exwm)
 ;; (package! discord-emacs
 ;;   :recipe (:host github :repo "nitros12/discord-emacs.el"))

@@ -37,6 +37,13 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type "relative")
 
+(display-battery-mode 1)
+(display-time-mode 1)
+
+(require 'haskell-mode)
+(setq haskell-hoogle-command "hoogle")
+
+(define-key haskell-mode-map (kbd "C-c C-h") 'haskell-hoogle)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
