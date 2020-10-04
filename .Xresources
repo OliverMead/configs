@@ -35,5 +35,5 @@
 *color7:  #a89984
 *color15: #ebdbb2
 URxvt.scrollBar: 	false
-URxvt.font: 		xft:Fira Code:bold:size=14
+URxvt.font: 		xft:SauceCodePro Nerd Font Mono:bold:size=14
 URxvt.letterSpace: 	-2 
