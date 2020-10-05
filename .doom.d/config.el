@@ -156,6 +156,3 @@
 (set-frame-parameter nil 'undecorated t)
 
 (setq org-highlight-latex-and-related '(latex script entities))
-
-(require 'evil-quickscope)
-(global-evil-quickscope-mode 1)

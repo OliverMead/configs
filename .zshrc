@@ -1,3 +1,4 @@
+typeset -U fpath
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -19,7 +20,7 @@ ZSH_THEME="sunaku"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -31,10 +32,10 @@ DISABLE_AUTO_UPDATE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -54,8 +55,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 [ -d ~/.config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting/ ] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-plugins=(git zsh-syntax-highlighting)
-
+[ -d ~/.config/oh-my-zsh/custom/plugins/zsh-completions ] || git clone https://github.com/zsh-users/zsh-completions.git ~/.config/oh-my-zsh/custom/plugins/zsh-completions
+plugins=(git zsh-syntax-highlighting zsh-completions)
 
 # User configuration
 
@@ -95,6 +96,7 @@ if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
 fi
 
+ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
 #export LC_COLLATE="C"
@@ -131,6 +133,8 @@ export NEXT_ROTATE=1
 alias rotate="xrandr -o $NEXT_ROTATE && xsetwacom set stylus Rotate cw && export NEXT_ROTATE=$((($NEXT_ROTATE +1) % 4))"
 #alias stack="cabal v1-exec stack"
 alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
+
+
 # bindkey -v
 # function zle-line-init zle-keymap-select {
 #     RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
@@ -138,7 +142,7 @@ alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne
 #     zle reset-prompt
 # }
 
-# # Better searching in command mode
+# # # Better searching in command mode
 # bindkey -M vicmd '?' history-incremental-search-backward
 # bindkey -M vicmd '/' history-incremental-search-forward
 
@@ -148,7 +152,7 @@ alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne
 # bindkey -M vicmd "k" up-line-or-beginning-search
 # bindkey -M vicmd "j" down-line-or-beginning-search
 
-# # Updates editor information when the keymap changes.
+# # # Updates editor information when the keymap changes.
 # function zle-keymap-select() {
 #   zle reset-prompt
 #   zle -R
@@ -161,8 +165,8 @@ alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne
 # }
 
 # # define right prompt, regardless of whether the theme defined it
-RPS1=''
-RPS2=$RPS1
+# RPS1=''
+# RPS2=$RPS1
 
 # zle -N zle-line-init
 # zle -N zle-keymap-select
