@@ -4,7 +4,7 @@ nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
 call plug#begin('~/.config/nvim/plugged')
 
 " " Documents
-Plug 'vim-latex/vim-latex'
+" Plug 'vim-latex/vim-latex'
 
 " " Appearance
 Plug 'vim-airline/vim-airline'
@@ -16,6 +16,8 @@ Plug 'morhetz/gruvbox'
 "Plug 'alx741/vim-hindent'
 Plug 'meck/vim-brittany'
 Plug 'rust-lang/rust.vim'
+Plug 'edwinb/idris2-vim'
+Plug 'neovimhaskell/haskell-vim'
 
 " Plug 'junegunn/goyo.vim'
 " Plug 'lkdjiin/vim-foldcomments'
@@ -80,6 +82,15 @@ let Tex_DefaultTargetFormat="pdf"
 " let g:Tex_CompileRule_pdf="pdflatex -shell-escape -interaction=nonstopmode -output-directory=build $*"
 " let Tex_ViewRule_pdf="zathura build/"
 let Tex_ViewRule_pdf="zathura"
+
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+let g:haskell_classic_highlighting = 1
 
 nnoremap <Leader>< /<+\+>/<CR>cf>
 
@@ -260,3 +271,4 @@ augroup numberToggle
   autocmd BufEnter,FocusGained,InsertLeave * set relativenumber number
   autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber number
 augroup END
+

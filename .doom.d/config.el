@@ -1,3 +1,4 @@
+(setq byt-compile-warnings '(not cl-functions))
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
@@ -27,7 +28,8 @@
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-laserwave)
-(setq doom-theme 'doom-gruvbox)
+;; (setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'tao-yang)
 ;; (setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -76,42 +78,54 @@
 ;;     ))
 ;;  )
 
+(require 'mu4e)
 
-;; (require mu4e)
 ;;                                         smtp
-;; (setq message-send-mail-function 'smtpmail-send-it
-;;       ;; smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-;;       smtpmail-default-smtp-server "smtp.gmail.com"
-;;       smtpmail-smtp-server "smtp.gmail.com"
-;;       ;; smtpmail-stream-type 'ssl
-;;       smtpmail-smtp-service 587
-;;       smtpmail-debug-info t)
+(setq message-send-mail-function 'smtpmail-send-it
+      ;; smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-default-smtp-server "localhost"
+      smtpmail-smtp-server "localhost"
+      smtpmail-stream-type 'plain
+      smtpmail-smtp-user "ojm3g19@soton.ac.uk"
+      smtpmail-smtp-service 1025
+      smtpmail-debug-info t
+      )
 
-;; ;; (require 'mu4e)
+(setq mu4e-root-maildir (expand-file-name "~/email/mbsyncmail/ojm3g19@soton.ac.uk"))
+(setq mail-user-agent 'mu4e-user-agent)
 
-;; (setq mu4e-maildir (expand-file-name "~/email/mbsyncmail"))
-;; (setq mail-user-agent 'mu4e-user-agent)
+(setq mu4e-drafts-folder "/Drafts")
+(setq mu4e-sent-folder   "/Sent")
+(setq mu4e-trash-folder  "/Junk")
+(setq message-signature-file "~/.emacs.d/.signature") ; put your signature in this file
 
-;; (setq mu4e-drafts-folder "/Drafts")
-;; (setq mu4e-sent-folder   "/Sent Items")
-;; (setq mu4e-trash-folder  "/Trash")
-;; (setq message-signature-file "~/.emacs.d/.signature") ; put your signature in this file
+                                        ; get mail
+(setq mu4e-get-mail-command "mbsync -a"
+      mu4e-html2text-command "w3m -T text/html"
+      mu4e-update-interval 120
+      mu4e-headers-auto-update t
+      mu4e-compose-signature-auto-include nil
+      )
 
-;;                                         ; get mail
-;; (setq mu4e-get-mail-command "mbsync -c ~/.emacs.d/.mbsyncrc -a"
-;;       mu4e-html2text-command "w3m -T text/html"
-;;       mu4e-update-interval 120
-;;       mu4e-headers-auto-update t
-;;       mu4e-compose-signature-auto-include nil)
+(setq mu4e-maildir-shortcuts
+      '( ("/INBOX"               . ?i)
+         ("/Sent"   . ?s)
+         ("/Junk"       . ?j)
+         ("/Drafts"    . ?d)))
 
-;; (setq mu4e-maildir-shortcuts
-;;       '( ("/INBOX"               . ?i)
-;;          ("/Sent Items"   . ?s)
-;;          ("/Trash"       . ?t)
-;;          ("/Drafts"    . ?d)))
+;; show images
+(setq mu4e-view-show-images t)
 
-;; ;; show images
-;; (setq mu4e-show-images t)
+(require 'mu4e-icalendar)
+(mu4e-icalendar-setup)
+
+;; (setq mu4e-view-use-gnus t)
+(require 'gnus-icalendar)
+(gnus-icalendar-setup)
+(require 'org-agenda)
+(setq gnus-icalendar-org-capture-file "~/org/notes.org")
+(setq gnus-icalendar-org-capture-headline '("Calendar"))
+(gnus-icalendar-org-setup)
 
 ;; use imagemagick, if available
 (when (fboundp 'imagemagick-register-types)
@@ -119,7 +133,7 @@
 
 ;; general emacs mail settings; used when composing e-mail
 ;; the non-mu4e-* stuff is inherited from emacs/message-mode
-(setq mu4e-reply-to-address "ojm3g19@soton.ac.uk"
+(setq mu4e-compose-reply-to-address "ojm3g19@soton.ac.uk"
       user-mail-address "ojm3g19@soton.ac.uk"
       user-full-name  "Oliver Mead")
 
@@ -131,7 +145,20 @@
           (defun my-do-compose-stuff ()
             "My settings for message composition."
             (set-fill-column 72)
-            (flyspell-mode)))
+            (flyspell-mode)
+            ))
+
+(setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
+      org-msg-startup "hidestars indent inlineimages"
+      org-msg-greeting-fmt "\nHi *%s*, \n\n"
+      org-msg-greeting-name-limit 3
+      org-msg-default-alternatives '(html text)
+      org-msg-signature "
+Regards,
+#+begin_signature
+-- *Oliver Mead* \\\\
+/UG @ University of Southampton (ECS)/
+#+end_signature")
 
 (add-hook 'java-mode-hook (lambda ()
                             (setq c-basic-offset 2)))
@@ -156,3 +183,15 @@
 (set-frame-parameter nil 'undecorated t)
 
 (setq org-highlight-latex-and-related '(latex script entities))
+(add-hook 'org-mode-hook '(lambda () (setq fill-column 80)))
+;; (add-hook 'org-mode-hook 'auto-fill-mode)
+;; (add-to-list 'org-latex-packages-alist
+             ;; '("" "tikz" t))
+
+(eval-after-load "preview"
+  '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
+(setq org-preview-latex-default-process 'imagemagick)
+
+(exec-path-from-shell-initialize)
+
+(setq idris-interpreter-path "idris2")

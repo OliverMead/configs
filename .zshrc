@@ -73,7 +73,7 @@ export LANG=en_GB.UTF-8
 # fi
 
 export EDITOR='emacsclient -nc'
-export GIT_EDITOR='emacsclient -nc'
+export GIT_EDITOR='emacsclient -c'
 export LESSHISTFILE=/dev/null
 
 # Compilation flags
@@ -100,9 +100,9 @@ ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
 #export LC_COLLATE="C"
-export MANPATH=/usr/local/texlive/2019/index.html:$MANPATH
-export INFOPATH=/usr/local/texlive/2019/texmf-dist/doc/info:$INFOPATH
-export PATH=/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2019/bin/x86_64-linux:$PATH
+export MANPATH=/opt/texlive/2020/texmf-dist/doc/man:$MANPATH
+export INFOPATH=/opt/texlive/2020/texmf-dist/doc/info:$INFOPATH
+export PATH=/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/opt/texlive/2020/bin/x86_64-linux:$PATH
 # export PATH="$HOME/.cargo/bin:$PATH"
 export VISUAL="nvr -cc split --remote-wait"
 export RUSTUP_HOME=".config/rustup"

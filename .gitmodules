@@ -8,3 +8,6 @@
 [submodule "org"]
 	path = org
 	url = git@github.com:OliverMead/org.git
+[submodule "/home/olivermead/.tmux/plugins/tpm"]
+	path = /home/olivermead/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm

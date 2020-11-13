@@ -22,14 +22,12 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
 (package! mu4e)
-(package! ecb)
 (package! evil-textobj-syntax)
-(package! mvn)
-(package! maven-test-mode)
-(package! forecast)
-(package! plantuml-mode)
-(package! org-mime)
-(package! google-translate)
+;; (package! org-mime)
+;; (package! org-msg :disable t)
+;; (package! google-translate)
+(package! tao-theme)
+(package! exec-path-from-shell)
 ;; (package! exwm)
 ;; To install a package directly from a particular repo, you'll need to specify
 ;; a `:recipe'. You'll find documentation on what `:recipe' accepts here:
