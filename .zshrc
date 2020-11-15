@@ -3,8 +3,10 @@ typeset -U fpath
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-ZSH=/home/olivermead/.config/oh-my-zsh/
-[ -d "$ZSH" ] || git clone git@github.com:ohmyzsh/ohmyzsh "$ZSH"
+ZSH=/home/olivermead/.config/oh-my-zsh
+TPMUX=/home/olivermead/.tmux/plugins/tpm
+[ -d "$ZSH" ] || git clone https://github.com/ohmyzsh/ohmyzsh "$ZSH"
+[ -d "$TPMUX" ] || git clone https://github.com/tmux-plugins/tpm "$TPMUX"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -54,8 +56,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-[ -d ~/.config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting/ ] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-[ -d ~/.config/oh-my-zsh/custom/plugins/zsh-completions ] || git clone https://github.com/zsh-users/zsh-completions.git ~/.config/oh-my-zsh/custom/plugins/zsh-completions
+[ -d "$ZSH/custom/plugins/zsh-syntax-highlighting/" ] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH/custom/plugins/zsh-syntax-highlighting"
+[ -d "$ZSH/custom/plugins/zsh-completions" ] || git clone https://github.com/zsh-users/zsh-completions.git "$ZSH/custom/plugins/zsh-completions"
 plugins=(git zsh-syntax-highlighting zsh-completions)
 
 # User configuration
