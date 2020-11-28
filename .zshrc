@@ -125,6 +125,7 @@ export NEXT_ROTATE=1
 alias rotate="xrandr -o $NEXT_ROTATE && xsetwacom set stylus Rotate cw && export NEXT_ROTATE=$((($NEXT_ROTATE +1) % 4))"
 alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
 alias vnctunnel='ssh -i ~/.ssh/homekey homenet -L 9901:localhost:5901'
+alias getip='curl icanhazip.com'
 
 
 # bindkey -v
