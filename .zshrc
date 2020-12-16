@@ -126,7 +126,7 @@ alias rotate="xrandr -o $NEXT_ROTATE && xsetwacom set stylus Rotate cw && export
 alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
 alias vnctunnel='ssh -i ~/.ssh/homekey homenet -L 9901:localhost:5901'
 alias getip='curl icanhazip.com'
-
+alias vpn="sudo sshuttle --dns -r olivermead@homenet:443 0/0 -x homenet -e 'ssh -i /home/olivermead/.ssh/homekey'"
 
 # bindkey -v
 # function zle-line-init zle-keymap-select {
