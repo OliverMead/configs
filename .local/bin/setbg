@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+# hsetroot -cover ~/.background-image
+hsetroot -solid "#282828"
