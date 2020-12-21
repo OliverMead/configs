@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-ls /store/Music \
-| dmenu -l 20 -fn "Fira Code:size=20" -nb "#282828" -nf "#928374" -sb "#F08E33" -sf "#FBF1C7" \
-| xargs -I {} -d "\n" mpv /store/Music/{}/
-
+\ls /store/Music \
+  | dmenu -i -l 20 -fn "Fira Code:size=20" -nb "#282828" -nf "#928374" -sb "#F08E33" -sf "#FBF1C7" \
+  | xargs -I {} -d "\n" mpv /store/Music/{}/
