@@ -10,6 +10,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'morhetz/gruvbox'
+Plug 'machakann/vim-highlightedyank'
 
 " " Language Specific
 " Plug 'cespare/vim-toml'
@@ -128,7 +129,9 @@ set relativenumber
 set cursorline
 set cursorcolumn
 " set clipboard+=unnamedplus
-"set mouse=a
+set mouse+=a
+set hidden
+set inccommand=nosplit
 set tabstop=2 shiftwidth=2 expandtab
 "set splitright
 "set splitbelow
@@ -155,10 +158,10 @@ map <C-s> :hi clear search<CR>
 "nnoremap th  :tabfirst<CR>
 "nnoremap K  gT
 "nnoremap J  gt
-"nnoremap tj  :tabnext<CR>
-"nnoremap tk  :tabprev<CR>
-"nnoremap tl  :tablast<CR>
-"nnoremap tt  :tabedit<Space>
+nnoremap <Leader>tj  :tabnext<CR>
+nnoremap <Leader>tk  :tabprev<CR>
+nnoremap <Leader>tl  :tablast<CR>
+nnoremap <Leader>tt  :tabedit<Space>
 " nnoremap TT :tabedit %<CR>
 "nnoremap tn  :tabnext<Space>
 "nnoremap tm  :tabmove v:count1<CR>
