@@ -21,7 +21,7 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12))
-(setq doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 24 :weight 'medium ))
+(setq doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 12 :weight 'medium ))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -190,7 +190,7 @@ Regards,
 (eval-after-load "preview"
   '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
 (setq org-preview-latex-default-process 'imagemagick)
-
+(setq org-latex-pdf-process (list "latexmk -pdflatex='lualatex -shell-escape -interaction nonstopmode' -pdf -f  %f"))
 (exec-path-from-shell-initialize)
 
 (setq idris-interpreter-path "idris2")

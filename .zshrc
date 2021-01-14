@@ -120,12 +120,13 @@ alias :Q=":q"
 alias q="exit"
 alias n="nvim"
 alias please="sudo"
-export NEXT_ROTATE=1
-alias rotate="xrandr -o $NEXT_ROTATE && xsetwacom set stylus Rotate cw && export NEXT_ROTATE=$((($NEXT_ROTATE +1) % 4))"
+alias rotate="xrandr -o 3 && xinput map-to-output 12 LVDS1 && xinput map-to-output 13 LVDS1"
+alias unrotate="xrandr -o 0 && xinput map-to-output 12 LVDS1 && xinput map-to-output 13 LVDS1"
 alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
 alias vnctunnel='ssh -i ~/.ssh/homekey homenet -L 9901:localhost:5901'
 alias getip='curl icanhazip.com'
 alias vpn="sudo sshuttle --dns -r olivermead@homenet:443 0/0 -x homenet -e 'ssh -i /home/olivermead/.ssh/homekey'"
+alias rip="HandBrakeCLI -Z 'Very Fast 576p25' -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
 
 # bindkey -v
 # function zle-line-init zle-keymap-select {
@@ -163,5 +164,5 @@ alias vpn="sudo sshuttle --dns -r olivermead@homenet:443 0/0 -x homenet -e 'ssh 
 # zle -N zle-line-init
 # zle -N zle-keymap-select
 
-[ `date +%P` = "am" ] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'
+[[ `date +%P` = "am" ]] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'
 

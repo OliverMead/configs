@@ -21,6 +21,7 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
+(package! org-ref)
 (package! mu4e)
 (package! evil-textobj-syntax)
 ;; (package! org-mime)
