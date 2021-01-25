@@ -76,8 +76,8 @@ export LANG=en_GB.UTF-8
 #   export EDITOR='mvim'
 # fi
 
-export EDITOR='emacsclient -nc'
-export GIT_EDITOR='emacsclient -nc'
+export EDITOR='nvim'
+export GIT_EDITOR='nvim'
 export LESSHISTFILE=/dev/null
 
 # Compilation flags
@@ -108,7 +108,7 @@ export MANPATH=/opt/texlive/2020/texmf-dist/doc/man:$MANPATH
 export INFOPATH=/opt/texlive/2020/texmf-dist/doc/info:$INFOPATH
 export PATH=/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/opt/texlive/2020/bin/x86_64-linux:$PATH
 # export PATH="$HOME/.cargo/bin:$PATH"
-export VISUAL="emacsclient -nc"
+export VISUAL="nvim"
 export RUSTUP_HOME=".config/rustup"
 alias ll="ls -lhv"
 alias l="ls -alhv"
@@ -120,7 +120,12 @@ alias :Q=":q"
 alias q="exit"
 alias n="nvim"
 alias please="sudo"
-alias rotate="xrandr -o 3 && xinput map-to-output 12 LVDS1 && xinput map-to-output 13 LVDS1"
+# alias rotate="xrandr -o 3 && xinput map-to-output 12 LVDS1 && xinput map-to-output 13 LVDS1"
+function rotate() {
+  xrandr -o $1
+  xinput map-to-output 12 LVDS1
+  xinput map-to-output 13 LVDS1
+}
 alias unrotate="xrandr -o 0 && xinput map-to-output 12 LVDS1 && xinput map-to-output 13 LVDS1"
 alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
 alias vnctunnel='ssh -i ~/.ssh/homekey homenet -L 9901:localhost:5901'
@@ -128,7 +133,7 @@ alias getip='curl icanhazip.com'
 alias vpn="sudo sshuttle --dns -r olivermead@homenet:443 0/0 -x homenet -e 'ssh -i /home/olivermead/.ssh/homekey'"
 alias rip="HandBrakeCLI -Z 'Very Fast 576p25' -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
 
-# bindkey -v
+bindkey -v
 # function zle-line-init zle-keymap-select {
 #     RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
 #     RPS2=$RPS1
@@ -136,8 +141,8 @@ alias rip="HandBrakeCLI -Z 'Very Fast 576p25' -i /dev/sr0 --all-subtitles --subt
 # }
 
 # # # Better searching in command mode
-# bindkey -M vicmd '?' history-incremental-search-backward
-# bindkey -M vicmd '/' history-incremental-search-forward
+bindkey -M vicmd '?' history-incremental-search-backward
+bindkey -M vicmd '/' history-incremental-search-forward
 
 # # Beginning search with arrow keys
 # bindkey "^[OA" up-line-or-beginning-search

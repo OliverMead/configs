@@ -14,11 +14,11 @@ Plug 'machakann/vim-highlightedyank'
 
 " " Language Specific
 " Plug 'cespare/vim-toml'
-"Plug 'alx741/vim-hindent'
 Plug 'meck/vim-brittany'
 Plug 'rust-lang/rust.vim'
 Plug 'edwinb/idris2-vim'
 Plug 'neovimhaskell/haskell-vim'
+" Plug 'zenzike/vim-haskell'
 
 " Plug 'junegunn/goyo.vim'
 " Plug 'lkdjiin/vim-foldcomments'
@@ -64,8 +64,10 @@ call plug#end()
 let mapleader=" "
 let g:gruvbox_italic=1
 colorscheme gruvbox
-set background=dark
+set background=light
 let g:gruvbox_termcolors=256
+let g:gruvbox_contrast_light="hard"
+let g:gruvbox_contrast_dark="soft"
 
 let g:titlecase_map_keys=0
 nmap <leader>gt <Plug>Titlecase
@@ -79,9 +81,9 @@ let g:netrw_liststyle=3
 " let Tex_FoldedEnvironments=""
 " let Tex_FoldedMisc=""
 let Tex_DefaultTargetFormat="pdf"
-" let g:Tex_GotoError=0
-" let g:Tex_CompileRule_pdf="pdflatex -shell-escape -interaction=nonstopmode -output-directory=build $*"
-" let Tex_ViewRule_pdf="zathura build/"
+let g:Tex_GotoError=0
+let g:Tex_CompileRule_pdf="pdflatex -shell-escape -interaction=nonstopmode -output-directory=build $*"
+let Tex_ViewRule_pdf="zathura build/"
 let Tex_ViewRule_pdf="zathura"
 
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
@@ -91,22 +93,19 @@ let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
 " let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
 let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
-" let g:haskell_classic_highlighting = 1
+let g:haskell_classic_highlighting = 1
 
 nnoremap <Leader>< /<+\+>/<CR>cf>
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme='minimalist'
 
-"let g:lsp_signs_enabled = 1         " enable signs
-"let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-
 command! MakeTags !ctags -R .
-nmap <leader>t :MakeTags<CR>
+nmap <leader><Leader> :MakeTags<CR>
 nmap <C-P> :bp<CR>
 nmap <C-N> :bn<CR>
-nmap <C-?> :
-imap <C-?> <C-[>:
+nmap <M-x> :
+imap <M-x> <C-o>:
 
 syntax on
 syntax spell toplevel
@@ -133,127 +132,37 @@ set mouse+=a
 set hidden
 set inccommand=nosplit
 set tabstop=2 shiftwidth=2 expandtab
+set so=999
 "set splitright
 "set splitbelow
 "hi clear SpellBad
 hi SpellBad cterm=underline
 set sessionoptions="blank,buffers,sesdir,folds,help,options,winsize,terminal,resize,localoptions"
-map <F3> :w !detex \| wc -w<CR>
-map t<F3> :w ! wc -c<CR>
+map <F3> :w ! wc -c<CR>
+au filetype tex map <F3> :w !detex \| wc -w<CR>
 au filetype markdown map <Leader>md :! compileMD "%:p"<CR>
 au filetype nroff map <Leader>gr :! refer -PeSp ~/Documents/bibliography.refer % \| groff -ms -T pdf> %:r.pdf<CR>
 au filetype nroff map <Leader>tc :! qpdf --empty %:r.pdf --pages %:r.pdf 1,r1,2-r2 --<CR>
-"map [[ ?{<CR>w99[{
-"map ][ /}<CR>b99]}
-"map ]] j0[[%/{<CR>
-"map [] k$][%?}<CR>
+
 map <C-s> :hi clear search<CR>
-"nnoremap qq :wqa<CR>
 
-"inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"inoremap <expr> <cr>    pumvisible() ? "\<C-y>" : "\<cr>"
-"imap <c-space> <Plug>(asyncomplete_force_refresh)
-
-"nnoremap th  :tabfirst<CR>
-"nnoremap K  gT
-"nnoremap J  gt
 nnoremap <Leader>tj  :tabnext<CR>
 nnoremap <Leader>tk  :tabprev<CR>
 nnoremap <Leader>tl  :tablast<CR>
+nnoremap <Leader>th :tabfirst<CR>
 nnoremap <Leader>tt  :tabedit<Space>
-" nnoremap TT :tabedit %<CR>
-"nnoremap tn  :tabnext<Space>
-"nnoremap tm  :tabmove v:count1<CR>
-nnoremap td  :tabclose<CR>
-" Alternatively use
-"nnoremap th :tabnext<CR>
-"nnoremap tl :tabprev<CR>
-"nnoremap tn :tabnew<CR>
-"nnoremap term :tabnew \| terminal<CR>:startinsert<CR>
-"nnoremap file :tabnew \| terminal ranger<CR>:startinsert<CR>
-nnoremap <Leader>cmus :tabnew \| terminal screen cmus<CR>:startinsert<CR>
-
-nnoremap <Leader>sq :wa \| mks! \| wa \| tabclose!<CR>
-nnoremap <Leader>sw :wa \| mks! \| wa<CR>
-
-nnoremap <Leader>sn :below vsplit <CR>
-nnoremap <Leader>sv :below split <CR>
-nnoremap <Leader>stn :below vsplit \| terminal<CR>:start<CR>
-nnoremap <Leader>stv :below split \| terminal<CR>:start<CR>
-"nnoremap <Leader>sfn :below vsplit \| terminal ranger<CR>:start<CR>
-"nnoremap <Leader>sfv :below split \| terminal ranger<CR>:start<CR>
-nnoremap <Leader>sfn :below vsplit \| Explore<CR>
-nnoremap <Leader>sfv :below split \| Explore<CR>
-nnoremap <Leader>sff :Explore<CR>
-nnoremap <Leader>sft :Texplore
-
-"nnoremap bj :new <CR>
-"nnoremap bk :new <CR>
-"nnoremap bl :vnew <CR>
-"nnoremap bh :vnew <CR>
+nnoremap <Leader>td  :tabclose<CR>
 
 nnoremap <Leader>w <C-w>
 
-"nnoremap wh :wincmd h<CR>
-"nnoremap wj :wincmd j<CR>
-"nnoremap wk :wincmd k<CR>
-"nnoremap wl :wincmd l<CR>
-"nnoremap WH :wincmd H<CR>
-"nnoremap WJ :wincmd J<CR>
-"nnoremap WK :wincmd K<CR>
-"nnoremap WL :wincmd L<CR>
-"nnoremap wH :wincmd H<CR>
-"nnoremap wJ :wincmd J<CR>
-"nnoremap wK :wincmd K<CR>
-"nnoremap wL :wincmd L<CR>
-"nnoremap w> :<C-u>exe v:count1 . "wincmd >"<CR>
-"nnoremap w< :<C-u>exe v:count1 . "wincmd <"<CR>
-"nnoremap w+ :<C-u>exe v:count1 . "wincmd +"<CR>
-"nnoremap w- :<C-u>exe v:count1 . "wincmd -"<CR>
-"nnoremap w= :wincmd =<CR>
-"nnoremap wo :call MaximizeToggle()<CR>
-
-"nmap <C-h> :wincmd h<CR>
-"nmap <C-j> :wincmd j<CR>
-"nmap <C-k> :wincmd k<CR>
-"nmap <C-l> :wincmd l<CR>
-
-" nmap <Up> <nop>
-" imap <Up> <nop>
-" nmap <Down> <nop>
-" imap <Down> <nop>
-" nmap <Left> <nop>
-" imap <Left> <nop>
-" nmap <Right> <nop>
-" imap <Right> <nop>
-
-" map <leader>n :NERDTreeToggle<CR>
-
-nnoremap <C-W>O :call MaximizeToggle()<CR>
-nnoremap <C-W>o :call MaximizeToggle()<CR>
-nnoremap <C-W><C-O> :call MaximizeToggle()<CR>
-
-" nnoremap z# ma:%g /\/\*/ normal! za<CR>:hi clear search<CR>'azz:delmarks a<CR>
-"nnoremap z~ ma:%g /\/\*\*/ normal! zf/\*\/<CR>:hi clear search<CR>'azz
-":delmarks a<CR>
-" nnoremap z~ :%g /\/\*/ normal! zo<CR>:hi clear search<CR>\`\` zz
-
-function! MaximizeToggle()
-  if exists("s:maximize_session")
-    exec "source " . s:maximize_session
-    call delete(s:maximize_session)
-    unlet s:maximize_session
-    let &hidden=s:maximize_hidden_save
-    unlet s:maximize_hidden_save
-  else
-    let s:maximize_hidden_save = &hidden
-    let s:maximize_session = tempname()
-    set hidden
-    exec "mksession! " . s:maximize_session
-    only
-  endif
-endfunction
+nmap <Up> <nop>
+imap <Up> <nop>
+nmap <Down> <nop>
+imap <Down> <nop>
+nmap <Left> <nop>
+imap <Left> <nop>
+nmap <Right> <nop>
+imap <Right> <nop>
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 
@@ -262,6 +171,11 @@ tnoremap <Esc> <C-\><C-n>
 tnoremap <C-t> <C-\><C-n>:b #<CR>
 
 autocmd FileType *.toml,Gopkg.lock,Cargo.lock,*/.cargo/config,*/.cargo/credentials,Pipfile setf toml
+
+" augroup IdrisCtags
+"     au!
+"     au BufWritePost idris* MakeTags
+" augroup END
 
 augroup QuickNotes
     autocmd!
