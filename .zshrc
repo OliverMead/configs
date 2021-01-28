@@ -125,8 +125,9 @@ function rotate() {
   xrandr -o $1
   xinput map-to-output 12 LVDS1
   xinput map-to-output 13 LVDS1
+  xinput map-to-output 14 LVDS1
 }
-alias unrotate="xrandr -o 0 && xinput map-to-output 12 LVDS1 && xinput map-to-output 13 LVDS1"
+alias unrotate="xrandr -o 0 && xinput map-to-output 12 LVDS1 && xinput map-to-output 13 LVDS1 && xinput map-to-output 14 LVDS1"
 alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
 alias vnctunnel='ssh -i ~/.ssh/homekey homenet -L 9901:localhost:5901'
 alias getip='curl icanhazip.com'

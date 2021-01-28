@@ -146,6 +146,33 @@ au filetype nroff map <Leader>tc :! qpdf --empty %:r.pdf --pages %:r.pdf 1,r1,2-
 
 map <C-s> :hi clear search<CR>
 
+function! Sign(x)
+  if a:x>-1
+    return 1
+  else
+    return -1
+  endif
+endfunction
+
+nnoremap <Leader>e $T=y$o= <C-r>=<C-r>"<CR><C-[>+
+nnoremap <Leader>E y$o = <C-r>=<C-r>"<CR><C-[>+
+
+function! Sum(list) 
+  let s = 0
+  for n in a:list
+    let s+=n
+  endfor
+  return s
+endfunction
+
+function! Dot(list1, list2)
+  let result = []
+  for i in range(len(a:list1))
+    let result = add(result,get(a:list2, i) * get(a:list1, i))
+  endfor
+  return Sum(result)
+endfunction
+
 nnoremap <Leader>tj  :tabnext<CR>
 nnoremap <Leader>tk  :tabprev<CR>
 nnoremap <Leader>tl  :tablast<CR>
