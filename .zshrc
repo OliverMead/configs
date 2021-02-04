@@ -1,11 +1,10 @@
-[[ `date +%P` = "am" ]] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'
+# [[ `date +%P` = "am" ]] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+[[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]] && \
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 setopt extended_glob
 typeset -U fpath
@@ -70,8 +69,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 [ -d "$ZSH/custom/plugins/zsh-syntax-highlighting/" ] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH/custom/plugins/zsh-syntax-highlighting"
 [ -d "$ZSH/custom/plugins/zsh-completions" ] || git clone https://github.com/zsh-users/zsh-completions.git "$ZSH/custom/plugins/zsh-completions"
-[ -d "$ZSH/custom/themes/powerlevel10k" ] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH/custom/themes/powerlevel10k"
 [ -d "$ZSH/custom/plugins/zsh-autosuggestions" ] || git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH/custom/plugins/zsh-autosuggestions"
+[ -d "$ZSH/custom/themes/powerlevel10k" ] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH/custom/themes/powerlevel10k"
 plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions)
 
 # User configuration
@@ -88,7 +87,7 @@ export LANG=en_GB.UTF-8
 #   export EDITOR='mvim'
 # fi
 
-export EDITOR='nvim'
+export EDITOR='nvim -e'
 export GIT_EDITOR='nvim'
 export LESSHISTFILE=/dev/null
 
@@ -108,9 +107,7 @@ export LESSHISTFILE=/dev/null
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
-if [[ ! -d $ZSH_CACHE_DIR ]]; then
-  mkdir $ZSH_CACHE_DIR
-fi
+[[ ! -d $ZSH_CACHE_DIR ]] && mkdir $ZSH_CACHE_DIR
 
 ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
