@@ -1,3 +1,12 @@
+[[ `date +%P` = "am" ]] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 setopt extended_glob
 typeset -U fpath
 # If you come from bash you might have to change your $PATH.
@@ -13,7 +22,8 @@ TPMUX=/home/olivermead/.tmux/plugins/tpm
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="arrow"
-ZSH_THEME="sunaku"
+# ZSH_THEME="sunaku"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_THEME="agnoster"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -60,7 +70,9 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Add wisely, as too many plugins slow down shell startup.
 [ -d "$ZSH/custom/plugins/zsh-syntax-highlighting/" ] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH/custom/plugins/zsh-syntax-highlighting"
 [ -d "$ZSH/custom/plugins/zsh-completions" ] || git clone https://github.com/zsh-users/zsh-completions.git "$ZSH/custom/plugins/zsh-completions"
-plugins=(git zsh-syntax-highlighting zsh-completions)
+[ -d "$ZSH/custom/themes/powerlevel10k" ] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH/custom/themes/powerlevel10k"
+[ -d "$ZSH/custom/plugins/zsh-autosuggestions" ] || git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH/custom/plugins/zsh-autosuggestions"
+plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions)
 
 # User configuration
 
@@ -170,5 +182,5 @@ bindkey -M vicmd '/' history-incremental-search-forward
 # zle -N zle-line-init
 # zle -N zle-keymap-select
 
-[[ `date +%P` = "am" ]] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'
-
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
