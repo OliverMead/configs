@@ -130,7 +130,9 @@ set cursorcolumn
 " set clipboard+=unnamedplus
 set mouse+=a
 set hidden
-set inccommand=nosplit
+if exists('&inccommand')
+  set inccommand=split
+endif
 set tabstop=2 shiftwidth=2 expandtab
 set so=999
 "set splitright
