@@ -1,64 +1,51 @@
 set runtimepath^=~/.config/nvim runtimepath+=~/.config/nvim/after
 let &packpath = &runtimepath
 nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
-call plug#begin('~/.config/nvim/plugged')
 
+call plug#begin('~/.config/nvim/plugged')
 " " Documents
-" Plug 'vim-latex/vim-latex'
+Plug 'vim-latex/vim-latex'
 
 " " Appearance
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'morhetz/gruvbox'
+Plug 'itchyny/landscape.vim'
 Plug 'machakann/vim-highlightedyank'
 
+Plug 'dense-analysis/ale'
 " " Language Specific
-" Plug 'cespare/vim-toml'
+Plug 'cespare/vim-toml'
 Plug 'meck/vim-brittany'
 Plug 'rust-lang/rust.vim'
 Plug 'edwinb/idris2-vim'
 Plug 'neovimhaskell/haskell-vim'
 " Plug 'zenzike/vim-haskell'
+Plug 'artur-shaik/vim-javacomplete2'
 
-" Plug 'junegunn/goyo.vim'
-" Plug 'lkdjiin/vim-foldcomments'
-" Plug 'scrooloose/nerdtree'
-"Plug 'scrooloose/nerdcommenter'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'ryanoasis/vim-devicons'
-"
+Plug 'junegunn/goyo.vim'
+Plug 'lkdjiin/vim-foldcomments'
+
+Plug 'prabirshrestha/vim-lsp'
+
 " " Git and Hub integration  
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
-" Plug 'tpope/vim-tbone'
-" Plug 'tpope/vim-obsession'
 " " UNIX Helper
 Plug 'tpope/vim-eunuch'
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-" Plug 'inkarkat/vim-ReplaceWithRegister'
-" Plug 'christoomey/vim-titlecase'
+Plug 'christoomey/vim-titlecase'
 Plug 'christoomey/vim-sort-motion'
-" Plug 'christoomey/vim-system-copy'
 
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
 Plug 'glts/vim-textobj-comment'
-Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-indent'
-" Plug 'vimtaku/vim-textobj-keyvalue'
-Plug 'kana/vim-textobj-lastpat'
-Plug 'kana/vim-textobj-line'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'Julian/vim-textobj-variable-segment'
-
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/vim-lsp'
-"Plug 'prabirshrestha/asyncomplete.vim'
-
 call plug#end()
 
 let mapleader=" "
@@ -69,12 +56,32 @@ let g:gruvbox_termcolors=256
 let g:gruvbox_contrast_light="hard"
 let g:gruvbox_contrast_dark="soft"
 
-let g:titlecase_map_keys=0
-nmap <leader>gt <Plug>Titlecase
-vmap <leader>gt <Plug>Titlecase
-nmap <leader>gT <Plug>TitlecaseLine
+" Shorten error/warning flags
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+" I have some custom icons for errors and warnings but feel free to change them.
+let g:ale_sign_error = '✘✘'
+let g:ale_sign_warning = '⚠⚠'
 
-let g:netrw_banner=0
+" Disable or enable loclist at the bottom of vim 
+" Comes down to personal preferance.
+let g:ale_open_list = 0
+let g:ale_loclist = 0
+
+let g:ale_linters = {
+      \  'cs':['syntax', 'semantic', 'issues'],
+      \  'python': ['pylint'],
+      \  'java': ['javac'],
+      \  'haskell': ['ghc'],
+      \  'c': ['gcc', 'avr-gcc']
+      \ }
+
+" let g:titlecase_map_keys=0
+" nmap <leader>gt <Plug>Titlecase
+" vmap <leader>gt <Plug>Titlecase
+" nmap <leader>gT <Plug>TitlecaseLine
+
+let g:netrw_banner=1
 let g:netrw_liststyle=3
 
 " let Tex_FoldedSections=""
@@ -84,7 +91,7 @@ let Tex_DefaultTargetFormat="pdf"
 let g:Tex_GotoError=0
 let g:Tex_CompileRule_pdf="pdflatex -shell-escape -interaction=nonstopmode -output-directory=build $*"
 let Tex_ViewRule_pdf="zathura build/"
-let Tex_ViewRule_pdf="zathura"
+" let Tex_ViewRule_pdf="zathura"
 
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
 let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
@@ -95,10 +102,10 @@ let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 let g:haskell_classic_highlighting = 1
 
-nnoremap <Leader>< /<+\+>/<CR>cf>
+nnoremap <Leader>n /<+\+>/<CR>cf>
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='minimalist'
+let g:airline_theme='base16_gruvbox_dark_hard'
 
 command! MakeTags !ctags -R .
 nmap <leader><Leader> :MakeTags<CR>
@@ -121,14 +128,17 @@ filetype plugin indent on
 set nohls
 set path+=**
 set wildmenu
+set omnifunc=syntaxcomplete#Complete
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+autocmd FileType java JCEnable
 set spell
 "set wrap!
 set number
-set relativenumber
+" set relativenumber
 set cursorline
 set cursorcolumn
 " set clipboard+=unnamedplus
-set mouse+=a
+" set mouse+=a
 set hidden
 if exists('&inccommand')
   set inccommand=split
