@@ -1,0 +1,22 @@
+IMAPAccount uniOutlook
+Host localhost
+Port 1143
+User ojm3g19@soton.ac.uk
+PassCMD "pass show soton.ac.uk | head -n 1"
+SSLType None
+AuthMechs LOGIN
+CertificateFile /etc/ca-certificates/extracted/tls-ca-bundle.pem
+
+IMAPStore uniOutlook-remote
+Account uniOutlook
+
+MaildirStore uniOutlook-local
+Path ~/email/mbsyncmail/ojm3g19@soton.ac.uk/
+Inbox ~/email/mbsyncmail/ojm3g19@soton.ac.uk/Inbox/
+
+Channel uniOutlook
+Master :uniOutlook-remote:
+Slave :uniOutlook-local:
+Patterns *
+Create Both
+SyncState *
