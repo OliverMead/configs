@@ -71,7 +71,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 [ -d "$ZSH/custom/plugins/zsh-completions" ] || git clone https://github.com/zsh-users/zsh-completions.git "$ZSH/custom/plugins/zsh-completions"
 [ -d "$ZSH/custom/plugins/zsh-autosuggestions" ] || git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH/custom/plugins/zsh-autosuggestions"
 [ -d "$ZSH/custom/themes/powerlevel10k" ] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH/custom/themes/powerlevel10k"
-plugins=(git zsh-syntax-highlighting zsh-completions zsh-autosuggestions)
+plugins=(git zsh-syntax-highlighting zsh-completions)
 
 # User configuration
 

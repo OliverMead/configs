@@ -4,7 +4,10 @@ nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
 
 call plug#begin('~/.config/nvim/plugged')
 " " Documents
-Plug 'vim-latex/vim-latex'
+Plug 'vim-latex/vim-latex', { 'for': 'tex' }
+" tabular and markdown go hand-in-hand
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
 " " Appearance
 Plug 'vim-airline/vim-airline'
@@ -13,6 +16,7 @@ Plug 'morhetz/gruvbox'
 Plug 'itchyny/landscape.vim'
 Plug 'machakann/vim-highlightedyank'
 
+Plug 'Chiel92/vim-autoformat'
 Plug 'dense-analysis/ale'
 " " Language Specific
 Plug 'cespare/vim-toml'
@@ -51,7 +55,7 @@ call plug#end()
 let mapleader=" "
 let g:gruvbox_italic=1
 colorscheme gruvbox
-set background=light
+set background=dark
 let g:gruvbox_termcolors=256
 let g:gruvbox_contrast_light="hard"
 let g:gruvbox_contrast_dark="soft"
@@ -130,6 +134,7 @@ set path+=**
 set wildmenu
 set omnifunc=syntaxcomplete#Complete
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
+autocmd FileType java setlocal formatprg=astyle
 autocmd FileType java JCEnable
 set spell
 "set wrap!
