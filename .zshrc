@@ -112,6 +112,9 @@ ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
+# [[ -d "/usr/lib/avr/include" ]] && export C_INCLUDE_PATH="/usr/lib/avr/include":$C_INCLUDE_PATH
+# [[ -d "/usr/avr/include" ]] && export C_INCLUDE_PATH="/usr/avr/include":$C_INCLUDE_PATH
+
 # export LC_COLLATE="C"
 export MANPATH=/opt/texlive/2020/texmf-dist/doc/man:$MANPATH
 export INFOPATH=/opt/texlive/2020/texmf-dist/doc/info:$INFOPATH
@@ -142,6 +145,9 @@ alias vnctunnel='ssh -i ~/.ssh/homekey homenet -L 9901:localhost:5901'
 alias getip='curl icanhazip.com'
 alias vpn="sudo sshuttle --dns -r olivermead@homenet:443 0/0 -x homenet -e 'ssh -i /home/olivermead/.ssh/homekey'"
 alias rip="HandBrakeCLI -Z 'Very Fast 576p25' -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
+# alias bMount="sshfs olivermead@home:/home/olivermead/.config/blender ~/.config/blender -C && sshfs olivermead@home:/store /store -C"
+alias blendSync="rsync -azuP olivermead@home:/home/olivermead/.config/blender ~/.config/ ; rsync -azuP --existing olivermead@home:/store/blender /"
+alias blendSyncUp="rsync -azuP ~/.config/blender olivermead@home:/home/olivermead/.config/ ; rsync -azuP /blender olivermead@home:/store/"
 
 bindkey -v
 # function zle-line-init zle-keymap-select {
