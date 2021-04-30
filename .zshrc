@@ -87,7 +87,7 @@ export LANG=en_GB.UTF-8
 #   export EDITOR='mvim'
 # fi
 
-export EDITOR='nvim -e'
+export EDITOR='nvim'
 export GIT_EDITOR='nvim'
 export LESSHISTFILE=/dev/null
 
