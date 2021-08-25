@@ -3,6 +3,11 @@
 [[ -f /etc/xprofile ]] && . /etc/xprofile
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
-unclutter --timeout 1 &
-xcape -e 'Caps_Lock=Escape'
-exec dwm
+if [ $VNC ]
+then
+  exec vncviewer
+else 
+  unclutter --timeout 1 &
+  xcape -e 'Caps_Lock=Escape'
+  exec dwm
+fi

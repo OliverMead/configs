@@ -1,5 +1,5 @@
-set runtimepath^=~/.config/nvim runtimepath+=~/.config/nvim/after
-let &packpath = &runtimepath
+" set runtimepath^=~/.config/nvim runtimepath+=~/.config/nvim/after
+" let &packpath = &runtimepath
 nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
 
 call plug#begin('~/.config/nvim/plugged')
@@ -29,8 +29,6 @@ Plug 'artur-shaik/vim-javacomplete2'
 
 Plug 'junegunn/goyo.vim'
 Plug 'lkdjiin/vim-foldcomments'
-
-Plug 'prabirshrestha/vim-lsp'
 
 " " Git and Hub integration  
 Plug 'tpope/vim-fugitive'
@@ -77,7 +75,6 @@ let g:ale_linters = {
       \  'python': ['pylint'],
       \  'java': ['javac'],
       \  'haskell': ['ghc'],
-      \  'c': ['gcc', 'avr-gcc']
       \ }
 
 " let g:titlecase_map_keys=0
@@ -120,13 +117,13 @@ imap <M-x> <C-o>:
 
 syntax on
 syntax spell toplevel
-set foldmethod=manual
 au BufReadPost,BufWinEnter *.lytex set syntax=tex
 au BufReadPost,BufWinEnter *.rs set filetype=rust
 au BufReadPost,BufwinEnter *.hs set filetype=haskell
 "au BufReadPost *.rs set foldmethod=syntax
 au BufReadPost,BufWinEnter *.java set syntax=java
 au BufReadPost,BufWinEnter *.java set foldmethod=syntax
+set nocp
 filetype plugin indent on
 
 set nohls
