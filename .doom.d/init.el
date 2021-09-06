@@ -123,7 +123,8 @@
        ;;fsharp           ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;go                ; the hipster dialect
-       (haskell +dante)  ; a language that's lazier than I am
+       (haskell ; a language that's lazier than I am
+        +dante)  
        ;;hy                ; readability of scheme w/ speed of python
        idris             ;
        (java +meghanada) ; the poster child for carpal tunnel syndrome
@@ -168,9 +169,9 @@
        ;;web               ; the tubes
 
        :email
-       (mu4e
+       ; (mu4e
         ;; +gmail
-        )
+        ; )
        ;;notmuch
        ;;(wanderlust +gmail)
 
@@ -182,4 +183,6 @@
 
        :config
        ;; literate
-       (default +bindings +smartparens))
+       (default
+         +bindings
+         ))
