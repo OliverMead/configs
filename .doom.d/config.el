@@ -182,7 +182,7 @@ Regards,
 (set-frame-parameter nil 'undecorated t)
 
 (setq org-highlight-latex-and-related '(latex script entities))
-(add-hook 'org-mode-hook '(lambda () (setq fill-column 80)))
+;; (add-hook 'org-mode-hook '(lambda () (setq fill-column 80)))
 ;; (add-hook 'org-mode-hook 'auto-fill-mode)
 ;; (add-to-list 'org-latex-packages-alist
              ;; '("" "tikz" t))
