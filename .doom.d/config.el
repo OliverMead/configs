@@ -21,15 +21,15 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12))
-(setq doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 12 :weight 'medium ))
+(setq doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 24 :weight 'medium ))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-laserwave)
 ;; (setq doom-theme 'doom-gruvbox)
-;; (setq doom-theme 'tao-yang)
+(setq doom-theme 'tao-yang)
 ;; (setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -194,3 +194,14 @@ Regards,
 (exec-path-from-shell-initialize)
 
 (setq idris-interpreter-path "idris2")
+
+(after! tramp
+  (setq tramp-inline-compress-start-size 1000)
+  (setq tramp-copy-size-limit 10000)
+  (setq vc-handled-backends '(Git))
+  (setq tramp-verbose 1)
+  (setq tramp-default-method "scp")
+  (setq tramp-use-ssh-controlmaster-options nil)
+  (setq projectile--mode-line "Projectile")
+  (setq tramp-verbose 1))
+(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
