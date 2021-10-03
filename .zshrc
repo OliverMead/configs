@@ -1,3 +1,4 @@
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 # [[ `date +%P` = "am" ]] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'
 
 # # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
