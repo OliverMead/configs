@@ -21,15 +21,15 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12))
-(setq doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 24 :weight 'medium ))
+(setq doom-font (font-spec :family "SauceCodePro Nerd Font Mono" :size 24 :weight 'medium))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
-;; (setq doom-theme 'doom-laserwave)
+(setq doom-theme 'doom-laserwave)
 ;; (setq doom-theme 'doom-gruvbox)
-(setq doom-theme 'tao-yang)
+;; (setq doom-theme 'tao-yang)
 ;; (setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -88,8 +88,8 @@
       smtpmail-stream-type 'plain
       smtpmail-smtp-user "ojm3g19@soton.ac.uk"
       smtpmail-smtp-service 1025
-      smtpmail-debug-info t
-      )
+      smtpmail-debug-info t)
+      
 
 (setq mu4e-root-maildir (expand-file-name "~/email/mbsyncmail/ojm3g19@soton.ac.uk"))
 (setq mail-user-agent 'mu4e-user-agent)
@@ -104,8 +104,8 @@
       mu4e-html2text-command "w3m -T text/html"
       mu4e-update-interval 120
       mu4e-headers-auto-update t
-      mu4e-compose-signature-auto-include nil
-      )
+      mu4e-compose-signature-auto-include nil)
+      
 
 (setq mu4e-maildir-shortcuts
       '( ("/INBOX"               . ?i)
@@ -144,8 +144,8 @@
           (defun my-do-compose-stuff ()
             "My settings for message composition."
             (set-fill-column 72)
-            (flyspell-mode)
-            ))
+            (flyspell-mode)))
+            
 
 (setq org-msg-options "html-postamble:nil H:5 num:nil ^:{} toc:nil author:nil email:nil \\n:t"
       org-msg-startup "hidestars indent inlineimages"
@@ -205,3 +205,6 @@ Regards,
   (setq projectile--mode-line "Projectile")
   (setq tramp-verbose 1))
 (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+
+(require 'ox-extra)
+(ox-extras-activate '(ignore-headlines))

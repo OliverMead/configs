@@ -20,9 +20,9 @@
 
        :completion
        company           ; the ultimate code completion backend
-       ;;helm              ; the *other* search engine for love and life
+       helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       ivy               ; a search engine for love and life
+       ;; ivy               ; a search engine for love and life
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -106,7 +106,7 @@
 
        :lang
        ;;agda              ; types of types of types of types...
-       ;;assembly          ; assembly for fun or debugging
+       assembly          ; assembly for fun or debugging
        cc                ; C/C++/Obj-C madness
        ;;clojure           ; java with a lisp
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
@@ -118,7 +118,7 @@
        elm               ; care for a cup of TEA?
        emacs-lisp        ; drown in parentheses
        ;;erlang            ; an elegant language for a more civilized age
-       ;;ess               ; emacs speaks statistics
+       ess               ; emacs speaks statistics
        ;;faust             ; dsp, but you get to keep your soul
        ;;fsharp           ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
@@ -126,8 +126,8 @@
        (haskell ; a language that's lazier than I am
         +dante)  
        ;;hy                ; readability of scheme w/ speed of python
-       idris             ;
-       (java +meghanada) ; the poster child for carpal tunnel syndrome
+       ;; idris             ;
+       ;; (java +meghanada) ; the poster child for carpal tunnel syndrome
        ;; (java +jdee)
        ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
@@ -139,21 +139,22 @@
        ;;lua               ; one-based indices? one-based indices
        ;; markdown          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
-       nix               ; I hereby declare "nix geht mehr!"
+       ;; nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org              ; organize your plain life in plain text
         +dragndrop       ; drag & drop files/images into org buffers
+        +contrib
         ;;+hugo            ; use Emacs for hugo blogging
-        ;;+jupyter        ; ipython/jupyter support for babel
+        +jupyter        ; ipython/jupyter support for babel
         +pandoc          ; export-with-pandoc support
         +pomodoro        ; be fruitful with the tomato technique
-        +present        ; using org-mode for presentations
-        )
+        +present)        ; using org-mode for presentations
+        
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
-       ;;python            ; beautiful is better than ugly
+       python            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;rest              ; Emacs as a REST client
@@ -169,7 +170,7 @@
        ;;web               ; the tubes
 
        :email
-                                        ; (mu4e
+       ;;(mu4e)
        ;; +gmail
                                         ; )
        ;;notmuch
@@ -184,5 +185,5 @@
        :config
        ;; literate
        (default
-         +bindings
-         ))
+         +bindings))
+         
