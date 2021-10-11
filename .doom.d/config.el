@@ -27,9 +27,10 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
-;; (setq doom-theme 'doom-laserwave)
+(setq doom-theme 'doom-laserwave)
 ;; (setq doom-theme 'doom-gruvbox)
-(setq doom-theme 'tao-yang)
+;; (setq doom-theme 'tao-yang)
+;; (setq doom-theme 'tao-yin)
 ;; (setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -205,6 +206,9 @@ Regards,
   (setq projectile--mode-line "Projectile")
   (setq tramp-verbose 1))
 (eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+
+(global-auto-revert-mode t)
+(setq auto-revert-use-notify nil)
 
 (require 'ox-extra)
 (ox-extras-activate '(ignore-headlines))
