@@ -29,7 +29,7 @@
 ;; (package! org-msg :disable t)
 ;; (package! clangd :disable t)
 
-(package! org-ref)
+;; (package! org-ref)
 
 ;; (package! google-translate)
 (package! tao-theme)
