@@ -201,14 +201,20 @@ Regards,
   (setq tramp-copy-size-limit 10000)
   (setq vc-handled-backends '(Git))
   (setq tramp-verbose 1)
-  (setq tramp-default-method "scp")
+  (setq tramp-default-method "ssh")
   (setq tramp-use-ssh-controlmaster-options nil)
   (setq projectile--mode-line "Projectile")
   (setq tramp-verbose 1))
-(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
+(eval-after-load 'tramp '(setenv "SHELL" "/usr/bin/bash"))
 
 (global-auto-revert-mode t)
 (setq auto-revert-use-notify nil)
 
 (require 'ox-extra)
 (ox-extras-activate '(ignore-headlines))
+
+;; (setq tramp-sh-extra-args '(("/bash\\'" . "-i") ("/zsh\\'" . "-f +Z -V")))
+;; (add-to-list 'tramp-connection-properties
+;;              (list (regexp-quote "ojm3g19")
+;;                    "remote-shell" "/usr/bin/bash"
+;;                    "sh-extra-args" "-l -i"))
