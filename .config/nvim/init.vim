@@ -7,7 +7,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'vim-latex/vim-latex', { 'for': 'tex' }
 " tabular and markdown go hand-in-hand
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
 
 " " Appearance
 Plug 'vim-airline/vim-airline'
@@ -17,17 +16,16 @@ Plug 'itchyny/landscape.vim'
 Plug 'machakann/vim-highlightedyank'
 
 Plug 'Chiel92/vim-autoformat'
-" Plug 'dense-analysis/ale'
+"
 " " Language Specific
 Plug 'cespare/vim-toml'
 Plug 'meck/vim-brittany'
-Plug 'rust-lang/rust.vim'
-Plug 'edwinb/idris2-vim'
 Plug 'neovimhaskell/haskell-vim'
 " Plug 'zenzike/vim-haskell'
-Plug 'artur-shaik/vim-javacomplete2'
 
-Plug 'junegunn/goyo.vim'
+Plug 'davidhalter/jedi-vim'
+Plug 'jpalardy/vim-slime'
+
 Plug 'lkdjiin/vim-foldcomments'
 
 " " Git and Hub integration  
@@ -42,6 +40,8 @@ Plug 'tpope/vim-commentary'
 Plug 'christoomey/vim-titlecase'
 Plug 'christoomey/vim-sort-motion'
 
+Plug 'salsifis/vim-transpose'
+
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-function'
 Plug 'glts/vim-textobj-comment'
@@ -52,8 +52,10 @@ call plug#end()
 
 let mapleader=" "
 let g:gruvbox_italic=1
-colorscheme gruvbox
-set background=light
+if (&term != "linux")
+  colorscheme gruvbox
+  set background=dark
+endif
 let g:gruvbox_termcolors=256
 let g:gruvbox_contrast_light="hard"
 let g:gruvbox_contrast_dark="soft"
@@ -107,6 +109,8 @@ nnoremap <Leader>n /<+\+>/<CR>cf>
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme='base16_gruvbox_dark_hard'
+
+let g:slime_target = "tmux"
 
 command! MakeTags !ctags -R .
 nmap <leader><Leader> :MakeTags<CR>
