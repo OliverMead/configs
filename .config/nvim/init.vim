@@ -3,32 +3,42 @@
 nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
 
 call plug#begin('~/.config/nvim/plugged')
+Plug 'jamessan/vim-gnupg'
+Plug 'psliwka/vim-redact-pass'
+
+Plug 'lilyinstarlight/vim-sonic-pi'
+
+Plug 'vim-scripts/loremipsum'
+
 " " Documents
 Plug 'vim-latex/vim-latex', { 'for': 'tex' }
 " tabular and markdown go hand-in-hand
 Plug 'godlygeek/tabular'
 
 " " Appearance
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'morhetz/gruvbox'
-Plug 'itchyny/landscape.vim'
 Plug 'machakann/vim-highlightedyank'
 
-Plug 'Chiel92/vim-autoformat'
+Plug 'Chiel92/vim-autoformat' ", { 'for': ['c', 'cpp', 'java'] }
+au BufWrite *.c,*.cpp,*.h,*.java :Autoformat
+
+" Plug 'ludovicchabant/vim-gutentags', { 'for' : ['c', 'java', 'python', 'haskell'] }
+
 "
 " " Language Specific
-Plug 'cespare/vim-toml'
-Plug 'meck/vim-brittany'
-Plug 'neovimhaskell/haskell-vim'
+Plug 'cespare/vim-toml', { 'for' : 'toml' }
+Plug 'meck/vim-brittany', { 'for' : 'haskell' }
+Plug 'neovimhaskell/haskell-vim', { 'for' : 'haskell' }
 " Plug 'zenzike/vim-haskell'
 
-Plug 'davidhalter/jedi-vim'
-Plug 'jpalardy/vim-slime'
+Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
+Plug 'jpalardy/vim-slime', { 'for' : 'python' }
 
 Plug 'lkdjiin/vim-foldcomments'
 
-" " Git and Hub integration  
+" " Git and Hub integration
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
@@ -53,32 +63,13 @@ call plug#end()
 let mapleader=" "
 let g:gruvbox_italic=1
 if (&term != "linux")
-  colorscheme gruvbox
-  set background=dark
+    colorscheme gruvbox
+    set background=dark
 endif
 let g:gruvbox_termcolors=256
 let g:gruvbox_contrast_light="hard"
 let g:gruvbox_contrast_dark="soft"
 
-" " Shorten error/warning flags
-" let g:ale_echo_msg_error_str = 'E'
-" let g:ale_echo_msg_warning_str = 'W'
-" " I have some custom icons for errors and warnings but feel free to change them.
-" let g:ale_sign_error = '✘✘'
-" let g:ale_sign_warning = '⚠⚠'
-
-" " Disable or enable loclist at the bottom of vim 
-" " Comes down to personal preferance.
-" let g:ale_open_list = 0
-" let g:ale_loclist = 0
-
-" let g:ale_linters = {
-"       \  'cs':['syntax', 'semantic', 'issues'],
-"       \  'python': ['pylint'],
-"       \  'java': ['javac'],
-"       \  'haskell': ['ghc'],
-"       \  'c': ['gcc', 'avr-gcc']
-"       \ }
 " let g:titlecase_map_keys=0
 " nmap <leader>gt <Plug>Titlecase
 " vmap <leader>gt <Plug>Titlecase
@@ -107,88 +98,83 @@ let g:haskell_classic_highlighting = 1
 
 nnoremap <Leader>n /<+\+>/<CR>cf>
 
-let g:airline_powerline_fonts = 1
-let g:airline_theme='base16_gruvbox_dark_hard'
+" let g:airline_powerline_fonts = 1
+" let g:airline_theme='base16_gruvbox_dark_hard'
 
 let g:slime_target = "tmux"
 
+au filetype c set tags+=~/.config/nvim/systags
+au filetype c packadd termdebug
+let g:termdebug_wide=1
 command! MakeTags !ctags -R .
+command! SysTags !ctags -R -f ~/.config/nvim/systags /usr/include /usr/local/include
 nmap <leader><Leader> :MakeTags<CR>
+nmap <leader>s :SysTags<CR>
 nmap <C-P> :bp<CR>
 nmap <C-N> :bn<CR>
 nmap <M-x> :
 imap <M-x> <C-o>:
 
+autocmd FileType help wincmd L
+autocmd FileType man wincmd L
 syntax on
 syntax spell toplevel
-au BufReadPost,BufWinEnter *.lytex set syntax=tex
-au BufReadPost,BufWinEnter *.rs set filetype=rust
-au BufReadPost,BufwinEnter *.hs set filetype=haskell
-"au BufReadPost *.rs set foldmethod=syntax
-au BufReadPost,BufWinEnter *.java set syntax=java
-au BufReadPost,BufWinEnter *.java set foldmethod=syntax
 set nocp
 filetype plugin indent on
 
+set omnifunc=syntaxcomplete#Complete
+set dictionary+=/usr/share/dict/words
 set nohls
 set path+=**
 set wildmenu
-set omnifunc=syntaxcomplete#Complete
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-autocmd FileType java setlocal formatprg=astyle
-autocmd FileType java JCEnable
 set spell
 "set wrap!
 set number
 " set relativenumber
 set cursorline
 set cursorcolumn
-" set clipboard+=unnamedplus
-" set mouse+=a
+set clipboard+=unnamedplus
+set mouse+=a
 set hidden
 if exists('&inccommand')
-  set inccommand=split
+    set inccommand=split
 endif
-set tabstop=2 shiftwidth=2 expandtab
+set tabstop=4 shiftwidth=4 expandtab
 set so=999
-"set splitright
-"set splitbelow
-"hi clear SpellBad
 hi SpellBad cterm=underline
 set sessionoptions="blank,buffers,sesdir,folds,help,options,winsize,terminal,resize,localoptions"
 map <F3> :w ! wc -c<CR>
 au filetype tex map <F3> :w !detex \| wc -w<CR>
-au filetype markdown map <Leader>md :! compileMD "%:p"<CR>
-au filetype nroff map <Leader>gr :! refer -PeSp ~/Documents/bibliography.refer % \| groff -ms -T pdf> %:r.pdf<CR>
-au filetype nroff map <Leader>tc :! qpdf --empty %:r.pdf --pages %:r.pdf 1,r1,2-r2 --<CR>
+" au filetype nroff map <Leader>gr :! refer -PeSp ~/Documents/bibliography.refer % \| groff -ms -T pdf> %:r.pdf<CR>
+" au filetype nroff map <Leader>tc :! qpdf --empty %:r.pdf --pages %:r.pdf 1,r1,2-r2 --<CR>
 
 map <C-s> :hi clear search<CR>
 
 function! Sign(x)
-  if a:x>-1
-    return 1
-  else
-    return -1
-  endif
+    if a:x>-1
+        return 1
+    else
+        return -1
+    endif
 endfunction
 
 nnoremap <Leader>e $T=y$o= <C-r>=<C-r>"<CR><C-[>+
-nnoremap <Leader>E y$o = <C-r>=<C-r>"<CR><C-[>+
+nnoremap <Leader>E ^y$o = <C-r>=<C-r>"<CR><C-[>+
 
-function! Sum(list) 
-  let s = 0
-  for n in a:list
-    let s+=n
-  endfor
-  return s
+function! Sum(list)
+    let s = 0
+    for n in a:list
+        let s+=n
+    endfor
+    return s
 endfunction
 
 function! Dot(list1, list2)
-  let result = []
-  for i in range(len(a:list1))
-    let result = add(result,get(a:list2, i) * get(a:list1, i))
-  endfor
-  return Sum(result)
+    let result = []
+    for i in range(len(a:list1))
+        let result = add(result,get(a:list2, i) * get(a:list1, i))
+    endfor
+    return Sum(result)
 endfunction
 
 nnoremap <Leader>tj  :tabnext<CR>
@@ -197,6 +183,7 @@ nnoremap <Leader>tl  :tablast<CR>
 nnoremap <Leader>th :tabfirst<CR>
 nnoremap <Leader>tt  :tabedit<Space>
 nnoremap <Leader>td  :tabclose<CR>
+nnoremap <Leader>tn :tabnew<cr>
 
 nnoremap <Leader>w <C-w>
 
@@ -209,18 +196,22 @@ imap <Left> <nop>
 nmap <Right> <nop>
 imap <Right> <nop>
 
+nmap <C-Up> <nop>
+imap <C-Up> <nop>
+nmap <C-Down> <nop>
+imap <C-Down> <nop>
+nmap <C-Left> <nop>
+imap <C-Left> <nop>
+nmap <C-Right> <nop>
+imap <C-Right> <nop>
+
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 
 tnoremap <C-W> <Esc>
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-t> <C-\><C-n>:b #<CR>
 
-autocmd FileType *.toml,Gopkg.lock,Cargo.lock,*/.cargo/config,*/.cargo/credentials,Pipfile setf toml
-
-" augroup IdrisCtags
-"     au!
-"     au BufWritePost idris* MakeTags
-" augroup END
+" autocmd FileType *.toml,Gopkg.lock,Cargo.lock,*/.cargo/config,*/.cargo/credentials,Pipfile setf toml
 
 augroup QuickNotes
     autocmd!
@@ -229,8 +220,8 @@ augroup QuickNotes
 augroup END
 
 augroup numberToggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber number
-  autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber number
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber number
+    autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber number
 augroup END
 
