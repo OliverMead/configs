@@ -21,7 +21,8 @@ Plug 'godlygeek/tabular'
 Plug 'morhetz/gruvbox'
 Plug 'machakann/vim-highlightedyank'
 
-Plug 'Chiel92/vim-autoformat' ", { 'for': ['c', 'cpp', 'java'] }
+Plug 'Chiel92/vim-autoformat', { 'for': ['c', 'cpp', 'java'] }
+Plug 'vhdirk/vim-cmake', {'for': ['c', 'cpp'] }
 au BufWrite *.c,*.cpp,*.h,*.java :Autoformat
 
 " Plug 'ludovicchabant/vim-gutentags', { 'for' : ['c', 'java', 'python', 'haskell'] }
