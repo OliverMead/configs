@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-[[ -f /etc/xprofile ]] && . /etc/xprofile
-[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
+[ -f /etc/xprofile ] && . /etc/xprofile
+[ -f ~/.Xresources ] && xrdb ~/.Xresources
 
 lxsession &
 unclutter --timeout 1 &
