@@ -32,6 +32,9 @@ au BufWrite *.c,*.cpp,*.h,*.java :Autoformat
 Plug 'cespare/vim-toml', { 'for' : 'toml' }
 Plug 'meck/vim-brittany', { 'for' : 'haskell' }
 Plug 'neovimhaskell/haskell-vim', { 'for' : 'haskell' }
+Plug 'othree/html5.vim', { 'for' : 'html' }
+Plug 'pangloss/vim-javascript', { 'for' : 'javascript' }
+Plug 'vim-syntastic/syntastic', { 'for' : ['html', 'css', 'javascript'] }
 " Plug 'zenzike/vim-haskell'
 
 Plug 'davidhalter/jedi-vim', { 'for' : 'python' }
@@ -82,10 +85,10 @@ let g:netrw_liststyle=3
 " let Tex_FoldedSections=""
 " let Tex_FoldedEnvironments=""
 " let Tex_FoldedMisc=""
-let Tex_DefaultTargetFormat="pdf"
+let g:Tex_DefaultTargetFormat="pdf"
 let g:Tex_GotoError=0
-let g:Tex_CompileRule_pdf="pdflatex -shell-escape -interaction=nonstopmode -output-directory=build $*"
-let Tex_ViewRule_pdf="zathura build/"
+let g:Tex_CompileRuleComplete_pdf="pdflatex -shell-escape -interaction=nonstopmode $*"
+let g:Tex_ViewRuleComplete_pdf="zathura $*.pdf &" 
 " let Tex_ViewRule_pdf="zathura"
 
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`

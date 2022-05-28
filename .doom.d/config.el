@@ -210,8 +210,13 @@ Regards,
 (global-auto-revert-mode t)
 (setq auto-revert-use-notify nil)
 
-(require 'ox-extra)
-(ox-extras-activate '(ignore-headlines))
+(after! org
+  (use-package! ox-extra
+    :config
+    (ox-extras-activate '(latex-header-blocks ignore-headlines))))
+
+;; (require 'ox-extra)
+;; (ox-extras-activate '(ignore-headlines))
 
 ;; (setq tramp-sh-extra-args '(("/bash\\'" . "-i") ("/zsh\\'" . "-f +Z -V")))
 ;; (add-to-list 'tramp-connection-properties
