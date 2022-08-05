@@ -117,9 +117,9 @@ source $ZSH/oh-my-zsh.sh
 # [[ -d "/usr/avr/include" ]] && export C_INCLUDE_PATH="/usr/avr/include":$C_INCLUDE_PATH
 
 # export LC_COLLATE="C"
-export MANPATH=/usr/local/texlive/2021/texmf-dist/doc/man:$MANPATH
-export INFOPATH=/usr/local/texlive/2021/texmf-dist/doc/info:$INFOPATH
-export PATH=./venv/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2021/bin/x86_64-linux:$PATH
+export MANPATH=/usr/local/texlive/2022/texmf-dist/doc/man:$MANPATH
+export INFOPATH=/usr/local/texlive/2022/texmf-dist/doc/info:$INFOPATH
+export PATH=./venv/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2022/bin/x86_64-linux:$PATH
 # export PATH="$HOME/.cargo/bin:$PATH"
 export VISUAL="nvim"
 export RUSTUP_HOME=".config/rustup"
