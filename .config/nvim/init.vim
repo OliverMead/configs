@@ -32,6 +32,7 @@ au BufWrite *.c,*.cpp,*.h,*.java :Autoformat
 Plug 'cespare/vim-toml', { 'for' : 'toml' }
 Plug 'meck/vim-brittany', { 'for' : 'haskell' }
 Plug 'neovimhaskell/haskell-vim', { 'for' : 'haskell' }
+Plug 'Twinside/vim-hoogle', { 'for' : 'haskell' }
 Plug 'othree/html5.vim', { 'for' : 'html' }
 Plug 'pangloss/vim-javascript', { 'for' : 'javascript' }
 Plug 'vim-syntastic/syntastic', { 'for' : ['html', 'css', 'javascript'] }
