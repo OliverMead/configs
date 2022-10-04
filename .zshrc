@@ -71,8 +71,9 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 [ -d "$ZSH/custom/plugins/zsh-syntax-highlighting/" ] || git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH/custom/plugins/zsh-syntax-highlighting"
 [ -d "$ZSH/custom/plugins/zsh-completions" ] || git clone https://github.com/zsh-users/zsh-completions.git "$ZSH/custom/plugins/zsh-completions"
 [ -d "$ZSH/custom/plugins/zsh-autosuggestions" ] || git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH/custom/plugins/zsh-autosuggestions"
+[ -d "$ZSH/custom/plugins/nix-shell" ] || git clone https://github.com/chisui/zsh-nix-shell.git "$ZSH/custom/plugins/nix-shell"
 [ -d "$ZSH/custom/themes/powerlevel10k" ] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH/custom/themes/powerlevel10k"
-plugins=(zsh-syntax-highlighting zsh-completions)
+plugins=(zsh-syntax-highlighting zsh-completions nix-shell)
 
 # User configuration
 
@@ -119,7 +120,7 @@ source $ZSH/oh-my-zsh.sh
 # export LC_COLLATE="C"
 export MANPATH=/usr/local/texlive/2021/texmf-dist/doc/man:$MANPATH
 export INFOPATH=/usr/local/texlive/2021/texmf-dist/doc/info:$INFOPATH
-export PATH=./venv/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2021/bin/x86_64-linux:$PATH
+export PATH=/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2021/bin/x86_64-linux:$PATH
 # export PATH="$HOME/.cargo/bin:$PATH"
 export VISUAL="nvim"
 export RUSTUP_HOME=".config/rustup"
@@ -128,6 +129,7 @@ alias l="ls -alhv"
 alias work="cd ~/Documents/uniCourseWork/"
 alias w="work"
 alias joycon="sudo ~/bin/jcdriver --invert LV --invert LH --invert RV --invert RH"
+alias spycam="ssh home ffmpeg -an -f video4linux2 -s 640x480 -i /dev/video0 -r 10 -b:v 100k -f matroska - | mpv --demuxer=mkv /dev/stdin"
 alias :q="exit"
 alias :Q=":q"
 alias q="exit"
