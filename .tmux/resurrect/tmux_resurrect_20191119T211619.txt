@@ -1,3 +1,0 @@
-pane	main	1	:editor	1	:*	0	:/home/olivermead/Documents/CourseWork/Programming\ 1 Coursework	1	nvim	:
-window	main	1	1	:*	d21d,222x59,0,0,0
-state	main	

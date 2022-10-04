@@ -1,4 +1,0 @@
-pane	"main"	1	:"editor"	1	:*	0	:/home/olivermead/git-downloads/dwm	1	nvim	:
-pane	"main"	1	:"editor"	1	:*	1	:/home/olivermead/git-downloads/dwm	0	zsh	:
-window	"main"	1	1	:*	6ec8,91x62,0,0[91x48,0,0,0,91x13,0,49,2]
-state	"main"	
