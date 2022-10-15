@@ -67,13 +67,12 @@ call plug#end()
 
 let mapleader=" "
 let g:gruvbox_italic=1
+let g:gruvbox_termcolors=256
+let g:gruvbox_contrast_dark="medium"
 if (&term != "linux")
     colorscheme gruvbox
     set background=dark
 endif
-let g:gruvbox_termcolors=256
-let g:gruvbox_contrast_light="hard"
-let g:gruvbox_contrast_dark="soft"
 
 " let g:titlecase_map_keys=0
 " nmap <leader>gt <Plug>Titlecase
