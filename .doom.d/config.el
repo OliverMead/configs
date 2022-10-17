@@ -27,10 +27,10 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
-(setq doom-theme 'doom-laserwave)
+;; (setq doom-theme 'doom-laserwave)
 ;; (setq doom-theme 'doom-gruvbox)
 ;; (setq doom-theme 'tao-yang)
-;; (setq doom-theme 'tao-yin)
+(setq doom-theme 'tao-yin)
 ;; (setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -205,7 +205,7 @@ Regards,
   (setq tramp-use-ssh-controlmaster-options nil)
   (setq projectile--mode-line "Projectile")
   (setq tramp-verbose 1))
-(eval-after-load 'tramp '(setenv "SHELL" "/usr/bin/bash"))
+;; (eval-after-load 'tramp '(setenv "SHELL" "/usr/bin/bash"))
 
 (global-auto-revert-mode t)
 (setq auto-revert-use-notify nil)
@@ -223,3 +223,5 @@ Regards,
 ;;              (list (regexp-quote "ojm3g19")
 ;;                    "remote-shell" "/usr/bin/bash"
 ;;                    "sh-extra-args" "-l -i"))
+
+(setq  sly-lisp-implementations '((roswell ("ros" "-Q" "run"))))
