@@ -10,6 +10,8 @@
 (setq user-full-name "Oliver Mead"
       user-mail-address "oliver.j.mead@protonmail.com")
 
+(setq fancy-splash-image (concat doom-private-dir "doom-emacs-gray.svg"))
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -28,9 +30,9 @@
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-laserwave)
-;; (setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-gruvbox)
 ;; (setq doom-theme 'tao-yang)
-(setq doom-theme 'tao-yin)
+;; (setq doom-theme 'tao-yin)
 ;; (setq doom-theme 'doom-dracula)
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -48,6 +50,15 @@
 (setq haskell-hoogle-command "hoogle")
 
 (define-key haskell-mode-map (kbd "C-c C-h") 'haskell-hoogle)
+
+(after! lsp-haskell
+  (setq lsp-haskell-formatting-provider "none")
+  (setq +format-with-lsp nil))
+;; (setq lsp-haskell-brittany-on t)
+
+(setq parinfer-rust-check-before-enable t)
+
+(set-formatter! 'brittany "brittany" :modes '(haskell-mode))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

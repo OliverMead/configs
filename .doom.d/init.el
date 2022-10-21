@@ -128,7 +128,9 @@
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;go                ; the hipster dialect
        (haskell ; a language that's lazier than I am
-        +dante)  
+        +lsp)
+        ;; +dante)
+
        ;;hy                ; readability of scheme w/ speed of python
        ;; idris             ;
        ;; (java +meghanada) ; the poster child for carpal tunnel syndrome
@@ -173,6 +175,7 @@
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        ;;web               ; the tubes
+       yaml
 
        :email
        ;;(mu4e)
