@@ -30,9 +30,10 @@
 ;; (package! clangd :disable t)
 
 ;; (package! eaf)
-;; (package! eaf
-;;   :recipe (:host github :repo "emacs-eaf/emacs-application-framework"
-;;            :files ("applications.json" "eaf.el" "eaf.py" "extension" "core" "img" "sync-eaf-resources.py")))
+;;
+(package! eaf
+  :recipe (:host github :repo "emacs-eaf/emacs-application-framework"))
+           ;; :files ("applications.json" "eaf.el" "eaf.py" "extension" "core" "img" "sync-eaf-resources.py")))
 
 (package! org-ref)
 
