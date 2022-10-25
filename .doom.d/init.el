@@ -130,7 +130,8 @@
        (haskell ; a language that's lazier than I am
         +lsp)
         ;; +dante)
-
+       (zig
+        +lsp)
        ;;hy                ; readability of scheme w/ speed of python
        ;; idris             ;
        ;; (java +meghanada) ; the poster child for carpal tunnel syndrome
