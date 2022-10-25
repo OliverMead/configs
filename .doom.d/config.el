@@ -236,3 +236,14 @@ Regards,
 ;;                    "sh-extra-args" "-l -i"))
 
 (setq  sly-lisp-implementations '((roswell ("ros" "-Q" "run"))))
+
+(require 'eaf)
+(require 'eaf-browser)
+(setq browse-url-browser-function 'eaf-open-browser)
+(defalias 'browse-web #'eaf-open-browser)
+(setq eaf-browser-enable-adblocker t)
+(setq eaf-browser-continue-where-left-off t)
+(setq eaf-browser-default-search-engine "duckduckgo")
+(setq eaf-browse-blank-page-url "https://duckduckgo.com")
+(setq eaf-browser-default-zoom "3")
+(require 'eaf-pdf-viewer)
