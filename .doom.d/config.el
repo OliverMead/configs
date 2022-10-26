@@ -23,7 +23,7 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12))
-(setq doom-font (font-spec :family "Fira Code Nerd Font" :size 12 :weight 'medium))
+(setq doom-font (font-spec :family "Source Code Pro" :size 12 :weight 'medium))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -236,3 +236,39 @@ Regards,
 ;;                    "sh-extra-args" "-l -i"))
 
 (setq  sly-lisp-implementations '((roswell ("ros" "-Q" "run"))))
+
+(add-to-list 'load-path "~/.emacs.d/.local/straight/repos/emacs-application-framework/")
+(require 'eaf)
+(require 'eaf-browser)
+(require 'eaf-pdf-viewer)
+(setq browse-url-browser-function 'eaf-open-browser)
+(defalias 'browse-web #'eaf-open-browser)
+(setq eaf-browser-enable-adblocker t)
+(setq eaf-browser-continue-where-left-off t)
+(setq eaf-browser-default-search-engine "duckduckgo")
+(setq eaf-browse-blank-page-url "https://duckduckgo.com")
+(setq eaf-browser-default-zoom "3")
+
+(require 'eaf-evil)
+(define-key key-translation-map (kbd "SPC")
+    (lambda (prompt)
+      (if (derived-mode-p 'eaf-mode)
+          (pcase eaf--buffer-app-name
+            ("browser" (if  eaf-buffer-input-focus
+                           (kbd "SPC")
+                         (kbd eaf-evil-leader-key)))
+            ("pdf-viewer" (kbd eaf-evil-leader-key))
+            ("image-viewer" (kbd eaf-evil-leader-key))
+            (_  (kbd "SPC")))
+        (kbd "SPC"))))
+
+;; (setq printer-name "pos58")
+(setq printer-name "tprint")
+(setq +org-capture-journal-file "journal.org.gpg")
+
+(defun ojm/add-to-capture (template)
+  (let ((key (car template)))
+    (setq org-capture-templates
+          (delete-if (lambda (x) (equal (car x) key))))
+    (add-to-list 'org-capture-templates
+                 template)))
