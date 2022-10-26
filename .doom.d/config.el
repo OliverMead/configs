@@ -262,4 +262,13 @@ Regards,
             (_  (kbd "SPC")))
         (kbd "SPC"))))
 
-(setq +org-capture-journal-file "journal.org.gpg")
+;; (setq printer-name "pos58")
+(setq printer-name "tprint")
+;; (setq +org-capture-journal-file "journal.org.gpg")
+
+(defun ojm/add-to-capture (template)
+  (let ((key (car template)))
+    (setq org-capture-templates
+          (delete-if (lambda (x) (equal (car x) key))))
+    (add-to-list 'org-capture-templates
+                 template)))
