@@ -251,6 +251,7 @@ Regards,
 
 (add-to-list 'load-path "~/.emacs.d/.local/straight/repos/emacs-application-framework/")
 (require 'eaf)
+
 (require 'eaf-browser)
 (require 'eaf-pdf-viewer)
 (setq browse-url-browser-function 'eaf-open-browser)
@@ -267,6 +268,7 @@ Regards,
 (require 'eaf-mindmap)
 (require 'eaf-2048)
 
+(require 'eaf-evil)
 (define-key key-translation-map (kbd "SPC")
     (lambda (prompt)
       (if (derived-mode-p 'eaf-mode)
