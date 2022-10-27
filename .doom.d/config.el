@@ -41,8 +41,8 @@
 ;; `load-theme' function. This is the default:
 ;; (setq doom-theme 'doom-one)
 ;; (setq doom-theme 'doom-laserwave)
-(setq doom-theme 'doom-gruvbox)
-;; (setq doom-theme 'tao-yang)
+;; (setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'tao-yang)
 ;; (setq doom-theme 'tao-yin)
 ;; (setq doom-theme 'doom-dracula)
 
@@ -194,6 +194,7 @@ Regards,
 ;; (define-key evil-visual-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
 
 (map! :leader "i U" #'company-math-symbols-unicode)
+(map! :leader "o s" #'eshell)
 
 (setq company-idle-delay 0.5)
 
