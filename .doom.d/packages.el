@@ -37,6 +37,7 @@
 
 (package! org-ref)
 
+(package! tramp-nspawn)
 ;; (package! google-translate)
 (package! tao-theme)
 (package! exec-path-from-shell)
