@@ -267,6 +267,7 @@ Regards,
 (require 'eaf-org-previewer)
 (require 'eaf-mindmap)
 (require 'eaf-2048)
+;; (require 'eaf-system-monitor)
 
 (require 'eaf-evil)
 (define-key key-translation-map (kbd "SPC")
