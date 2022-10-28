@@ -284,7 +284,8 @@ Regards,
 
 ;; (setq printer-name "pos58")
 (setq printer-name "tprint")
-(setq +org-capture-journal-file "journal.org.gpg")
+(setq +org-capture-journal-file "~/org/journal.org.gpg")
+(setq +org-capture-todo-file "~/org/todo.org.gpg")
 
 ;; (defun ojm/add-to-capture (template)
 ;;   (let ((key (car template)))
