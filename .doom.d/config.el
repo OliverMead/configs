@@ -286,9 +286,14 @@ Regards,
 (setq printer-name "tprint")
 (setq +org-capture-journal-file "journal.org.gpg")
 
-(defun ojm/add-to-capture (template)
-  (let ((key (car template)))
-    (setq org-capture-templates
-          (delete-if (lambda (x) (equal (car x) key))))
-    (add-to-list 'org-capture-templates
-                 template)))
+;; (defun ojm/add-to-capture (template)
+;;   (let ((key (car template)))
+;;     (setq org-capture-templates
+;;           (delete-if (lambda (x) (equal (car x) key))))
+;;     (add-to-list 'org-capture-templates
+;;                  template)))
+
+(after! projectile
+  ;; (setq projectile-project-root-files-bottom-up
+  ;;       (remove ".git" projectile-project-root-files-bottom-up))
+  (setq projectile-use-git-grep t))
