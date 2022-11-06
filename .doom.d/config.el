@@ -48,7 +48,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/org")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -289,6 +289,7 @@ Regards,
 ;; (setq printer-name "pos58")
 (setq printer-name "tprint")
 (setq +org-capture-journal-file "~/org/journal.org.gpg")
+(setq +org-capture-todo-file "~/org/todo.org.gpg")
 
 ;; (defun ojm/add-to-capture (template)
 ;;   (let ((key (car template)))
