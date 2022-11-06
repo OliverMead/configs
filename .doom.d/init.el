@@ -20,10 +20,10 @@
 
        :completion
        company           ; the ultimate code completion backend
-       ; helm              ; the *other* search engine for love and life
+       ;; helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       ;; ivy               ; a search engine for love and life
-       vertico           ; the search engine of the future
+       ivy               ; a search engine for love and life
+       ;; vertico           ; the search engine of the future
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -77,7 +77,7 @@
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
-       ;; eshell            ; a consistent, cross-platform shell (WIP)
+       eshell            ; a consistent, cross-platform shell (WIP)
        ;; shell             ; a terminal REPL for Emacs
        ;; term              ; terminals in Emacs
        vterm             ; another terminals in Emacs
@@ -173,6 +173,7 @@
        ;;purescript        ; javascript, but functional
        (python            ; beautiful is better than ugly
         +lsp
+        +tree-sitter
         +pyright)
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
@@ -199,9 +200,9 @@
 
        :app
        ;; calendar
-       ;;emms
+       ;; emms
        ;;everywhere        ; *leave* Emacs!? You must be joking
-       ;;irc               ; how neckbeards socialize
+       irc               ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
 

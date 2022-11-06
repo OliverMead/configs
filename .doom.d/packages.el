@@ -31,18 +31,27 @@
 
 ;; (package! eaf)
 
-(package! eaf
-  :recipe (:host github :repo "emacs-eaf/emacs-application-framework"))
+;; (package! eaf
+;;   :recipe (:host github :repo "emacs-eaf/emacs-application-framework"))
 
            ;; :files ("applications.json" "eaf.el" "eaf.py" "extension" "core" "img" "sync-eaf-resources.py")))
 
 (package! org-ref)
+(package! fireplace)
+
+(package! transmission)
+
+;; (package! empv :recipe
+;;   (:host github :repo "isamert/empv.el"))
 
 (package! tramp-nspawn)
 ;; (package! google-translate)
 (package! tao-theme)
 (package! exec-path-from-shell)
 ;; (package! exwm)
+;; (package! exwm-evil :recipe
+;;   (:host github :repo "LemonBreezes/exwm-evil"))
+
 ;; To install a package directly from a particular repo, you'll need to specify
 ;; a `:recipe'. You'll find documentation on what `:recipe' accepts here:
 ;; https://github.com/raxod502/straight.el#the-recipe-format

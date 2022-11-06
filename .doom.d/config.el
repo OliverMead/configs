@@ -10,7 +10,7 @@
 (setq user-full-name "Oliver Mead"
       user-mail-address "oliver.j.mead@protonmail.com")
 
-(setq fancy-splash-image (concat doom-private-dir "doom-emacs-gray.svg"))
+(setq fancy-splash-image (concat doom-user-dir "doom-emacs-gray.svg"))
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
 (add-hook! '+doom-dashboard-mode-hook (hl-line-mode -1))
@@ -33,8 +33,8 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12))
-(setq doom-font (font-spec :family "Fira Code Nerd Font" :size 12 :weight 'medium))
-;; (setq doom-font (font-spec :family "Source Code Pro" :size 12 :weight 'medium))
+;; (setq doom-font (font-spec :family "Fira Code Nerd Font" :size 12 :weight 'medium))
+(setq doom-font (font-spec :family "SauceCodePro Nerd Font" :size 12 :weight 'medium))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -53,6 +53,7 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type "relative")
+(setq select-enable-clipboard nil)
 
 (display-battery-mode 1)
 (display-time-mode 1)
@@ -194,9 +195,12 @@ Regards,
 ;; (define-key evil-visual-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
 
 (map! :leader "i U" #'company-math-symbols-unicode)
-(map! :leader "o s" #'eshell)
+;; (map! :leader "o s" #'eshell)
 
-(setq company-idle-delay 0.5)
+(after! eshell
+  (setq eshell-error-if-no-glob nil))
+
+(setq company-idle-delay 0)
 
 (setq display-line-numbers-type 'relative)
 
@@ -249,42 +253,42 @@ Regards,
 
 (setq  sly-lisp-implementations '((roswell ("ros" "-Q" "run"))))
 
-(add-to-list 'load-path "~/.emacs.d/.local/straight/repos/emacs-application-framework/")
-(require 'eaf)
+;; (add-to-list 'load-path "~/.emacs.d/.local/straight/repos/emacs-application-framework/")
+;; (require 'eaf)
 
-(require 'eaf-browser)
-(require 'eaf-pdf-viewer)
-(setq browse-url-browser-function 'eaf-open-browser)
-(defalias 'browse-web #'eaf-open-browser)
-(setq eaf-browser-enable-adblocker t)
-(setq eaf-browser-continue-where-left-off t)
-(setq eaf-browser-default-search-engine "duckduckgo")
-(setq eaf-browse-blank-page-url "https://duckduckgo.com")
-(setq eaf-browser-default-zoom "3")
+;; (require 'eaf-browser)
+;; (require 'eaf-pdf-viewer)
+;; (setq browse-url-browser-function 'eaf-open-browser)
+;; (defalias 'browse-web #'eaf-open-browser)
+;; (setq eaf-browser-enable-adblocker t)
+;; (setq eaf-browser-continue-where-left-off t)
+;; (setq eaf-browser-default-search-engine "duckduckgo")
+;; (setq eaf-browse-blank-page-url "https://duckduckgo.com")
+;; (setq eaf-browser-default-zoom "3")
 
-(require 'eaf-video-player)
-(require 'eaf-image-viewer)
-(require 'eaf-org-previewer)
-(require 'eaf-mindmap)
-(require 'eaf-2048)
-;; (require 'eaf-system-monitor)
+;; (require 'eaf-video-player)
+;; (require 'eaf-image-viewer)
+;; (require 'eaf-org-previewer)
+;; (require 'eaf-mindmap)
+;; (require 'eaf-2048)
+;; ;; (require 'eaf-system-monitor)
 
-(require 'eaf-evil)
-(define-key key-translation-map (kbd "SPC")
-    (lambda (prompt)
-      (if (derived-mode-p 'eaf-mode)
-          (pcase eaf--buffer-app-name
-            ("browser" (if  eaf-buffer-input-focus
-                           (kbd "SPC")
-                         (kbd eaf-evil-leader-key)))
-            ("pdf-viewer" (kbd eaf-evil-leader-key))
-            ("image-viewer" (kbd eaf-evil-leader-key))
-            (_  (kbd "SPC")))
-        (kbd "SPC"))))
+;; (require 'eaf-evil)
+;; (define-key key-translation-map (kbd "SPC")
+;;     (lambda (prompt)
+;;       (if (derived-mode-p 'eaf-mode)
+;;           (pcase eaf--buffer-app-name
+;;             ("browser" (if  eaf-buffer-input-focus
+;;                            (kbd "SPC")
+;;                          (kbd eaf-evil-leader-key)))
+;;             ("pdf-viewer" (kbd eaf-evil-leader-key))
+;;             ("image-viewer" (kbd eaf-evil-leader-key))
+;;             (_  (kbd "SPC")))
+;;         (kbd "SPC"))))
 
 ;; (setq printer-name "pos58")
 (setq printer-name "tprint")
-(setq +org-capture-journal-file "journal.org.gpg")
+(setq +org-capture-journal-file "~/org/journal.org.gpg")
 
 ;; (defun ojm/add-to-capture (template)
 ;;   (let ((key (car template)))
@@ -297,3 +301,13 @@ Regards,
   ;; (setq projectile-project-root-files-bottom-up
   ;;       (remove ".git" projectile-project-root-files-bottom-up))
   (setq projectile-use-git-grep t))
+
+(after! circe
+  (set-irc-server! "irc.libera.chat"
+    `(:tls t
+      :port 6697
+      :nick "olivermead"
+      :sasl-username ,(+pass-get-user "irc.libera.chat")
+      :sasl-password (lambda (&rest _) (+pass-get-secret "irc.libera.chat"))
+      :channels ("#emacs")))
+  (setq circe-use-cycle-completion t))
