@@ -126,27 +126,12 @@ export VISUAL="nvim"
 export RUSTUP_HOME=".config/rustup"
 alias ll="ls -lhv"
 alias l="ls -alhv"
-alias work="cd ~/Documents/uniCourseWork/"
-alias w="work"
-alias joycon="sudo ~/bin/jcdriver --invert LV --invert LH --invert RV --invert RH"
-alias spycam="ssh home ffmpeg -an -f video4linux2 -s 640x480 -i /dev/video0 -r 10 -b:v 100k -f matroska - | mpv --demuxer=mkv /dev/stdin"
-alias :q="exit"
-alias :Q=":q"
-alias q="exit"
-alias n="nvim"
 alias please="sudo"
 # alias rotate="xrandr -o 3 && xinput map-to-output 12 LVDS1 && xinput map-to-output 13 LVDS1"
-function rotate() {
-  xrandr -o $1
-  xinput map-to-output 12 LVDS1
-  xinput map-to-output 13 LVDS1
-  xinput map-to-output 14 LVDS1
-}
-alias unrotate="xrandr -o 0 && xinput map-to-output 12 LVDS1 && xinput map-to-output 13 LVDS1 && xinput map-to-output 14 LVDS1"
 alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
-alias vnctunnel='ssh -i ~/.ssh/homekey homenet -L 9901:localhost:5901'
+alias vnctunnel='ssh home -L 9901:localhost:5901'
 alias getip='curl icanhazip.com'
-alias vpn="sudo sshuttle --dns -r olivermead@homenet:443 0/0 -x homenet -e 'ssh -i /home/olivermead/.ssh/id_rsa'"
+alias vpn="sudo sshuttle --dns -r home:443 0/0 -x home -e 'ssh -i /home/olivermead/.ssh/id_rsa'"
 alias rip="HandBrakeCLI -Z 'Very Fast 576p25' -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
 # alias bMount="sshfs olivermead@home:/home/olivermead/.config/blender ~/.config/blender -C && sshfs olivermead@home:/store /store -C"
 alias blendSync="rsync -azuP olivermead@home:/home/olivermead/.config/blender ~/.config/ ; rsync -azuP --existing olivermead@home:/store/blender /"
