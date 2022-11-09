@@ -2,7 +2,7 @@
 	path = .config/oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh
 [submodule ".emacs.d"]
-	path = .emacs.d
+	path = .emacs.doom
   branch = develop
 	url = https://github.com/hlissner/doom-emacs
 [submodule "org"]
