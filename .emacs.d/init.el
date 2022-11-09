@@ -435,6 +435,12 @@
 (use-package circe
   :defer t
   :config
+  (defun ojm/pretty-lui ()
+    (setq fringed-outside-margins t
+          right-margin-width 7 
+          word-wrap t
+          wrap-prefix "    "))
+
   (setq circe-network-options 
         `(("irc.libera.chat"
            :tls t
@@ -446,6 +452,8 @@
   (setq circe-use-cycle-completion t)
   (require' circe-color-nicks)
   (add-hook 'circe-channel-mode-hook #'enable-circe-color-nicks)
+  (add-hook 'lui-mode-hook #'enable-lui-track-bar)
+  (add-hook 'lui-mode-hook #'ojm/pretty-lui)
   (defvar +irc-left-padding 13)
   (defsubst +irc--pad (left right)
     (format (format "%%%ds | %%s" +irc-left-padding)
@@ -453,6 +461,9 @@
   (setq circe-color-nicks-min-contrast-ratio 4.5
         circe-color-nicks-everywhere t
         circe-reduce-lurker-spam t
+
+        lui-time-stamp-position 'right-margin
+        lui-fill-type nil
 
         circe-format-say (format "{nick:+%ss} │ {body}" +irc-left-padding)
         circe-format-self-say circe-format-say
