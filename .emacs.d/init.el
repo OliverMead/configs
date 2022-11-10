@@ -24,9 +24,13 @@
 (setq-default make-backup-files nil)
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backups"))))
+(setenv "GPG_AGENT_INFO" nil)
+
+;;; The most important buffer
 (with-current-buffer "*scratch*"
   (emacs-lock-mode 'kill))
-(setenv "GPG_AGENT_INFO" nil)
+
+(setq tab-bar-new-tab-choice "*scratch*")
 
 ;;; Appearance
 (set-face-attribute 'default nil :font "Source Code Pro" :height 100)
