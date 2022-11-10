@@ -15,6 +15,7 @@
 (set-fringe-mode 1)
 (menu-bar-mode -1)
 (setq frame-resize-pixelwise t)
+(setq tabbar-use-images nil)
 
 ;;; Disabling heresy
 (setq-default indent-tabs-mode nil)
@@ -202,6 +203,12 @@
     "P" (ojm/keycmd projectile-add-known-project)
     "p" '(:keymap projectile-command-map :package projectile
                   :which-key "Projectile Command:"))
+
+  (ojm/leader
+    "TAB" (ojm/prefix "Tabs:")
+    "TAB t" (ojm/keycmd tab-bar-mode "Toggle Tab Bar")
+    "TAB d" (ojm/keycmd tab-close "Close Tab")
+    "TAB n" (ojm/keycmd tab-new "New Tab"))
 
   (ojm/leader
     "c" (ojm/prefix "Util:")
