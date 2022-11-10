@@ -25,6 +25,7 @@
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backups"))))
 (setenv "GPG_AGENT_INFO" nil)
+(setq server-kill-new-buffers nil)
 
 ;;; The most important buffer
 (with-current-buffer "*scratch*"
@@ -137,6 +138,11 @@
 
 (use-package magit)
 
+(use-package evil-magit
+  :after magit)
+
+(use-package org)
+
 (use-package projectile
   :config
   (projectile-global-mode)
@@ -200,6 +206,7 @@
     "." (ojm/keycmd counsel-find-file "Find File")
     "," (ojm/keycmd counsel-switch-buffer "Switch Buffer")
     "w" (ojm/simulate "C-w" "Window:")
+    "W" (ojm/keycmd which-key-show-top-level "What Do?")
     "h" (ojm/simulate "C-h" "Help:")
     "x" (ojm/simulate "C-x" "C-x:")
     "e" (ojm/simulate "C-x C-e" "C-x C-e")
@@ -415,6 +422,9 @@
   :config
   (setq ivy-initial-inputs-alist nil)
   (ivy-mode 1)) ;; default starts with ^
+
+(use-package counsel-projectile
+  :config (counsel-projectile-mode))
 
 (use-package ivy-rich
   :config
