@@ -2,6 +2,7 @@
 
 [ -f /etc/xprofile ] && . /etc/xprofile
 [ -f ~/.Xresources ] && xrdb ~/.Xresources
+[ -f ~/.xinitrc.local ] && . ~/.xinitrc.local
 
 lxsession &
 unclutter --timeout 1 &
