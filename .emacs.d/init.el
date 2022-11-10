@@ -259,6 +259,8 @@
     "p" (ojm/keycmd circe-command-PING)
     "a" (ojm/keycmd circe-command-GAWAY)
     "b" (ojm/keycmd circe-command-BACK)
+    "u" (ojm/keycmd lui-track-jump-to-indicator)
+    "m" (ojm/keycmd lui-track-move "Mark Read")
     "r" (ojm/keycmd circe-reconnect)
     "R" (ojm/keycmd circe-reconnect-all))
 
