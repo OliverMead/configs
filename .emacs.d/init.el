@@ -35,6 +35,7 @@
 
 ;;; Appearance
 (set-face-attribute 'default nil :font "Source Code Pro" :height 100)
+(add-to-list 'default-frame-alist '(font . "Source Code Pro"))
 ;; (load-theme 'tango-dark) ; see doom-themes
 (column-number-mode)
 ;(setq-default display-line-numbers-type "relative")
