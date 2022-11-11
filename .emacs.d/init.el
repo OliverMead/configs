@@ -138,9 +138,6 @@
 
 (use-package magit)
 
-(use-package evil-magit
-  :after magit)
-
 (use-package org)
 
 (use-package projectile
@@ -242,9 +239,10 @@
   (ojm/leader
     "g" (ojm/prefix "Git:")
     "gg" (ojm/keycmd magit "Launch Magit")
-    "gb" (ojm/keycmd magit-branch)
+    "gb" (ojm/keycmd magit-branch-or-checkout)
+    "gs" (ojm/keycmd magit-stage)
     "gd" (ojm/keycmd magit-diff-unstaged)
-    "gc" (ojm/keycmd magit-branch-or-checkout))
+    "gc" (ojm/keycmd magit-commit))
 
   (ojm/leader
     "f" (ojm/prefix "File Command:")
