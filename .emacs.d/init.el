@@ -241,6 +241,8 @@
     "gg" (ojm/keycmd magit "Launch Magit")
     "gb" (ojm/keycmd magit-branch-or-checkout)
     "gs" (ojm/keycmd magit-stage)
+    "gF" (ojm/keycmd magit-pull)
+    "gp" (ojm/keycmd magit-push)
     "gd" (ojm/keycmd magit-diff-unstaged)
     "gc" (ojm/keycmd magit-commit))
 
