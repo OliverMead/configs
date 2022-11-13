@@ -1,0 +1,26 @@
+#+title: Literate Emacs Configuration
+#+author: Oliver J. Mead
+
+* Pre-packages
+Faster startup à la Doom:
+#+begin_src emacs-lisp
+(defvar last-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+#+end_src
+
+Start everything in the scratch buffer:
+#+begin_src emacs-lisp
+(setq inhibit-startup-message t)
+(setq tab-bar-new-tab-choice "*scratch*")
+#+end_src
+
+And preserve the scratch buffer forever:
+#+begin_src emacs-lisp
+(with-current-buffer "*scratch*"
+  (emacs-lock-mode 'kill))
+#+end_src
+
+EWW as default browser:
+#+begin_src emacs-lisp
+(setq browse-url-browser-function 'eww-browse-url)
+#+end_src
