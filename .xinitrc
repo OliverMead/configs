@@ -7,6 +7,6 @@
 lxsession &
 unclutter --timeout 1 &
 xcape -e 'Caps_Lock=Escape'
-picom &
+# picom &
 hsetroot -cover ~/wallpaper.webp
 exec dwm

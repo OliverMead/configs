@@ -1,13 +1,9 @@
-; -*- lexical-binding: t -*-
-;;; Start in scratch
-(setq inhibit-startup-message t)
-
-;;; Faster startup à la Doom 
-(defvar last-file-name-handler-alist file-name-handler-alist)
-(setq gc-cons-threshold 400000000 ;; 400MB
-      gc-cons-percentage 0.6
-      file-name-handler-alist nil)
-
+;; -*- lexical-binding: t -*-
+(org-babel-load-file
+ (expand-file-name "config.org"
+                   user-emacs-directory)
+ t)
+  
 ;;; Declutter 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -26,12 +22,6 @@
       `(("." . ,(concat user-emacs-directory "backups"))))
 (setenv "GPG_AGENT_INFO" nil)
 (setq server-kill-new-buffers nil)
-
-;;; The most important buffer
-(with-current-buffer "*scratch*"
-  (emacs-lock-mode 'kill))
-
-(setq tab-bar-new-tab-choice "*scratch*")
 
 ;;; Appearance
 (set-face-attribute 'default nil :font "Source Code Pro" :height 100)
