@@ -42,9 +42,6 @@
        eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
-(setq user-mail-address "oliver.j.mead@protonmail.com"
-      user-full-name "Oliver J. Mead")
-
 (dolist
     (mode
      '(org-mode-hook))

@@ -2,12 +2,13 @@
 #+author: Oliver J. Mead
 
 * Pre-packages
-Faster startup à la Doom:
+** Faster Startup à la Doom:
 #+begin_src emacs-lisp
 (defvar last-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 #+end_src
 
+** The Holy Scratch buffer
 Start everything in the scratch buffer:
 #+begin_src emacs-lisp
 (setq inhibit-startup-message t)
@@ -20,7 +21,55 @@ And preserve the scratch buffer forever:
   (emacs-lock-mode 'kill))
 #+end_src
 
+** Built in Applications' Configuration
+*** EWW
 EWW as default browser:
 #+begin_src emacs-lisp
 (setq browse-url-browser-function 'eww-browse-url)
+#+end_src
+
+*** GNUS
+Tell Emacs who I am.
+#+begin_src emacs-lisp
+(setq user-mail-address "olivermead@olivermead.xyz"
+      user-full-name "Oliver J. Mead")
+#+end_src
+
+Configure GNUS methods to receive mail:
+#+begin_src emacs-lisp
+  (setq gnus-select-method
+          '(nnimap "olivermead.xyz"
+                  (nnimap-address "mail.olivermead.xyz")
+                  (nnimap-server-port "imaps")
+                  (nnimap-stream ssl)
+                  (nnmail-expiry-target "nnimap+olivermead.xyz:Trash")
+                  (nnmail-expiry-wait immediate)))
+#+end_src
+
+Configure SMTP to send mail:
+#+begin_src emacs-lisp
+  (setq message-send-mail-function 'smtpmail-send-it
+        send-mail-function 'smtpmail-send-it ;; also configure for MailMode
+        smtpmail-smtp-server "mail.olivermead.xyz"
+        smtpmail-stream-type 'starttls
+        smtpmail-smtp-service 587)
+#+end_src
+
+Allow marking mail for offline reading:
+#+begin_src emacs-lisp
+  (setq gnus-use-cache t)
+#+end_src
+
+Tell GNUS to send my sent mail to the server:
+#+begin_src emacs-lisp
+  (setq gnus-message-archive-group "nnimap:Sent")
+#+end_src
+
+Live updating:
+#+begin_src emacs-lisp
+  (add-hook 'gnus-startup-hook
+            (lambda ()
+              (gnus-demon-init)
+              (setq gnus-demon-timestep 30)
+              (gnus-demon-add-handler 'gnus-demon-scan-news 1 t)))
 #+end_src
