@@ -2,6 +2,9 @@
 #+author: Oliver J. Mead
 
 * Pre-packages
+:PROPERTIES:
+:header-args:emacs-lisp: :lexical t :results none
+:END:
 ** Faster Startup à la Doom:
 #+begin_src emacs-lisp
 (defvar last-file-name-handler-alist file-name-handler-alist)
@@ -72,4 +75,9 @@ Live updating:
               (gnus-demon-init)
               (setq gnus-demon-timestep 30)
               (gnus-demon-add-handler 'gnus-demon-scan-news 1 t)))
+#+end_src
+
+** Org Settings
+#+begin_src emacs-lisp
+  (setq org-confirm-babel-evaluate nil)
 #+end_src
