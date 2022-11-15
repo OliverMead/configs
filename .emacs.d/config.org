@@ -266,35 +266,35 @@ Live updating:
 
 *** EVIL Mode
 #+begin_src emacs-lisp
-(use-package evil
-  :init
-  (setq evil-want-C-u-scroll t
-        evil-want-keybinding nil
-        evil-undo-system 'undo-tree
-        evil-insert-state-message nil)
-  :config
-  (evil-mode 1)
-  (define-key evil-insert-state-map
-    (kbd "C-h") 'evil-delete-backward-char-and-join))
+  (use-package evil
+    :init
+    (setq evil-want-C-u-scroll t
+          evil-want-keybinding nil
+          evil-undo-system 'undo-tree
+          evil-insert-state-message nil)
+    :config
+    (evil-mode 1)
+    (define-key evil-insert-state-map
+      (kbd "C-h") 'evil-delete-backward-char-and-join))
 
-(use-package evil-commentary
-  :after evil
-  :config (evil-commentary-mode))
+  (use-package evil-commentary
+    :after evil
+    :config (evil-commentary-mode))
 
-(use-package evil-surround
-  :after evil
-  :config
-  (global-evil-surround-mode 1))
+  (use-package evil-surround
+    :after evil
+    :config
+    (global-evil-surround-mode 1))
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
 
-(use-package evil-snipe
-  :after evil
-  :config
-  (evil-snipe-mode 1))
+  (use-package evil-snipe
+    :after evil
+    :config
+    (evil-snipe-mode 1))
 #+end_src
 
 *** Misc Unconfigured
@@ -313,11 +313,6 @@ Live updating:
 *** Projectile
 #+begin_src emacs-lisp
   (use-package projectile
-    (setq projectile-project-root-files #'( ".projectile")
-          projectile-project-root-files-functions #'(projectile-root-top-down
-                                                     projectile-root-top-down-recurring
-                                                     projectile-root-bottom-up
-                                                     projectile-root-local))
     :config
     (projectile-global-mode)
     (add-to-list 'projectile-globally-ignored-directories "~/")
@@ -350,6 +345,44 @@ Live updating:
     ("q" nil "Quit :exit t")))
 #+end_src
 
+*** EXWM
+#+begin_src emacs-lisp
+  (use-package desktop-environment)
+
+  (use-package exwm
+    :config
+    (setq exwm-workspace-number 10)
+    (add-hook 'exwm-update-class-hook (lambda () (exwm-workspace-rename-buffer exwm-class-name)))
+    (add-hook 'exwm-init-hook (lambda () (exwm-workspace-switch-create 1)))
+    (setq exwm-layout-show-all-buffers t
+          exwm-input-prefix-keys '(?\C-x
+                                   ;; ?\C-u
+                                   ?\C-h
+                                   ?\C-w
+                                   ?\M-x
+                                   ?\M-`
+                                   ?\M-&
+                                   ?\M-:
+                                   ?\C-\ ))
+
+    (dolist
+        (c '(([?\C-q] . exwm-input-send-next-key)))
+      (define-key exwm-mode-map (car c) (cdr c)))
+
+    (setq exwm-input-global-keys
+          `(([?\s-r] . hydra-window-size/body)
+            ([?\s-R] . exwm-reset)
+            ([?\s-w] . exwm-workspace-switch)
+            ([?\s-t] . exwm-floating-toggle-floating)
+            ([?\s-f] . exwm-layout-toggle-fullscreen)
+            ([?\s-m] . exwm-layout-toggle-mode-line)
+            ([?\s-C] . kill-current-buffer)
+            ([?\s-p] . counsel-linux-app)))
+        
+    (exwm-enable)
+    (desktop-environment-mode)) 
+#+end_src
+
 *** General.el
 #+begin_src emacs-lisp
   (use-package general
@@ -371,7 +404,7 @@ Live updating:
    (defmacro ojm/keycmd (cmd &optional name)
      `'(,cmd :which-key ,(or name (symbol-name cmd))))
    (defmacro ojm/simulate (key &optional name)
-     `(general-simulate-key ,key :which-key ,name))
+     `(general-key ,key))
 
    (defun ojm/scratch ()
      (interactive)
@@ -394,11 +427,11 @@ Live updating:
      "u" (ojm/keycmd universal-argument "Universal Argument")
      "." (ojm/keycmd counsel-find-file "Find File")
      "," (ojm/keycmd counsel-switch-buffer "Switch Buffer")
-     "w" (ojm/simulate "C-w" "Window:")
+     "w" (general-key "C-w")
      "W" (ojm/keycmd which-key-show-top-level "What Do?")
-     "h" (ojm/simulate "C-h" "Help:")
-     "x" (ojm/simulate "C-x" "C-x:")
-     "e" (ojm/simulate "C-x C-e" "C-x C-e")
+     "h" (general-key "C-h")
+     "x" (general-key "C-x")
+     "e" (ojm/keycmd eval-last-sexp "Eval Last")
      "SPC" (ojm/keycmd projectile-find-file)
      "P" (ojm/keycmd projectile-add-known-project)
      "p" '(:keymap projectile-command-map :package projectile

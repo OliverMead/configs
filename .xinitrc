@@ -9,4 +9,4 @@ unclutter --timeout 1 &
 xcape -e 'Caps_Lock=Escape'
 # picom &
 hsetroot -cover ~/wallpaper.webp
-exec dwm
+exec $WM
