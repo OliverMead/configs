@@ -69,13 +69,16 @@ Tell GNUS to send my sent mail to the server:
   (setq gnus-message-archive-group "nnimap:Sent")
 #+end_src
 
+**** *Deprecated* 
 Live updating:
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :eval never
+  (setq-default gnus-demon-timestep 20
+                gnus-asynchronous t)
   (add-hook 'gnus-startup-hook
             (lambda ()
-              (gnus-demon-init)
-              (setq gnus-demon-timestep 30)
-              (gnus-demon-add-handler 'gnus-demon-scan-news 1 t)))
+              (gnus-demon-add-handler 'gnus-demon-scan-mail t nil)))
+
+  (add-hook 'gnus-after-getting-new-news-hook 'gnus-notifications)
 #+end_src
 
 ** Org Settings
@@ -188,6 +191,11 @@ Live updating:
 #+end_src
 
 ** Packages
+*** Web Development
+#+begin_src emacs-lisp
+ (use-package simple-httpd) 
+#+end_src
+
 *** exec-path-from-shell
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -304,10 +312,16 @@ Live updating:
 
 *** Projectile
 #+begin_src emacs-lisp
-(use-package projectile
-  :config
-  (projectile-global-mode)
-  (setq projectile-enable-caching t))
+  (use-package projectile
+    (setq projectile-project-root-files #'( ".projectile")
+          projectile-project-root-files-functions #'(projectile-root-top-down
+                                                     projectile-root-top-down-recurring
+                                                     projectile-root-bottom-up
+                                                     projectile-root-local))
+    :config
+    (projectile-global-mode)
+    (add-to-list 'projectile-globally-ignored-directories "~/")
+    (setq projectile-enable-caching t))
 #+end_src
 
 *** Which-key
@@ -464,6 +478,7 @@ Live updating:
    (ojm/leader
      "o" (ojm/prefix "Open: ")
      "oc" (ojm/keycmd circe)
+     "og" (ojm/keycmd gnus)
      "ot" (ojm/keycmd vterm-tmux "TMux")
      "oT" '((lambda nil
               (interactive)
@@ -728,28 +743,31 @@ Live updating:
 
 *** It came from DOOM...
 #+begin_src emacs-lisp
-(use-package doom-modeline
-  :init
-  (setq doom-modeline-height 25)
-  :custom
-  (doom-modeline-mode 1))
+  (use-package doom-modeline
+    :init
+    (setq doom-modeline-height 25
+          doom-modeline-gnus t
+          doom-modeline-gnus-timer 1)
+    :custom
+    (delete '(circe-mode . special) doom-modeline-mode-alist)
+    (doom-modeline-mode 1))
 
-(use-package doom-themes
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-gruvbox-light t)
+  (use-package doom-themes
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-gruvbox-light t)
 
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  (doom-themes-neotree-config)
-  ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-  (doom-themes-treemacs-config)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+    ;; Enable flashing mode-line on errors
+    (doom-themes-visual-bell-config)
+    ;; Enable custom neotree theme (all-the-icons must be installed!)
+    (doom-themes-neotree-config)
+    ;; or for treemacs users
+    (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+    (doom-themes-treemacs-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
 #+end_src
 
 * Custom(ize) Settings
