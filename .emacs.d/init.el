@@ -36,6 +36,9 @@
 (dolist
     (mode
      '(org-mode-hook
+       epa-key-mode-hook
+       epa-key-list-mode-hook
+       epa-info-mode-hook
        term-mode-hook
        vterm-mode-hook
        circe-mode-hook
