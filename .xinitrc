@@ -9,4 +9,5 @@ unclutter --timeout 1 &
 xcape -e 'Caps_Lock=Escape'
 # picom &
 hsetroot -cover ~/wallpaper.webp
+tmux &
 exec $WM

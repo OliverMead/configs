@@ -6,5 +6,5 @@ folder=$(basename ${videopath})
 \ls ${videopath}/*/*.mp4 ${videopath}/*/*.mkv \
   | sed "s/.*\(${folder}\)//" \
   | rofi -dmenu \
-  | xargs -I {} -d "\n" mpv ${videopath}/{} 
+  | xargs -I {} -d "\n" tmux new -Ads {} mpv ${videopath}/{} 
   # | dmenu -i -l 20 -fn "Fira Code:size=15" -nb "#282828" -nf "#928374" -sb "#F08E33" -sf "#FBF1C7" \

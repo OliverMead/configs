@@ -92,7 +92,7 @@ export LANG=en_GB.UTF-8
 export EDITOR='nvim'
 export GIT_EDITOR='nvim'
 export LESSHISTFILE=/dev/null
-export WM='emacs'
+export WM='dwm'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"

@@ -81,11 +81,6 @@ Live updating:
   (add-hook 'gnus-after-getting-new-news-hook 'gnus-notifications)
 #+end_src
 
-** Org Settings
-#+begin_src emacs-lisp
-  (setq org-confirm-babel-evaluate nil)
-#+end_src
-
 ** Declutter the View
 #+begin_src emacs-lisp
 (scroll-bar-mode -1)
@@ -99,12 +94,12 @@ Live updating:
 
 ** 'Sensible' Anti-heretical Settings
 #+begin_src emacs-lisp
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 2)
-(setq-default make-backup-files nil)
-(setq backup-directory-alist
-      `(("." . ,(concat user-emacs-directory "backups"))))
-(setq server-kill-new-buffers nil)
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 2)
+  (setq-default make-backup-files nil)
+  (setq-default backup-directory-alist
+        `(("." . ,(concat user-emacs-directory "backups"))))
+  (setq server-kill-new-buffers nil)
 #+end_src
 
 ** Appearance
@@ -343,44 +338,6 @@ Live updating:
     ("l" evil-window-increase-width "Incr Width")
     ("h" evil-window-decrease-width "Decr Width")
     ("q" nil "Quit :exit t")))
-#+end_src
-
-*** EXWM
-#+begin_src emacs-lisp
-  (use-package desktop-environment)
-
-  (use-package exwm
-    :config
-    (setq exwm-workspace-number 10)
-    (add-hook 'exwm-update-class-hook (lambda () (exwm-workspace-rename-buffer exwm-class-name)))
-    (add-hook 'exwm-init-hook (lambda () (exwm-workspace-switch-create 1)))
-    (setq exwm-layout-show-all-buffers t
-          exwm-input-prefix-keys '(?\C-x
-                                   ;; ?\C-u
-                                   ?\C-h
-                                   ?\C-w
-                                   ?\M-x
-                                   ?\M-`
-                                   ?\M-&
-                                   ?\M-:
-                                   ?\C-\ ))
-
-    (dolist
-        (c '(([?\C-q] . exwm-input-send-next-key)))
-      (define-key exwm-mode-map (car c) (cdr c)))
-
-    (setq exwm-input-global-keys
-          `(([?\s-r] . hydra-window-size/body)
-            ([?\s-R] . exwm-reset)
-            ([?\s-w] . exwm-workspace-switch)
-            ([?\s-t] . exwm-floating-toggle-floating)
-            ([?\s-f] . exwm-layout-toggle-fullscreen)
-            ([?\s-m] . exwm-layout-toggle-mode-line)
-            ([?\s-C] . kill-current-buffer)
-            ([?\s-p] . counsel-linux-app)))
-        
-    (exwm-enable)
-    (desktop-environment-mode)) 
 #+end_src
 
 *** General.el
@@ -703,7 +660,7 @@ Live updating:
            :nick "olivermead"
            :sasl-username ,(+pass-get-user "irc.libera.chat")
            :sasl-password (lambda (&rest _) (+pass-get-secret "irc.libera.chat"))
-           :channels ("#emacs"))))
+           :channels ("#emacs" "#stumpwm"))))
   (setq circe-use-cycle-completion t)
   (require' circe-color-nicks)
   (add-hook 'circe-channel-mode-hook #'enable-circe-color-nicks)
@@ -774,6 +731,16 @@ Live updating:
  (use-package haskell-mode) 
 #+end_src
 
+**** Common Lisp
+#+begin_src emacs-lisp
+  (use-package sly)
+#+end_src
+
+**** Org Mode Extensions
+#+begin_src emacs-lisp
+ (use-package org-plus-contrib) 
+#+end_src
+
 *** It came from DOOM...
 #+begin_src emacs-lisp
   (use-package doom-modeline
@@ -801,6 +768,39 @@ Live updating:
     (doom-themes-treemacs-config)
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))
+#+end_src
+
+* Org Settings
+:PROPERTIES:
+:header-args:emacs-lisp: :lexical t :results none 
+:END:
+#+begin_src emacs-lisp
+  (defun ojm/org-dir (file)
+    (expand-file-name file org-directory))
+  (defun ojm/project-local (file)
+    (expand-file-name file (projectile-project-root)))
+  (setq org-confirm-babel-evaluate nil)
+  (setq +org-capture-journal-file "journal.org.gpg"
+      +org-capture-todo-file "todo.org"
+      +org-capture-notes-file "notes.org"
+      org-capture-templates
+      `(("t" "Personal todo" entry
+          (file+headline ,(ojm/org-dir +org-capture-todo-file) "Inbox")
+          "* TODO %?\n%i\n%a" :prepend t)
+        ("n" "Personal notes" entry
+         (file+headline ,(ojm/org-dir +org-capture-notes-file) "Inbox")
+         "* %U %?\n%i\n%a" :prepend t)
+        ("j" "Journal" entry
+         (file+olp+datetree ,(ojm/org-dir +org-capture-journal-file))
+         "* %U %?\n%i\n%a" :prepend t)
+        ;; Project Local Capture
+        ("p" "Templates for projects")
+        ("pt" "Project todo" entry
+         (file+headline ,(ojm/project-local +org-capture-todo-file) "Inbox")
+         "* TODO %?\n%i\n%a" :prepend t)
+        ("pn" "Project notes" entry
+         (file+headline ,(ojm/project-local +org-capture-notes-file) "Inbox")
+         "* %U %?\n%i\n%a")))
 #+end_src
 
 * Custom(ize) Settings
