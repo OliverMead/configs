@@ -1,3 +1,7 @@
+export MANPATH=/usr/local/texlive/2022/texmf-dist/doc/man:$MANPATH
+export INFOPATH=/usr/local/texlive/2022/texmf-dist/doc/info:$INFOPATH
+export PATH=/home/olivermead/node_modules/.bin:/home/olivermead/.ghcup/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2022/bin/x86_64-linux:$PATH
+
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 # [[ `date +%P` = "am" ]] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'
 
@@ -119,9 +123,6 @@ source $ZSH/oh-my-zsh.sh
 # [[ -d "/usr/avr/include" ]] && export C_INCLUDE_PATH="/usr/avr/include":$C_INCLUDE_PATH
 
 # export LC_COLLATE="C"
-export MANPATH=/usr/local/texlive/2022/texmf-dist/doc/man:$MANPATH
-export INFOPATH=/usr/local/texlive/2022/texmf-dist/doc/info:$INFOPATH
-export PATH=/home/olivermead/node_modules/.bin:/home/olivermead/.ghcup/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2022/bin/x86_64-linux:$PATH
 # export PATH="$HOME/.cargo/bin:$PATH"
 export VISUAL="nvim"
 export RUSTUP_HOME=".config/rustup"
