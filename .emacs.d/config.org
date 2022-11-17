@@ -1,7 +1,10 @@
 #+author: Oliver J. Mead
 #+title: Literate Emacs Configuration
 
-* Table of Contents                                                   :TOC_3:
+* Table of Contents                                          :TOC_3:noexport:
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 - [[#pre-packages][Pre-packages]]
   - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
   - [[#the-holy-scratch-buffer][The Holy Scratch buffer]]
