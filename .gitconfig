@@ -1,5 +1,5 @@
 [user]
-	email = oliver.j.mead@protonmail.com
+	email = olivermead@olivermead.xyz
 	name = Oliver Mead
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -14,3 +14,5 @@
 	defaultBranch = main
 [transfer]
 	fsckObjects = true
+[diff "gpg"]
+	textconv = gpg --no-tty --decrypt
