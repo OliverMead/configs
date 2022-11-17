@@ -1,6 +1,28 @@
 #+author: Oliver J. Mead
 #+title: Literate Emacs Configuration
 
+* Table of Contents                                                     :TOC:
+- [[#pre-packages][Pre-packages]]
+  - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
+  - [[#the-holy-scratch-buffer][The Holy Scratch buffer]]
+  - [[#built-in-application-configuration][Built in Application Configuration]]
+  - [[#declutter-the-view][Declutter the View]]
+  - [[#sensible-anti-heretical-settings]['Sensible' Anti-heretical Settings]]
+  - [[#appearance][Appearance]]
+  - [[#enable-flyspell][Enable Flyspell]]
+  - [[#recent-files][Recent Files]]
+  - [[#non-package-no-leader-keys][Non-package (no leader) Keys]]
+- [[#package-management][Package Management]]
+  - [[#packaged-with-gnu-emacs][Packaged with GNU Emacs]]
+  - [[#package-locations][Package Locations]]
+  - [[#install-use-package][Install use-package]]
+  - [[#packages][Packages]]
+- [[#org-settings][Org Settings]]
+  - [[#org-capture-templates][Org Capture Templates]]
+  - [[#org-indent][Org Indent]]
+- [[#customize-settings][Custom(ize) Settings]]
+- [[#undo-early-init-gc][Undo early-init GC]]
+
 * Pre-packages
 :PROPERTIES:
 :header-args:emacs-lisp: :lexical t :results none 
@@ -778,6 +800,12 @@ Live updating:
 *** Org
 #+begin_src emacs-lisp
  (use-package org :pin "elpa") 
+#+end_src
+
+**** Table of Contents in Org
+#+begin_src emacs-lisp
+  (use-package toc-org
+    :hook ((org-mode . toc-org-mode)))
 #+end_src
 
 * Org Settings
