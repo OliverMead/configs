@@ -98,7 +98,7 @@ Live updating:
   (setq-default tab-width 2)
   (setq-default make-backup-files nil)
   (setq-default backup-directory-alist
-        `(("." . ,(concat user-emacs-directory "backups"))))
+        `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
   (setq server-kill-new-buffers nil)
 #+end_src
 
@@ -169,9 +169,7 @@ Live updating:
 #+begin_src emacs-lisp
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")))
-
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -253,10 +251,11 @@ Live updating:
 
 *** Undo Tree
 #+begin_src emacs-lisp
-(use-package undo-tree
-  :init (setq undo-tree-auto-save-history nil)
-  :config
-  (global-undo-tree-mode))
+  (use-package undo-tree
+    :config
+    (setq undo-tree-history-directory-alist
+          `(("." . ,(expand-file-name "undo-tree/" user-emacs-directory))))
+    (global-undo-tree-mode))
 #+end_src
 
 *** EVIL Mode
@@ -747,11 +746,6 @@ Live updating:
  (use-package geiser-guile) 
 #+end_src
 
-**** Org Mode Extensions
-#+begin_src emacs-lisp
- (use-package org-plus-contrib) 
-#+end_src
-
 *** It came from DOOM...
 #+begin_src emacs-lisp
   (use-package doom-modeline
@@ -779,6 +773,11 @@ Live updating:
     (doom-themes-treemacs-config)
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))
+#+end_src
+
+*** Org
+#+begin_src emacs-lisp
+ (use-package org :pin "elpa") 
 #+end_src
 
 * Org Settings
