@@ -736,6 +736,17 @@ Live updating:
   (use-package sly)
 #+end_src
 
+**** Scheme
+#+begin_src emacs-lisp
+  (use-package geiser)
+#+end_src
+
+***** Specific Implementations
+****** Guile
+#+begin_src emacs-lisp
+ (use-package geiser-guile) 
+#+end_src
+
 **** Org Mode Extensions
 #+begin_src emacs-lisp
  (use-package org-plus-contrib) 
