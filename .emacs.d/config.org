@@ -20,6 +20,7 @@
   - [[#enable-flyspell][Enable Flyspell]]
   - [[#recent-files][Recent Files]]
   - [[#non-package-no-leader-keys][Non-package (no leader) Keys]]
+  - [[#tramp-configuration][TRAMP Configuration]]
 - [[#package-management][Package Management]]
   - [[#packaged-with-gnu-emacs][Packaged with GNU Emacs]]
   - [[#package-locations][Package Locations]]
@@ -206,6 +207,13 @@ Live updating:
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
+** TRAMP Configuration
+#+begin_src emacs-lisp
+  (require 'tramp)
+  (add-to-list 'tramp-remote-path "~/.ghcup/bin/")
+  (add-to-list 'tramp-remote-path "~/.local/bin/")
+#+end_src
+
 * Package Management
 :PROPERTIES:
 :header-args:emacs-lisp: :lexical t :results none 
@@ -282,7 +290,7 @@ Live updating:
 *** TRAMP with systemd-nspawn
 #+begin_src emacs-lisp
   (use-package tramp-nspawn
-    :hook ((after-init-hook tramp-nspawn-setup))) 
+    :hook ((after-init . tramp-nspawn-setup))) 
 #+end_src
 
 *** Vterm
@@ -785,7 +793,9 @@ Live updating:
 
 **** Haskell
 #+begin_src emacs-lisp
- (use-package haskell-mode) 
+  (use-package haskell-mode
+    :hook ((haskell-mode . interactive-haskell-mode))
+    (setq haskell-process-load-or-reload-prompt t)) 
 #+end_src
 
 **** Common Lisp
