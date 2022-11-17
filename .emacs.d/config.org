@@ -774,6 +774,7 @@ Live updating:
 :PROPERTIES:
 :header-args:emacs-lisp: :lexical t :results none 
 :END:
+** Org Capture Templates
 #+begin_src emacs-lisp
   (defun ojm/org-dir (file)
     (expand-file-name file org-directory))
@@ -801,6 +802,10 @@ Live updating:
         ("pn" "Project notes" entry
          (file+headline ,(ojm/project-local +org-capture-notes-file) "Inbox")
          "* %U %?\n%i\n%a")))
+#+end_src
+** Org Indent
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook 'org-indent-mode) 
 #+end_src
 
 * Custom(ize) Settings
