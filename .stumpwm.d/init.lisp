@@ -30,3 +30,6 @@
 ;;; Emacs integration with sly
 (ql:quickload :slynk)
 (slynk:create-server :dont-close t)
+
+;;; Put my wallpaper back
+(run-shell-command "hsetroot -cover ~/wallpaper.webp")
