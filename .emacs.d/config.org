@@ -29,6 +29,7 @@
     - [[#exec-path-from-shell][exec-path-from-shell]]
     - [[#yasnippet][Yasnippet]]
     - [[#company][Company]]
+    - [[#tramp-with-systemd-nspawn][TRAMP with systemd-nspawn]]
     - [[#vterm][Vterm]]
     - [[#icons-and-emoji][Icons and Emoji]]
     - [[#undo-tree][Undo Tree]]
@@ -276,6 +277,12 @@ Live updating:
                                    gud-mode))
   :config
   (add-hook 'after-init-hook 'global-company-mode))
+#+end_src
+
+*** TRAMP with systemd-nspawn
+#+begin_src emacs-lisp
+  (use-package tramp-nspawn
+    :hook ((after-init-hook tramp-nspawn-setup))) 
 #+end_src
 
 *** Vterm
