@@ -21,7 +21,7 @@
 (define-key *top-map* (kbd "s-j") "fnext")
 (define-key *top-map* (kbd "s-F") "fullscreen")
 (define-key *top-map* (kbd "XF86ScreenSaver") "exec loginctl lock-session")
-(define-key *top-map* (kbd "RET") "exec st -e tmux")
+(define-key *top-map* (kbd "s-RET") "exec st -e tmux")
 ;;; Root-level (with prefix) Keys
 
 ;;; Modeline by default
