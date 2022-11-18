@@ -18,7 +18,7 @@
       (encrypt))))
  '(mml-secure-openpgp-sign-with-sender t)
  '(package-selected-packages
-   '(tramp-nspawn toc-org geiser-guile geiser org-plus-contrib org-contrib sly desktop-environment exwm simple-httpd gnus-desktop-notify gnus-notify exec-path-from-shell eglot haskell-mode yasnippet company yasnippet-snippets evil-magit counsel-projectile transmission beacon debbugs emojify multi-vterm vterm multi-term-tmux multi-term general which-key use-package undo-tree treemacs-tab-bar treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil rainbow-delimiters pass parinfer-rust-mode ivy-rich ivy-pass helm evil-surround evil-snipe evil-commentary evil-collection doom-themes doom-modeline counsel command-log-mode circe all-the-icons))
+   '(pinentry emmet-mode tramp-nspawn toc-org geiser-guile geiser org-plus-contrib org-contrib sly desktop-environment exwm simple-httpd gnus-desktop-notify gnus-notify exec-path-from-shell eglot haskell-mode yasnippet company yasnippet-snippets evil-magit counsel-projectile transmission beacon debbugs emojify multi-vterm vterm multi-term-tmux multi-term general which-key use-package undo-tree treemacs-tab-bar treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil rainbow-delimiters pass parinfer-rust-mode ivy-rich ivy-pass helm evil-surround evil-snipe evil-commentary evil-collection doom-themes doom-modeline counsel command-log-mode circe all-the-icons))
  '(safe-local-variable-values
    '((diff-add-log-use-relative-names . t)
      (vc-git-annotate-switches . "-w"))))
@@ -28,6 +28,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ 
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ 
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.

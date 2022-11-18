@@ -1,7 +1,7 @@
 #+author: Oliver J. Mead
 #+title: Literate Emacs Configuration
 
-* Table of Contents                                          :TOC_3:noexport:
+* Table of Contents                                          :TOC_4:noexport:
 :PROPERTIES:
 :VISIBILITY: folded
 :END:
@@ -11,6 +11,7 @@
   - [[#built-in-application-configuration][Built in Application Configuration]]
     - [[#eww][EWW]]
     - [[#gnus][GNUS]]
+    - [[#epa][EPA]]
   - [[#declutter-the-view][Declutter the View]]
   - [[#sensible-anti-heretical-settings]['Sensible' Anti-heretical Settings]]
   - [[#appearance][Appearance]]
@@ -33,24 +34,34 @@
     - [[#tramp-with-systemd-nspawn][TRAMP with systemd-nspawn]]
     - [[#vterm][Vterm]]
     - [[#icons-and-emoji][Icons and Emoji]]
+      - [[#emojify][Emojify]]
+      - [[#all-the-icons][All-the-icons]]
     - [[#undo-tree][Undo Tree]]
     - [[#evil-mode][EVIL Mode]]
     - [[#misc-unconfigured][Misc Unconfigured]]
-    - [[#projectile][Projectile]]
     - [[#which-key][Which-key]]
     - [[#hydra][Hydra]]
     - [[#generalel][General.el]]
     - [[#treemacs][Treemacs]]
+      - [[#treemacs-itself][Treemacs Itself]]
+      - [[#treemacs-extensions][Treemacs Extensions]]
     - [[#counselivy][Counsel/Ivy]]
     - [[#pass][Pass]]
     - [[#circe][Circe]]
     - [[#parentheses-and-such][Parentheses and such]]
     - [[#language-specific][Language-Specific]]
+      - [[#emmet-html-css][Emmet (HTML, CSS)]]
+      - [[#temporary-eglot][*TEMPORARY* Eglot]]
+      - [[#haskell][Haskell]]
+      - [[#common-lisp][Common Lisp]]
+      - [[#scheme][Scheme]]
     - [[#it-came-from-doom][It came from DOOM...]]
     - [[#org][Org]]
+      - [[#table-of-contents-in-org][Table of Contents in Org]]
 - [[#org-settings][Org Settings]]
   - [[#org-capture-templates][Org Capture Templates]]
   - [[#org-indent][Org Indent]]
+  - [[#startup-visibility][Startup Visibility]]
 - [[#customize-settings][Custom(ize) Settings]]
 - [[#undo-early-init-gc][Undo early-init GC]]
 
@@ -122,9 +133,8 @@ Tell GNUS to send my sent mail to the server:
   (setq gnus-message-archive-group "nnimap:Sent")
 #+end_src
 
-**** *Deprecated* 
 Live updating:
-#+begin_src emacs-lisp :eval never
+#+begin_src emacs-lisp
   (setq-default gnus-demon-timestep 20
                 gnus-asynchronous t)
   (add-hook 'gnus-startup-hook
@@ -134,15 +144,21 @@ Live updating:
   (add-hook 'gnus-after-getting-new-news-hook 'gnus-notifications)
 #+end_src
 
+*** EPA
+#+begin_src emacs-lisp
+  (set 'epg-pinentry-mode 'loopback)
+#+end_src
+
 ** Declutter the View
 #+begin_src emacs-lisp
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-(tooltip-mode -1)
-(set-fringe-mode 1)
-(menu-bar-mode -1)
-(setq frame-resize-pixelwise t)
-(setq tabbar-use-images nil)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+  (tooltip-mode -1)
+  (set-fringe-mode 1)
+  (menu-bar-mode -1)
+  (auto-insert-mode 1)
+  (setq frame-resize-pixelwise t)
+  (setq tabbar-use-images nil)
 #+end_src
 
 ** 'Sensible' Anti-heretical Settings
@@ -259,19 +275,14 @@ Live updating:
 
 *** Yasnippet
 #+begin_src emacs-lisp
-(use-package yasnippet
-  :config
-  (yas-global-mode 1))
-(use-package yasnippet-snippets
-  :after yasnippet)
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package yasnippet
-  :config
-  (yas-global-mode 1))
-(use-package yasnippet-snippets
-  :after yasnippet)
+  (use-package yasnippet)
+  (use-package yasnippet-snippets
+    :after yasnippet)
+  (yas-global-mode 1)
+  ;; (define-key yas-minor-mode-map (kbd "TAB") nil)
+  ;; (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  ;; (define-key yas-minor-mode-map (kbd "M-z") #'yas-expand)
+  (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
 #+end_src
 
 *** Company
@@ -330,12 +341,14 @@ Live updating:
     :init
     (setq evil-want-C-u-scroll t
           evil-want-keybinding nil
+          evil-want-C-h-delete t
+          evil-want-fine-undo t
           evil-undo-system 'undo-tree
           evil-insert-state-message nil)
     :config
-    (evil-mode 1)
-    (define-key evil-insert-state-map
-      (kbd "C-h") 'evil-delete-backward-char-and-join))
+    (evil-mode 1))
+    ;; (define-key evil-insert-state-map
+    ;;   (kbd "C-h") 'evil-delete-backward-char-and-join))
 
   (use-package evil-commentary
     :after evil
@@ -368,15 +381,6 @@ Live updating:
 (use-package magit)
 
 (use-package org)
-#+end_src
-
-*** Projectile
-#+begin_src emacs-lisp
-  (use-package projectile
-    :config
-    (projectile-global-mode)
-    (add-to-list 'projectile-globally-ignored-directories "~/")
-    (setq projectile-enable-caching t))
 #+end_src
 
 *** Which-key
@@ -454,10 +458,9 @@ Live updating:
      "h" (general-key "C-h")
      "x" (general-key "C-x")
      "e" (ojm/keycmd eval-last-sexp "Eval Last")
-     "SPC" (ojm/keycmd projectile-find-file)
-     "P" (ojm/keycmd projectile-add-known-project)
-     "p" '(:keymap projectile-command-map :package projectile
-                   :which-key "Projectile Command:"))
+     "SPC" (ojm/keycmd project-find-file)
+     "p" '(:keymap project-prefix-map
+                   :which-key "Project Command:"))
 
    (ojm/leader
      "TAB" (ojm/prefix "Tabs:")
@@ -488,6 +491,7 @@ Live updating:
      "gg" (ojm/keycmd magit "Launch Magit")
      "gb" (ojm/keycmd magit-branch-or-checkout)
      "gs" (ojm/keycmd magit-stage)
+     "gi" (ojm/keycmd magit-init)
      "gF" (ojm/keycmd magit-pull)
      "gp" (ojm/keycmd magit-push)
      "gd" (ojm/keycmd magit-diff-unstaged)
@@ -640,9 +644,6 @@ Live updating:
 (use-package treemacs-evil
   :after (treemacs evil))
 
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-
 (use-package treemacs-icons-dired
   :hook (dired-mode . treemacs-icons-dired-enable-once))
 
@@ -670,9 +671,6 @@ Live updating:
   :config
   (setq ivy-initial-inputs-alist nil)
   (ivy-mode 1)) ;; default starts with ^
-
-(use-package counsel-projectile
-  :config (counsel-projectile-mode))
 
 (use-package ivy-rich
   :config
@@ -786,6 +784,15 @@ Live updating:
 #+end_src
 
 *** Language-Specific
+**** Emmet (HTML, CSS)
+#+begin_src emacs-lisp
+  (use-package emmet-mode
+    :hook ((sgml-mode css-mode) . emmet-mode)
+    :config
+    (define-key emmet-mode-keymap (kbd "C-j") nil)
+    (define-key emmet-mode-keymap (kbd "M-j") #'emmet-expand-line)) 
+#+end_src
+
 **** *TEMPORARY* Eglot
 #+begin_src emacs-lisp
 (use-package eglot)  
@@ -863,7 +870,7 @@ Live updating:
   (defun ojm/org-dir (file)
     (expand-file-name file org-directory))
   (defun ojm/project-local (file)
-    (expand-file-name file (projectile-project-root)))
+    (expand-file-name file (project-root (project-current t))))
   (setq org-confirm-babel-evaluate nil)
   (setq +org-capture-journal-file "journal.org.gpg"
       +org-capture-todo-file "todo.org"
@@ -887,9 +894,15 @@ Live updating:
          (file+headline ,(ojm/project-local +org-capture-notes-file) "Inbox")
          "* %U %?\n%i\n%a")))
 #+end_src
+
 ** Org Indent
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook 'org-indent-mode) 
+#+end_src
+
+** Startup Visibility
+#+begin_src emacs-lisp
+  (setq org-startup-folded "content")
 #+end_src
 
 * Custom(ize) Settings
