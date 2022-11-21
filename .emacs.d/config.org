@@ -57,6 +57,7 @@
       - [[#common-lisp][Common Lisp]]
       - [[#scheme][Scheme]]
       - [[#cc][C/C++]]
+      - [[#rust][Rust]]
     - [[#it-came-from-doom][It came from DOOM...]]
     - [[#org][Org]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
@@ -171,6 +172,7 @@ Live updating:
   (setq-default backup-directory-alist
         `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
   (setq server-kill-new-buffers nil)
+  (winner-mode 1)
 #+end_src
 
 ** Appearance
@@ -518,7 +520,8 @@ Live updating:
      "bn" (ojm/keycmd switch-to-next-buffer "Next")
      "bp" (ojm/keycmd switch-to-prev-buffer "Prev")
      "bd" (ojm/keycmd kill-current-buffer)
-     "bs" (ojm/keycmd save-buffer))
+     "bs" (ojm/keycmd save-buffer)
+     "bx" (ojm/keycmd org-capture))
 
    (ojm/leader
      "q" (ojm/prefix "Quit:")
@@ -729,7 +732,7 @@ Live updating:
            :nick "olivermead"
            :sasl-username ,(+pass-get-user "irc.libera.chat")
            :sasl-password (lambda (&rest _) (+pass-get-secret "irc.libera.chat"))
-           :channels ("#emacs" "#stumpwm"))))
+           :channels ("#emacs"))))
   (setq circe-use-cycle-completion t)
   (require' circe-color-nicks)
   (add-hook 'circe-channel-mode-hook #'enable-circe-color-nicks)
@@ -844,6 +847,13 @@ Live updating:
   (use-package astyle
     :when (executable-find "astyle")
     :hook (c-mode-common . astyle-on-save-mode))
+#+end_src
+**** Rust
+#+begin_src emacs-lisp
+  (use-package rustic
+    :config
+    (setq rustic-lsp-client 'eglot
+          rustic-format-trigger 'on-save))
 #+end_src
 
 *** It came from DOOM...

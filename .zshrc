@@ -125,7 +125,7 @@ source $ZSH/oh-my-zsh.sh
 # export LC_COLLATE="C"
 # export PATH="$HOME/.cargo/bin:$PATH"
 export VISUAL="nvim"
-export RUSTUP_HOME=".config/rustup"
+export RUSTUP_HOME="/home/olivermead/.config/rustup"
 alias ll="ls -lhv"
 alias l="ls -alhv"
 alias please="sudo"
