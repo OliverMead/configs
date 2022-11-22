@@ -178,8 +178,10 @@ Live updating:
 ** Appearance
 *** Fonts
 #+begin_src emacs-lisp
-(set-face-attribute 'default nil :font "Unifont" :height 100)
-(add-to-list 'default-frame-alist '(font . "Unifont"))
+  (defun configure-fonts ()
+    (set-face-attribute 'default nil :font "Unifont" :height 100))
+  (add-hook 'after-init-hook 'configure-fonts)
+  (add-hook 'server-after-make-frame-hook 'configure-fonts)
 #+end_src
 
 *** Clock
@@ -315,11 +317,12 @@ Live updating:
 
 *** Vterm
 #+begin_src emacs-lisp
-(use-package vterm)
-(use-package multi-vterm
-  :after vterm
-  :config
-  (require 'vterm-tmux))
+  (use-package vterm)
+  (use-package multi-vterm
+    :after vterm
+    :config
+    (require 'vterm-tmux)
+    (vterm-tmux-default-binding))
 #+end_src
 
 *** Icons and Emoji
@@ -394,10 +397,12 @@ Live updating:
 
 *** Which-key
 #+begin_src emacs-lisp
-(use-package which-key
-  :init (setq which-key-idle-delay 0.3)
-  :config
-  (which-key-mode t))
+  (use-package which-key
+    :init (setq which-key-idle-delay 0.3)
+    :config
+    (if (daemonp)
+        (add-hook 'server-after-make-frame-hook 'which-key-mode)
+      (which-key-mode)))
 #+end_src
 
 *** Hydra
@@ -455,7 +460,8 @@ Live updating:
    (ojm/local-leader-which-key 'normal
      "m" (ojm/prefix "Org Command:" 'org-mode-map)
      "m" (ojm/prefix "ELisp Command:" 'lisp-interaction-mode-map)
-     "m" (ojm/prefix "Circe Command:" 'circe-mode-map))
+     "m" (ojm/prefix "Circe Command:" 'circe-mode-map)
+     "m" (ojm/prefix "Rustic Command:" 'rustic-mode-map))
 
    (ojm/leader
      "s" (ojm/keycmd ojm/scratch)
@@ -543,6 +549,16 @@ Live updating:
      "m" (ojm/keycmd lui-track-move "Mark Read")
      "r" (ojm/keycmd circe-reconnect)
      "R" (ojm/keycmd circe-reconnect-all))
+
+   (ojm/local-leader 'normal 'rustic-mode-map
+     "b" (ojm/keycmd rustic-cargo-build)
+     "c" (ojm/keycmd rustic-compile)
+     "d" (ojm/keycmd rustic-racer-describe)
+     "D" (ojm/keycmd rustic-cargo-doc)
+     "n" (ojm/keycmd flymake-goto-next-error)
+     "N" (ojm/keycmd flymake-goto-prev-error)
+     "a" (ojm/keycmd eglot-code-actions)
+     "," (ojm/keycmd rustic-docstring-dwim))
 
    (ojm/leader
      "o" (ojm/prefix "Open: ")
@@ -851,6 +867,8 @@ Live updating:
 **** Rust
 #+begin_src emacs-lisp
   (use-package rustic
+    :bind (:map rustic-mode-map
+)
     :config
     (setq rustic-lsp-client 'eglot
           rustic-format-trigger 'on-save))
