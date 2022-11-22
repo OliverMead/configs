@@ -906,28 +906,35 @@ Live updating:
     (expand-file-name file org-directory))
   (defun ojm/project-local (file)
     (expand-file-name file (project-root (project-current t))))
-  (setq org-confirm-babel-evaluate nil)
-  (setq +org-capture-journal-file "journal.org.gpg"
-      +org-capture-todo-file "todo.org"
-      +org-capture-notes-file "notes.org"
-      org-capture-templates
-      `(("t" "Personal todo" entry
-          (file+headline ,(ojm/org-dir +org-capture-todo-file) "Inbox")
-          "* TODO %?\n%i\n%a" :prepend t)
-        ("n" "Personal notes" entry
-         (file+headline ,(ojm/org-dir +org-capture-notes-file) "Inbox")
-         "* %U %?\n%i\n%a" :prepend t)
-        ("j" "Journal" entry
-         (file+olp+datetree ,(ojm/org-dir +org-capture-journal-file))
-         "* %U %?\n%i\n%a" :prepend t)
-        ;; Project Local Capture
-        ("p" "Templates for projects")
-        ("pt" "Project todo" entry
-         (file+headline ,(ojm/project-local +org-capture-todo-file) "Inbox")
-         "* TODO %?\n%i\n%a" :prepend t)
-        ("pn" "Project notes" entry
-         (file+headline ,(ojm/project-local +org-capture-notes-file) "Inbox")
-         "* %U %?\n%i\n%a")))
+
+  (setq org-confirm-babel-evaluate nil
+        +org-capture-journal-file "journal.org.gpg"
+        +org-capture-todo-file "todo.org"
+        +org-capture-notes-file "notes.org")
+
+  (defun +org-capture-project-todo-file ()
+    (ojm/project-local +org-capture-todo-file))
+  (defun +org-capture-project-notes-file ()
+    (ojm/project-local +org-capture-notes-file))
+
+  (setq org-capture-templates
+        `(("t" "Personal todo" entry
+           (file+headline ,(ojm/org-dir +org-capture-todo-file) "Inbox")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("n" "Personal notes" entry
+           (file+headline ,(ojm/org-dir +org-capture-notes-file) "Inbox")
+           "* %U %?\n%i\n%a" :prepend t)
+          ("j" "Journal" entry
+           (file+olp+datetree ,(ojm/org-dir +org-capture-journal-file))
+           "* %U %?\n%i\n%a" :prepend t)
+          ;; Project Local Capture
+          ("p" "Templates for projects")
+          ("pt" "Project todo" entry
+           (file+headline +org-capture-project-todo-file "Inbox")
+           "* TODO %?\n%i\n%a" :prepend t)
+          ("pn" "Project notes" entry
+           (file+headline +org-capture-project-notes-file "Inbox")
+           "* %U %?\n%i\n%a")))
 #+end_src
 
 ** Org Indent
