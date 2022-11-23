@@ -1,6 +1,6 @@
 export MANPATH=/usr/local/texlive/2022/texmf-dist/doc/man:$MANPATH
 export INFOPATH=/usr/local/texlive/2022/texmf-dist/doc/info:$INFOPATH
-export PATH=/home/olivermead/node_modules/.bin:/home/olivermead/.ghcup/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2022/bin/x86_64-linux:$PATH
+export PATH=/home/olivermead/.cargo/bin:/home/olivermead/node_modules/.bin:/home/olivermead/.ghcup/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2022/bin/x86_64-linux:$PATH
 
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 # [[ `date +%P` = "am" ]] && echo 'Good morning, Oliver' || echo 'Good afternoon, Oliver'

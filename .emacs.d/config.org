@@ -7,6 +7,7 @@
 :END:
 - [[#pre-packages][Pre-packages]]
   - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
+  - [[#general-macros][General macros]]
   - [[#the-holy-scratch-buffer][The Holy Scratch buffer]]
   - [[#built-in-application-configuration][Built in Application Configuration]]
     - [[#eww][EWW]]
@@ -77,6 +78,14 @@
   ; -*- lexical-binding: t -*-
   (defvar last-file-name-handler-alist file-name-handler-alist)
   (setq file-name-handler-alist nil)
+#+end_src
+
+** General macros
+Execute some operation within the current project.
+#+begin_src emacs-lisp
+   (defmacro in-project (exp)
+    `(let ((default-directory (project-root (project-current))))
+       ,exp))
 #+end_src
 
 ** The Holy Scratch buffer
@@ -867,11 +876,57 @@ Live updating:
 **** Rust
 #+begin_src emacs-lisp
   (use-package rustic
-    :bind (:map rustic-mode-map
-)
     :config
     (setq rustic-lsp-client 'eglot
           rustic-format-trigger 'on-save))
+#+end_src
+
+***** Web App Development
+#+begin_src emacs-lisp
+  (defvar ojm/trunk-processes ())
+
+  (defvar ojm/trunk-process-port-alist ())
+
+  (defun ojm/kill-trunk-buffer (process)
+    (kill-buffer (process-buffer process))
+    (setq ojm/trunk-processes (delete process ojm/trunk-processes))
+    (setq ojm/trunk-process-port-alist
+          (assq-delete-all process ojm/trunk-process-port-alist)))
+
+  (defun ojm/list-sentinel (original list process event)
+    (funcall original process event)
+    (and (memq (process-status process) '(exit signal))
+         (buffer-live-p (process-buffer process))
+         (ojm/kill-trunk-buffer process)))
+
+  (defun ojm/trunk-free-port ()
+    (named-let rec ((port 8080))
+      (if (rassoc port ojm/trunk-process-port-alist)
+          (rec (+ port 1))
+        port)))
+
+  (defun ojm/trunk (target-dir port)
+    (interactive (list (in-project (unless (file-exists-p "index.html")
+                                     (read-directory-name "Dir Containing index.html")))
+                       (ojm/trunk-free-port)))
+    (in-project (let* ((target (expand-file-name "index.html" target-dir))
+                       (buffer-name (format "trunk on %s" target))
+                       (command (format "trunk serve --open %s %s" target
+                                        (when port (format "--port %d" port))))
+                       (proc (start-process-shell-command buffer-name (get-buffer-create buffer-name) command)))
+                  (push proc ojm/trunk-processes)
+                  (setf (alist-get proc ojm/trunk-process-port-alist) port)
+                  (let ((sentinel (process-sentinel proc)))
+                    (set-process-sentinel proc (apply-partially 'ojm/list-sentinel
+                                                                sentinel ojm/trunk-processes))))))
+
+  (defun ojm/trunk-kill (p)
+    (interactive (list (if ojm/trunk-processes
+                           (if (= (length ojm/trunk-processes) 1)
+                               (car ojm/trunk-processes)
+                             (completing-read "Kill trunk: " (mapcar 'process-name ojm/trunk-processes) () t))
+                         (user-error "No trunk processes found"))))
+    (delete-process p))
 #+end_src
 
 *** It came from DOOM...
