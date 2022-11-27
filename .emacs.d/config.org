@@ -51,6 +51,7 @@
     - [[#pass][Pass]]
     - [[#circe][Circe]]
     - [[#parentheses-and-such][Parentheses and such]]
+    - [[#format-all][Format All]]
     - [[#language-specific][Language-Specific]]
       - [[#emmet-html-css][Emmet (HTML, CSS)]]
       - [[#temporary-eglot][*TEMPORARY* Eglot]]
@@ -58,9 +59,11 @@
       - [[#common-lisp][Common Lisp]]
       - [[#scheme][Scheme]]
       - [[#cc][C/C++]]
+      - [[#python][Python]]
       - [[#rust][Rust]]
     - [[#it-came-from-doom][It came from DOOM...]]
     - [[#org][Org]]
+      - [[#exports][Exports]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
 - [[#org-settings][Org Settings]]
   - [[#org-capture-templates][Org Capture Templates]]
@@ -258,12 +261,13 @@ Live updating:
 
 ** Package Locations
 #+begin_src emacs-lisp
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
-(package-initialize)
-(unless package-archive-contents
-  (package-refresh-contents))
+  (add-to-list 'load-path "~/.emacs.d/lisp/")
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
 #+end_src
 
 ** Install use-package
@@ -566,7 +570,7 @@ Live updating:
      "D" (ojm/keycmd rustic-cargo-doc)
      "n" (ojm/keycmd flymake-goto-next-error)
      "N" (ojm/keycmd flymake-goto-prev-error)
-     "a" (ojm/keycmd eglot-code-actions)
+     ;; "a" (ojm/keycmd eglot-code-actions)
      "," (ojm/keycmd rustic-docstring-dwim))
 
    (ojm/leader
@@ -817,6 +821,11 @@ Live updating:
   :hook emacs-lisp-mode)
 #+end_src
 
+*** Format All
+#+begin_src emacs-lisp
+  (use-package format-all)
+#+end_src
+
 *** Language-Specific
 **** Emmet (HTML, CSS)
 #+begin_src emacs-lisp
@@ -873,6 +882,25 @@ Live updating:
     :when (executable-find "astyle")
     :hook (c-mode-common . astyle-on-save-mode))
 #+end_src
+**** Python
+#+begin_src emacs-lisp
+  (use-package pyvenv
+    :config
+    (pyvenv-mode t)
+    ;; Set correct Python interpreter
+    (setq pyvenv-post-activate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
+    (setq pyvenv-post-deactivate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter "python3"))))) 
+#+end_src
+
+***** Completion
+#+begin_src emacs-lisp
+  (add-hook 'python-mode-hook (set-company-backends '((company-capf))))
+#+end_src
+
 **** Rust
 #+begin_src emacs-lisp
   (use-package rustic
@@ -960,7 +988,14 @@ Live updating:
 
 *** Org
 #+begin_src emacs-lisp
- (use-package org :pin "elpa") 
+ (use-package org-contrib :pin "nongnu") 
+#+end_src
+
+**** Exports
+#+begin_src emacs-lisp
+  (require 'ox-extra)
+
+  (ox-extras-activate '(ignore-headlines))
 #+end_src
 
 **** Table of Contents in Org
