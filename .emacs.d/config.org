@@ -185,6 +185,8 @@ Live updating:
         `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
   (setq server-kill-new-buffers nil)
   (winner-mode 1)
+  (setq enable-recursive-minibuffers t)
+  (minibuffer-depth-indicate-mode 1)
 #+end_src
 
 ** Appearance
