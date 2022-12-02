@@ -815,12 +815,12 @@ Live updating:
 
 *** Parentheses and such
 #+begin_src emacs-lisp
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
 
-(use-package parinfer-rust-mode
-  :when (bound-and-true-p module-file-suffix)
-  :hook emacs-lisp-mode)
+  ;; (use-package parinfer-rust-mode
+  ;;   :when (bound-and-true-p module-file-suffix)
+  ;;   :hook emacs-lisp-mode)
 #+end_src
 
 *** Format All
