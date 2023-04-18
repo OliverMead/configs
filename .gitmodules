@@ -13,4 +13,4 @@
 	url = https://github.com/tmux-plugins/tpm
 [submodule ".password-store"]
 	path = .password-store
-	url = git@github.com:OliverMead/pass-store.git
+	url = git@codeberg.org:olivermead/pass-store.git

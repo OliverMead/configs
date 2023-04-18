@@ -17,9 +17,9 @@
       (sign)
       (encrypt))))
  '(mml-secure-openpgp-sign-with-sender t)
- '(org-agenda-files '("~/git/nerf/nerf.org"))
+ '(org-agenda-files '("~/org/todo.org" "/home/olivermead/org/notes.org"))
  '(package-selected-packages
-   '(format-all lsp-jedi ox-extra poetry astyle flycheck company-irony irony pinentry emmet-mode tramp-nspawn toc-org geiser-guile geiser org-plus-contrib org-contrib sly desktop-environment exwm simple-httpd gnus-desktop-notify gnus-notify exec-path-from-shell eglot haskell-mode yasnippet company yasnippet-snippets evil-magit counsel-projectile transmission beacon debbugs emojify multi-vterm vterm multi-term-tmux multi-term general which-key use-package undo-tree treemacs-tab-bar treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil rainbow-delimiters pass parinfer-rust-mode ivy-rich ivy-pass helm evil-surround evil-snipe evil-commentary evil-collection doom-themes doom-modeline counsel command-log-mode circe all-the-icons))
+   '(auctex pdf-tools format-all lsp-jedi ox-extra poetry astyle flycheck company-irony irony pinentry emmet-mode tramp-nspawn toc-org geiser-guile geiser org-plus-contrib org-contrib sly desktop-environment exwm simple-httpd gnus-desktop-notify gnus-notify exec-path-from-shell eglot haskell-mode yasnippet company yasnippet-snippets evil-magit counsel-projectile transmission beacon debbugs emojify multi-vterm vterm multi-term-tmux multi-term general which-key use-package undo-tree treemacs-tab-bar treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil rainbow-delimiters pass parinfer-rust-mode ivy-rich ivy-pass helm evil-surround evil-snipe evil-commentary evil-collection doom-themes doom-modeline counsel command-log-mode circe all-the-icons))
  '(safe-local-variable-values
    '((rustic-cargo-run-use-comint . t)
      (rustic-cargo-build-arguments . "-r")

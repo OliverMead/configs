@@ -13,6 +13,6 @@
 [init]
 	defaultBranch = main
 [transfer]
-	fsckObjects = true
+	fsckObjects = false
 [diff "gpg"]
 	textconv = gpg --no-tty --decrypt
