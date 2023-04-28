@@ -1,4 +1,4 @@
-#+author: Oliver J. Mead
++author: Oliver J. Mead
 #+title: Literate Emacs Configuration
 
 * Table of Contents                                          :TOC_4:noexport:
@@ -12,6 +12,7 @@
   - [[#built-in-application-configuration][Built in Application Configuration]]
     - [[#eww][EWW]]
     - [[#gnus][GNUS]]
+    - [[#eshell][EShell]]
     - [[#epa][EPA]]
   - [[#declutter-the-view][Declutter the View]]
   - [[#sensible-anti-heretical-settings]['Sensible' Anti-heretical Settings]]
@@ -53,6 +54,7 @@
     - [[#parentheses-and-such][Parentheses and such]]
     - [[#format-all][Format All]]
     - [[#language-specific][Language-Specific]]
+      - [[#bnf][BNF]]
       - [[#latex][LaTeX]]
       - [[#emmet-html-css][Emmet (HTML, CSS)]]
       - [[#temporary-eglot][*TEMPORARY* Eglot]]
@@ -163,6 +165,23 @@ Live updating:
   (add-hook 'gnus-after-getting-new-news-hook 'gnus-notifications)
 #+end_src
 
+*** EShell
+#+begin_src emacs-lisp
+  (require 'eshell)
+  (setq eshell-prompt-regexp "^[^$]* [#$] $")
+  (defun +eshell/quit-or-delete-char (arg)
+    "Delete a character (ahead of the cursor) or quit eshell if there's nothing to
+  delete."
+    (interactive "p")
+    (if (eolp)
+        (if (looking-back eshell-prompt-regexp nil)
+            (eshell-life-is-too-much)
+          (eshell-send-eof-to-process))
+      (delete-char arg)))
+  ;; (with-eval-after-load "eshell-mode"
+  ;;   (define-key eshell-mode-map (kbd "C-d") '+eshell/quit-or-delete-char))
+#+end_src
+
 *** EPA
 #+begin_src emacs-lisp
   (set 'epg-pinentry-mode 'loopback)
@@ -191,13 +210,14 @@ Live updating:
   (winner-mode 1)
   (setq enable-recursive-minibuffers t)
   (minibuffer-depth-indicate-mode 1)
+  (display-battery-mode 1)
 #+end_src
 
 ** Appearance
 *** Fonts
 #+begin_src emacs-lisp
   (defun configure-fonts ()
-    (set-face-attribute 'default nil :font "Unifont" :height 125))
+    (set-face-attribute 'default nil :font "Unifont" :height 100))
   (add-hook 'after-init-hook 'configure-fonts)
   (add-hook 'server-after-make-frame-hook 'configure-fonts)
 #+end_src
@@ -252,8 +272,10 @@ Live updating:
 ** TRAMP Configuration
 #+begin_src emacs-lisp
   (require 'tramp)
+  (with-eval-after-load "tramp" (setq tramp-default-remote-shell "/usr/bin/zsh"))
   (add-to-list 'tramp-remote-path "~/.ghcup/bin/")
   (add-to-list 'tramp-remote-path "~/.local/bin/")
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 #+end_src
 
 * Package Management
@@ -338,7 +360,9 @@ Live updating:
 
 *** Vterm
 #+begin_src emacs-lisp
-  (use-package vterm)
+  (use-package vterm
+    :config
+    (add-to-list 'vterm-tramp-shells '("ssh" "/usr/bin/zsh")))
   (use-package multi-vterm
     :after vterm
     :config
@@ -379,7 +403,8 @@ Live updating:
           evil-undo-system 'undo-tree
           evil-insert-state-message nil)
     :config
-    (evil-mode 1))
+    (evil-mode 1)
+    (evil-define-key 'insert eshell-mode-map (kbd "C-d") '+eshell/quit-or-delete-char))
     ;; (define-key evil-insert-state-map
     ;;   (kbd "C-h") 'evil-delete-backward-char-and-join))
 
@@ -401,28 +426,40 @@ Live updating:
     :after evil
     :config
     (evil-snipe-mode 1))
+
 #+end_src
 
 *** Misc Unconfigured
 #+begin_src emacs-lisp
-(use-package transmission)
+  (use-package transmission)
 
-(use-package helm)
+  (use-package helm)
 
-(use-package debbugs)
+  (use-package debbugs)
 
-(use-package magit)
+  (use-package compat)
 
-(use-package org)
+  (use-package magit)
+
+  (use-package org)
 #+end_src
 
 *** Which-key
 #+begin_src emacs-lisp
   (use-package which-key
-    :init (setq which-key-idle-delay 0.3)
+    :init (progn (setq which-key-idle-delay 0.3)
+                 (setq which-key-allow-imprecise-window-fit nil))
     :config
+    ;; (setq ojm/which-key-started nil)
+    ;; (defun which-key-started-p ()
+    ;;   ojm/which-key-started)
+    ;; (defun which-key-once ()
+    ;;   (if (which-key-started-p)
+    ;;       (message "which-key already started, skipping")
+    ;;     (which-key-mode)
+    ;;     (setq ojm/which-key-started t)))
     (if (daemonp)
-        (add-hook 'server-after-make-frame-hook 'which-key-mode)
+        (add-hook 'after-make-frame-functions 'which-key-mode)
       (which-key-mode)))
 #+end_src
 
@@ -836,6 +873,11 @@ Live updating:
 #+end_src
 
 *** Language-Specific
+**** BNF
+#+begin_src emacs-lisp
+ (use-package bnf-mode) 
+#+end_src
+
 **** LaTeX
 #+begin_src emacs-lisp
  ;(use-package auctex)
@@ -987,7 +1029,14 @@ Live updating:
     ;; Global settings (defaults)
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (when (display-graphic-p) (load-theme 'doom-gruvbox-light t))
+    ;; (when (display-graphic-p) (load-theme 'doom-gruvbox-light t))
+    ;; (load-theme 'doom-gruvbox-light t)
+    (if (daemonp)
+        (add-hook 'after-make-frame-functions
+            (lambda (frame)
+                (select-frame frame)
+                (load-theme 'doom-gruvbox-light t)))
+        (load-theme 'doom-gruvbox-light t))
 
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
