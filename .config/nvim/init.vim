@@ -107,11 +107,13 @@ nnoremap <Leader>n /<+\+>/<CR>cf>
 
 let g:slime_target = "tmux"
 
+let g:c_syntax_for_h = 1
 au filetype c set tags+=~/.config/nvim/systags
 au filetype c packadd termdebug
-let g:termdebug_wide=1
 command! MakeTags !ctags -R .
 command! SysTags !ctags -R -f ~/.config/nvim/systags /usr/include /usr/local/include
+
+let g:termdebug_wide=1
 nmap <leader><Leader> :MakeTags<CR>
 nmap <leader>s :SysTags<CR>
 nmap <C-P> :bp<CR>
