@@ -8,6 +8,8 @@ lxsession &
 unclutter --timeout 1 &
 xcape -e 'Caps_Lock=Escape'
 # picom &
-hsetroot -cover ~/wallpaper.webp
+hsetroot -cover ~/wallpaper.png
 tmux &
+dunst &
+pa-notify &
 exec $WM
