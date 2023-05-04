@@ -1,4 +1,4 @@
-+author: Oliver J. Mead
+#+author: Oliver J. Mead
 #+title: Literate Emacs Configuration
 
 * Table of Contents                                          :TOC_4:noexport:
@@ -99,7 +99,14 @@ Execute some operation within the current project.
 #+end_src
 ** Memoization
 #+begin_src emacs-lisp
-  
+(let ((memo_table (make-hash-table :test #'equal)))
+  (defun get-memo-table () memo_table)
+  (defun memoised (f &rest args)
+    (or (gethash (cons f args) memo_table)
+        (progn (setf (gethash (cons f args) memo_table)
+                     (apply `(,f ,@args)))
+               ;; (message "not in table")
+               ))))
 #+end_src
 
 ** The Holy Scratch buffer
@@ -625,6 +632,7 @@ Live updating:
 
    (ojm/leader
      "o" (ojm/prefix "Open: ")
+     "oa" (ojm/keycmd org-agenda)
      "oc" (ojm/keycmd circe)
      "og" (ojm/keycmd gnus)
      "oe" (ojm/keycmd message-mail)
@@ -811,7 +819,7 @@ Live updating:
             :port 6697
             :nick "olivermead"
             :sasl-username ,(+pass-get-user "irc.libera.chat")
-            :sasl-password (lambda (&rest _) (+pass-get-secret "irc.libera.chat"))
+            :sasl-password (lambda (&rest _) (memoised #'+pass-get-secret "irc.libera.chat"))
             :channels ("#emacs"))))
    (setq circe-use-cycle-completion t)
    (require' circe-color-nicks)
@@ -1104,8 +1112,8 @@ Live updating:
 
   (setq org-confirm-babel-evaluate nil
         +org-capture-journal-file "journal.org.gpg"
-        +org-capture-todo-file "todo.org"
-        +org-capture-notes-file "notes.org"
+        +org-capture-todo-file "todo.org.gpg"
+        +org-capture-notes-file "notes.org.gpg"
         +org-capture-bread-file "bread.org")
 
   (defun +org-capture-project-todo-file ()
