@@ -820,7 +820,7 @@ Live updating:
             :nick "olivermead"
             :sasl-username ,(+pass-get-user "irc.libera.chat")
             :sasl-password (lambda (&rest _) (memoised #'+pass-get-secret "irc.libera.chat"))
-            :channels ("#emacs"))))
+            :channels ("#emacs" "#org-mode"))))
    (setq circe-use-cycle-completion t)
    (require' circe-color-nicks)
    (add-hook 'circe-channel-mode-hook #'enable-circe-color-nicks)
