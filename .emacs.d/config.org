@@ -37,6 +37,7 @@
     - [[#flycheck][Flycheck]]
     - [[#tramp-with-systemd-nspawn][TRAMP with systemd-nspawn]]
     - [[#vterm][Vterm]]
+    - [[#zone-tmux-clock][Zone-tmux-clock]]
     - [[#icons-and-emoji][Icons and Emoji]]
       - [[#emojify][Emojify]]
       - [[#all-the-icons][All-the-icons]]
@@ -383,6 +384,11 @@ Live updating:
     (vterm-tmux-default-binding))
 #+end_src
 
+*** Zone-tmux-clock
+#+begin_src emacs-lisp
+ (use-package zone-tmux-clock) 
+#+end_src
+>
 *** Icons and Emoji
 **** Emojify
 #+begin_src emacs-lisp
