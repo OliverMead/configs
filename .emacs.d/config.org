@@ -60,6 +60,7 @@
       - [[#emmet-html-css][Emmet (HTML, CSS)]]
       - [[#temporary-eglot][*TEMPORARY* Eglot]]
       - [[#haskell][Haskell]]
+      - [[#lisp][Lisp*]]
       - [[#common-lisp][Common Lisp]]
       - [[#scheme][Scheme]]
       - [[#cc][C/C++]]
@@ -922,6 +923,11 @@ Live updating:
     (setq haskell-process-load-or-reload-prompt t)) 
 #+end_src
 
+**** Lisp*
+#+begin_src emacs-lisp
+ (use-package paredit) 
+#+end_src
+
 **** Common Lisp
 #+begin_src emacs-lisp
   (use-package sly)
@@ -933,6 +939,15 @@ Live updating:
 #+end_src
 
 ***** Specific Implementations
+****** Racket
+#+begin_src emacs-lisp
+  (use-package racket-mode
+    :pin "nongnu")
+
+  (use-package scribble-mode
+    :after 'racket-mode)
+#+end_src
+
 ****** Guile
 #+begin_src emacs-lisp
  (use-package geiser-guile) 
