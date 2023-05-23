@@ -937,7 +937,9 @@ Live updating:
 
 **** Common Lisp
 #+begin_src emacs-lisp
-  (use-package sly)
+  (use-package sly
+    :config
+    (setq sly-lisp-implementations '(("ccl" ("ccl")))))
 #+end_src
 
 **** Scheme
