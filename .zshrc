@@ -94,8 +94,8 @@ export LANG=en_GB.UTF-8
 #   export EDITOR='mvim'
 # fi
 
-export EDITOR='nvim'
-export GIT_EDITOR='nvim'
+export EDITOR='emacsclient -a nvim'
+export GIT_EDITOR=$EDITOR
 export LESSHISTFILE=/dev/null
 export WM='dwm'
 
