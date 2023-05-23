@@ -59,7 +59,7 @@
       - [[#bnf][BNF]]
       - [[#latex][LaTeX]]
       - [[#emmet-html-css][Emmet (HTML, CSS)]]
-      - [[#temporary-eglot][*TEMPORARY* Eglot]]
+      - [[#lsp-mode][lsp-mode]]
       - [[#haskell][Haskell]]
       - [[#lisp][Lisp*]]
       - [[#common-lisp][Common Lisp]]
@@ -67,6 +67,7 @@
       - [[#cc][C/C++]]
       - [[#python][Python]]
       - [[#rust][Rust]]
+      - [[#flutterdart][Flutter/Dart]]
     - [[#it-came-from-doom][It came from DOOM...]]
     - [[#org][Org]]
       - [[#exports][Exports]]
@@ -917,9 +918,9 @@ Live updating:
     (define-key emmet-mode-keymap (kbd "M-j") #'emmet-expand-line)) 
 #+end_src
 
-**** *TEMPORARY* Eglot
+**** lsp-mode
 #+begin_src emacs-lisp
-(use-package eglot)  
+(use-package lsp-mode)  
 #+end_src
 
 **** Haskell
@@ -1050,6 +1051,16 @@ Live updating:
                              (completing-read "Kill trunk: " (mapcar 'process-name ojm/trunk-processes) () t))
                          (user-error "No trunk processes found"))))
     (delete-process p))
+#+end_src
+
+**** Flutter/Dart
+#+begin_src emacs-lisp
+  (use-package lsp-treemacs)
+  (use-package lsp-ui)
+  (use-package lsp-dart) 
+  (use-package dart-mode
+    :hook '((dart-mode . lsp)))
+  (use-package flutter)
 #+end_src
 
 *** It came from DOOM...
