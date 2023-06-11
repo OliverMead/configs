@@ -30,6 +30,7 @@
   - [[#package-locations][Package Locations]]
   - [[#install-use-package][Install use-package]]
   - [[#packages][Packages]]
+    - [[#webpaste][WebPaste]]
     - [[#web-development][Web Development]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
     - [[#yasnippet][Yasnippet]]
@@ -60,12 +61,14 @@
       - [[#latex][LaTeX]]
       - [[#emmet-html-css][Emmet (HTML, CSS)]]
       - [[#lsp-mode][lsp-mode]]
+      - [[#docker-tramp][Docker TRAMP]]
       - [[#haskell][Haskell]]
       - [[#lisp][Lisp*]]
       - [[#common-lisp][Common Lisp]]
       - [[#scheme][Scheme]]
       - [[#cc][C/C++]]
       - [[#python][Python]]
+      - [[#zig][Zig]]
       - [[#rust][Rust]]
       - [[#flutterdart][Flutter/Dart]]
     - [[#it-came-from-doom][It came from DOOM...]]
@@ -100,6 +103,17 @@ Execute some operation within the current project.
     `(let ((default-directory (project-root (project-current))))
        ,exp))
 #+end_src
+
+Manually invalidate the vc property cache of a project.
+#+begin_src emacs-lisp
+  (defun project-really-forget-project (project)
+    "Remove directory PROJECT-ROOT from the project list.
+  also remove PROJECT-ROOT's VC property 'project-git-root"
+    (interactive (list (project-prompt-project-dir)))
+    (project-forget-project project)
+    (vc-file-setprop project 'project-git-root nil))
+#+end_src
+
 ** Memoization
 #+begin_src emacs-lisp
 (let ((memo_table (make-hash-table :test #'equal)))
@@ -226,6 +240,7 @@ Live updating:
   (setq enable-recursive-minibuffers t)
   (minibuffer-depth-indicate-mode 1)
   (display-battery-mode 1)
+  (blink-cursor-mode -1)
 #+end_src
 
 ** Appearance
@@ -281,7 +296,7 @@ Live updating:
 
 ** Non-package (no leader) Keys
 #+begin_src emacs-lisp
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+ (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
 ** TRAMP Configuration
@@ -324,6 +339,17 @@ Live updating:
 #+end_src
 
 ** Packages
+*** WebPaste
+#+begin_src emacs-lisp
+  (use-package webpaste
+  :ensure t
+  ;; :bind (("C-9 p" . webpaste-paste-buffer)
+  ;;        ("C-9 M-p" . webpaste-paste-region))
+  :config
+  (progn
+    (setq webpaste-provider-priority '("bpa.st"))))
+#+end_src
+
 *** Web Development
 #+begin_src emacs-lisp
  (use-package simple-httpd) 
@@ -416,7 +442,7 @@ Live updating:
 #+begin_src emacs-lisp
   (use-package evil
     :init
-    (setq evil-want-C-u-scroll t
+    (setq evil-want-C-u-scroll nil
           evil-want-keybinding nil
           evil-want-C-h-delete t
           evil-want-fine-undo t
@@ -923,6 +949,12 @@ Live updating:
 (use-package lsp-mode)  
 #+end_src
 
+**** Docker TRAMP
+#+begin_src emacs-lisp
+  (use-package docker-tramp)
+#+end_src
+
+
 **** Haskell
 #+begin_src emacs-lisp
   (use-package haskell-mode
@@ -982,6 +1014,9 @@ Live updating:
 #+end_src
 **** Python
 #+begin_src emacs-lisp
+  (use-package python-mode
+    :bind (:map python-mode-map
+                ("C-<backspace>" . backward-kill-word)))
   (use-package pyvenv
     :config
     (pyvenv-mode t)
@@ -992,12 +1027,18 @@ Live updating:
     (setq pyvenv-post-deactivate-hooks
           (list (lambda ()
                   (setq python-shell-interpreter "python3"))))) 
+  (use-package company-jedi)
 #+end_src
 
 ***** Completion
 #+begin_src emacs-lisp
-  (add-hook 'python-mode-hook (set-company-backends '((company-capf))))
+  (add-hook 'python-mode-hook (set-company-backends '((company-jedi))))
 #+end_src
+**** Zig
+#+begin_src emacs-lisp
+  (use-package zig-mode)
+#+end_src
+
 
 **** Rust
 #+begin_src emacs-lisp
@@ -1083,13 +1124,13 @@ Live updating:
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
     ;; (when (display-graphic-p) (load-theme 'doom-gruvbox-light t))
     ;; (load-theme 'doom-gruvbox-light t)
-    (if (daemonp)
-        (add-hook 'after-make-frame-functions
-            (lambda (frame)
-                (select-frame frame)
-                (load-theme 'doom-gruvbox-light t)))
-        (load-theme 'doom-gruvbox-light t))
-
+    ;; (if (daemonp)
+    ;;     (add-hook 'after-make-frame-functions
+    ;;         (lambda (frame)
+    ;;             (select-frame frame)
+    ;;             (load-theme 'doom-gruvbox-light t)))
+    ;;     (load-theme 'doom-gruvbox-light t))
+    (load-theme 'doom-gruvbox-light t)
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
     ;; Enable custom neotree theme (all-the-icons must be installed!)
@@ -1221,7 +1262,7 @@ Live updating:
 
 ** Org Indent
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook 'org-indent-mode) 
+  ;; (add-hook 'org-mode-hook 'org-indent-mode) 
 #+end_src
 
 ** Startup Visibility
