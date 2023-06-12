@@ -239,6 +239,7 @@ Live updating:
   (winner-mode 1)
   (setq enable-recursive-minibuffers t)
   (setq tab-always-indent 'complete)
+  (setq completion-cycle-threshold t)
   (minibuffer-depth-indicate-mode 1)
   (display-battery-mode 1)
   (blink-cursor-mode -1)
