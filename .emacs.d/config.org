@@ -238,6 +238,7 @@ Live updating:
   (setq server-kill-new-buffers nil)
   (winner-mode 1)
   (setq enable-recursive-minibuffers t)
+  (setq tab-always-indent 'complete)
   (minibuffer-depth-indicate-mode 1)
   (display-battery-mode 1)
   (blink-cursor-mode -1)
