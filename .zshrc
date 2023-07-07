@@ -98,6 +98,8 @@ export EDITOR='emacsclient -a nvim'
 export GIT_EDITOR=$EDITOR
 export LESSHISTFILE=/dev/null
 export WM='dwm'
+export NDK_HOME=$ANDROID_NDK_HOME
+export JAVA_HOME=/opt/android-studio/jbr
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
