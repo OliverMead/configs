@@ -1,6 +1,6 @@
-export MANPATH=/usr/local/texlive/2022/texmf-dist/doc/man:$MANPATH
-export INFOPATH=/usr/local/texlive/2022/texmf-dist/doc/info:$INFOPATH
-export PATH=/home/olivermead/.cargo/bin:/home/olivermead/node_modules/.bin:/home/olivermead/.ghcup/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2022/bin/x86_64-linux:$PATH
+export MANPATH=/usr/local/texlive/2023/texmf-dist/doc/man:$MANPATH
+export INFOPATH=/usr/local/texlive/2023/texmf-dist/doc/info:$INFOPATH
+export PATH=/home/olivermead/.cargo/bin:/home/olivermead/node_modules/.bin:/home/olivermead/.ghcup/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2023/bin/x86_64-linux:$PATH
 [ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
 
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
