@@ -81,6 +81,7 @@
   - [[#startup-visibility][Startup Visibility]]
 - [[#customize-settings][Custom(ize) Settings]]
 - [[#undo-early-init-gc][Undo early-init GC]]
+- [[#notify-that-the-daemon-has-started][Notify that the daemon has started]]
 
 * Pre-packages
 :PROPERTIES:
@@ -1295,4 +1296,14 @@ Live updating:
 (setq gc-cons-threshold 1600000 ;; 160KB
       gc-cons-percentage 0.1
       file-name-handler-alist last-file-name-handler-alist) 
+#+end_src
+
+* Notify that the daemon has started
+:PROPERTIES:
+:header-args:emacs-lisp: :lexical t :results none 
+:END:
+#+begin_src emacs-lisp
+  (require 'notifications)
+  (when (daemonp)
+    (notifications-notify :title "(daemon) Emacs has loaded"))
 #+end_src
