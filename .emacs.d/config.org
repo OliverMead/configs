@@ -232,6 +232,7 @@ Live updating:
   (auto-insert-mode 1)
   (setq frame-resize-pixelwise t)
   (setq tabbar-use-images nil)
+  (xterm-mouse-mode 1)
 #+end_src
 
 ** 'Sensible' Anti-heretical Settings
@@ -289,10 +290,11 @@ Live updating:
 
 ** Enable Flyspell
 #+begin_src emacs-lisp
-(dolist
-    (mode
-     '(org-mode-hook))
-  (add-hook mode (lambda () (flyspell-mode))))
+  (setq ispell-list-command "--list")
+  (dolist
+      (mode
+       '(org-mode-hook))
+    (add-hook mode (lambda () (flyspell-mode))))
 #+end_src
 
 ** Recent Files
@@ -611,6 +613,7 @@ Live updating:
      "t" (ojm/prefix "Toggle:")
      "tt" (ojm/keycmd counsel-load-theme "Choose Theme")
      "ts" (ojm/keycmd hydra-text-scale/body "Scale Adjustment")
+     "tS" (ojm/keycmd flyspell-mode "Flyspell Mode")
      "tr" (ojm/keycmd hydra-window-size/body "Window Adjustment")
      "tw" (ojm/keycmd toggle-truncate-lines)
      "tp" (ojm/keycmd electric-pair-mode))
