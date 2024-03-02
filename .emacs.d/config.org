@@ -128,7 +128,7 @@ Manually invalidate the vc property cache of a project.
 ** The Holy Scratch buffer
 Start everything in the scratch buffer:
 #+begin_src emacs-lisp
-;; (setq inhibit-startup-message t)
+(setq inhibit-startup-message t)
 (setq tab-bar-new-tab-choice "*scratch*")
 #+end_src
 
