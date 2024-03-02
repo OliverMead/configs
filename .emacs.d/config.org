@@ -44,6 +44,7 @@
       - [[#emojify][Emojify]]
       - [[#all-the-icons][All-the-icons]]
     - [[#undo-tree][Undo Tree]]
+    - [[#devil-mode][DEVIL Mode]]
     - [[#evil-mode][EVIL Mode]]
     - [[#misc-unconfigured][Misc Unconfigured]]
     - [[#which-key][Which-key]]
@@ -425,7 +426,7 @@ Live updating:
 #+begin_src emacs-lisp
  (use-package zone-tmux-clock) 
 #+end_src
->
+
 *** Icons and Emoji
 **** Emojify
 #+begin_src emacs-lisp
@@ -448,6 +449,13 @@ Live updating:
     (setq undo-tree-history-directory-alist
           `(("." . ,(expand-file-name "undo-tree/" user-emacs-directory))))
     (global-undo-tree-mode))
+#+end_src
+*** DEVIL Mode
+#+begin_src emacs-lisp
+  (use-package devil
+    :bind ("C-," . 'global-devil-mode)
+    :config
+    (global-devil-mode))
 #+end_src
 
 *** EVIL Mode
@@ -1190,7 +1198,7 @@ Live updating:
 #+begin_src emacs-lisp
   (setq org-image-actual-width nil)
 #+end_src
->
+
 ** Org Capture Templates
 #+begin_src emacs-lisp
   (defun ojm/org-dir (file)
