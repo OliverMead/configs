@@ -89,7 +89,7 @@
      (eshell-connection-default-profile
       (eshell-path-env-list))))
  '(custom-safe-themes
-   '("e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "467dc6fdebcf92f4d3e2a2016145ba15841987c71fbe675dcfe34ac47ffb9195" default))
+   '("ff24d14f5f7d355f47d53fd016565ed128bf3af30eb7ce8cae307ee4fe7f3fd0" "691d671429fa6c6d73098fc6ff05d4a14a323ea0a18787daeb93fde0e48ab18b" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "467dc6fdebcf92f4d3e2a2016145ba15841987c71fbe675dcfe34ac47ffb9195" default))
  '(doom-modeline-mode 1 nil nil "Customized with use-package doom-modeline")
  '(fill-column 80)
  '(helm-minibuffer-history-key "M-p")
@@ -102,8 +102,7 @@
       (sign)
       (encrypt))))
  '(mml-secure-openpgp-sign-with-sender t)
- '(org-agenda-files
-   '("~/org/notes.org.gpg" "~/org/todo.org.gpg"))
+ '(org-agenda-files '("~/org/notes.org.gpg" "~/org/todo.org.gpg"))
  '(org-link-search-must-match-exact-headline nil)
  '(package-selected-packages
    '(tramp-container tramp-containers emms webpaste docker-tramp zig-mode company-jedi python-mode blender-python blender-python-mode lsp-mode circe-notifications racket-mode magit bnf-mode auctex pdf-tools format-all lsp-jedi ox-extra poetry astyle flycheck company-irony irony pinentry emmet-mode tramp-nspawn toc-org geiser-guile geiser org-plus-contrib org-contrib sly desktop-environment exwm simple-httpd gnus-desktop-notify gnus-notify exec-path-from-shell eglot haskell-mode yasnippet company evil-magit counsel-projectile transmission beacon debbugs emojify multi-vterm vterm multi-term-tmux multi-term general which-key use-package undo-tree treemacs-tab-bar treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil rainbow-delimiters pass parinfer-rust-mode ivy-rich ivy-pass helm evil-surround evil-snipe evil-commentary evil-collection doom-themes doom-modeline counsel command-log-mode circe all-the-icons))

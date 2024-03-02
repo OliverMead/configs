@@ -127,7 +127,7 @@ Manually invalidate the vc property cache of a project.
 ** The Holy Scratch buffer
 Start everything in the scratch buffer:
 #+begin_src emacs-lisp
-(setq inhibit-startup-message t)
+;; (setq inhibit-startup-message t)
 (setq tab-bar-new-tab-choice "*scratch*")
 #+end_src
 
@@ -306,7 +306,7 @@ Live updating:
 
 ** Non-package (no leader) Keys
 #+begin_src emacs-lisp
- (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+end_src
 
 ** TRAMP Configuration
@@ -452,38 +452,38 @@ Live updating:
 
 *** EVIL Mode
 #+begin_src emacs-lisp
-  (use-package evil
-    :init
-    (setq evil-want-C-u-scroll nil
-          evil-want-keybinding nil
-          evil-want-C-h-delete t
-          evil-want-fine-undo t
-          evil-undo-system 'undo-tree
-          evil-insert-state-message nil)
-    :config
-    (evil-mode 1)
-    (evil-define-key 'insert eshell-mode-map (kbd "C-d") '+eshell/quit-or-delete-char))
-    ;; (define-key evil-insert-state-map
-    ;;   (kbd "C-h") 'evil-delete-backward-char-and-join))
+  ;; (use-package evil
+  ;;   :init
+  ;;   (setq evil-want-C-u-scroll nil
+  ;;         evil-want-keybinding nil
+  ;;         evil-want-C-h-delete t
+  ;;         evil-want-fine-undo t
+  ;;         evil-undo-system 'undo-tree
+  ;;         evil-insert-state-message nil)
+  ;;   :config
+  ;;   (evil-mode 1)
+  ;;   (evil-define-key 'insert eshell-mode-map (kbd "C-d") '+eshell/quit-or-delete-char))
+  ;;   ;; (define-key evil-insert-state-map
+  ;;   ;;   (kbd "C-h") 'evil-delete-backward-char-and-join))
 
-  (use-package evil-commentary
-    :after evil
-    :config (evil-commentary-mode))
+  ;; (use-package evil-commentary
+  ;;   :after evil
+  ;;   :config (evil-commentary-mode))
 
-  (use-package evil-surround
-    :after evil
-    :config
-    (global-evil-surround-mode 1))
+  ;; (use-package evil-surround
+  ;;   :after evil
+  ;;   :config
+  ;;   (global-evil-surround-mode 1))
 
-  (use-package evil-collection
-    :after evil
-    :config
-    (evil-collection-init))
+  ;; (use-package evil-collection
+  ;;   :after evil
+  ;;   :config
+  ;;   (evil-collection-init))
 
-  (use-package evil-snipe
-    :after evil
-    :config
-    (evil-snipe-mode 1))
+  ;; (use-package evil-snipe
+  ;;   :after evil
+  ;;   :config
+  ;;   (evil-snipe-mode 1))
 
 #+end_src
 
@@ -523,174 +523,174 @@ Live updating:
 
 *** Hydra
 #+begin_src emacs-lisp
-(use-package hydra
-  :config
-  (defhydra hydra-text-scale (:timeout 4)
-      "Scale text in current buffer"
-      ("j" text-scale-increase "Increase")
-      ("k" text-scale-decrease "Decrease")
-      ("q" nil "Quit" :exit t))
-  (defhydra hydra-window-size (:timeout 4)
-    "Resize the current Emacs window"
-    ("j" evil-window-increase-height "Incr Height")
-    ("k" evil-window-decrease-height "Decr Height")
-    ("l" evil-window-increase-width "Incr Width")
-    ("h" evil-window-decrease-width "Decr Width")
-    ("q" nil "Quit :exit t")))
+  ;; (use-package hydra
+  ;;   :config
+  ;;   (defhydra hydra-text-scale (:timeout 4)
+  ;;       "Scale text in current buffer"
+  ;;       ("j" text-scale-increase "Increase")
+  ;;       ("k" text-scale-decrease "Decrease")
+  ;;       ("q" nil "Quit" :exit t))
+  ;;   (defhydra hydra-window-size (:timeout 4)
+  ;;     "Resize the current Emacs window"
+  ;;     ("j" evil-window-increase-height "Incr Height")
+  ;;     ("k" evil-window-decrease-height "Decr Height")
+  ;;     ("l" evil-window-increase-width "Incr Width")
+  ;;     ("h" evil-window-decrease-width "Decr Width")
+  ;;     ("q" nil "Quit :exit t")))
 #+end_src
 
 *** General.el
 #+begin_src emacs-lisp
-  (use-package general
-   :after (which-key evil hydra multi-vterm)
-   :config
-   (general-create-definer ojm/leader
-     :keymaps '(normal insert visual emacs debbugs pdf-view)
-     :prefix "SPC"
-     :global-prefix "C-SPC")
+  ;; (use-package general
+  ;;  :after (which-key evil hydra multi-vterm)
+  ;;  :config
+  ;;  (general-create-definer ojm/leader
+  ;;    :keymaps '(normal insert visual emacs debbugs pdf-view)
+  ;;    :prefix "SPC"
+  ;;    :global-prefix "C-SPC")
 
-   (general-create-definer ojm/local-leader
-     :prefix "SPC m")
+  ;;  (general-create-definer ojm/local-leader
+  ;;    :prefix "SPC m")
 
-   (general-create-definer ojm/local-leader-which-key
-     :prefix "SPC")
+  ;;  (general-create-definer ojm/local-leader-which-key
+  ;;    :prefix "SPC")
 
-   (defmacro ojm/prefix (&optional prompt &rest maps)
-     `'(:ignore t :which-key ,(or prompt "prefix") :keymaps ,maps))
-   (defmacro ojm/keycmd (cmd &optional name)
-     `'(,cmd :which-key ,(or name (symbol-name cmd))))
-   (defmacro ojm/simulate (key &optional name)
-     `(general-key ,key))
+  ;;  (defmacro ojm/prefix (&optional prompt &rest maps)
+  ;;    `'(:ignore t :which-key ,(or prompt "prefix") :keymaps ,maps))
+  ;;  (defmacro ojm/keycmd (cmd &optional name)
+  ;;    `'(,cmd :which-key ,(or name (symbol-name cmd))))
+  ;;  (defmacro ojm/simulate (key &optional name)
+  ;;    `(general-key ,key))
 
-   (defun ojm/scratch ()
-     (interactive)
-     (switch-to-buffer "*scratch*"))
+  ;;  (defun ojm/scratch ()
+  ;;    (interactive)
+  ;;    (switch-to-buffer "*scratch*"))
 
-   (defun ojm/transmission (socket)
-     (interactive (list (if current-prefix-arg
-                            (read-file-name
-                             "Transmission Remote Socket: "))))
-     (let ((transmission-host (or socket transmission-host)))
-       (transmission)))
+  ;;  (defun ojm/transmission (socket)
+  ;;    (interactive (list (if current-prefix-arg
+  ;;                           (read-file-name
+  ;;                            "Transmission Remote Socket: "))))
+  ;;    (let ((transmission-host (or socket transmission-host)))
+  ;;      (transmission)))
 
-   (ojm/local-leader-which-key 'normal
-     "m" (ojm/prefix "Org Command:" 'org-mode-map)
-     "m" (ojm/prefix "ELisp Command:" 'lisp-interaction-mode-map)
-     "m" (ojm/prefix "Circe Command:" 'circe-mode-map)
-     "m" (ojm/prefix "Rustic Command:" 'rustic-mode-map))
+  ;;  (ojm/local-leader-which-key 'normal
+  ;;    "m" (ojm/prefix "Org Command:" 'org-mode-map)
+  ;;    "m" (ojm/prefix "ELisp Command:" 'lisp-interaction-mode-map)
+  ;;    "m" (ojm/prefix "Circe Command:" 'circe-mode-map)
+  ;;    "m" (ojm/prefix "Rustic Command:" 'rustic-mode-map))
 
-   (ojm/leader
-     "s" (ojm/keycmd ojm/scratch)
-     "u" (ojm/keycmd universal-argument "Universal Argument")
-     "." (ojm/keycmd counsel-find-file "Find File")
-     "," (ojm/keycmd counsel-switch-buffer "Switch Buffer")
-     "w" (general-key "C-w")
-     "W" (ojm/keycmd which-key-show-top-level "What Do?")
-     "h" (general-key "C-h")
-     "x" (general-key "C-x")
-     "e" (ojm/keycmd eval-last-sexp "Eval Last")
-     "SPC" (ojm/keycmd project-find-file)
-     "p" '(:keymap project-prefix-map
-                   :which-key "Project Command:"))
+  ;;  (ojm/leader
+  ;;    "s" (ojm/keycmd ojm/scratch)
+  ;;    "u" (ojm/keycmd universal-argument "Universal Argument")
+  ;;    "." (ojm/keycmd counsel-find-file "Find File")
+  ;;    "," (ojm/keycmd counsel-switch-buffer "Switch Buffer")
+  ;;    "w" (general-key "C-w")
+  ;;    "W" (ojm/keycmd which-key-show-top-level "What Do?")
+  ;;    "h" (general-key "C-h")
+  ;;    "x" (general-key "C-x")
+  ;;    "e" (ojm/keycmd eval-last-sexp "Eval Last")
+  ;;    "SPC" (ojm/keycmd project-find-file)
+  ;;    "p" '(:keymap project-prefix-map
+  ;;                  :which-key "Project Command:"))
 
-   (ojm/leader
-     "TAB" (ojm/prefix "Tabs:")
-     "TAB t" (ojm/keycmd tab-bar-mode "Toggle Tab Bar")
-     "TAB d" (ojm/keycmd tab-close "Close Tab")
-     "TAB n" (ojm/keycmd tab-new "New Tab"))
+  ;;  (ojm/leader
+  ;;    "TAB" (ojm/prefix "Tabs:")
+  ;;    "TAB t" (ojm/keycmd tab-bar-mode "Toggle Tab Bar")
+  ;;    "TAB d" (ojm/keycmd tab-close "Close Tab")
+  ;;    "TAB n" (ojm/keycmd tab-new "New Tab"))
 
-   (ojm/leader
-     "c" (ojm/prefix "Util:")
-     "cw" (ojm/keycmd dictionary-search "Define Word"))
+  ;;  (ojm/leader
+  ;;    "c" (ojm/prefix "Util:")
+  ;;    "cw" (ojm/keycmd dictionary-search "Define Word"))
 
-   (ojm/leader
-     "j" (ojm/prefix "Jump:")
-     "jo" (ojm/keycmd evil-previous-open-paren "Opening Paren")
-     "jc" (ojm/keycmd evil-next-close-paren "Closing Paren")
-     "jm" (ojm/keycmd evil-jump-item "Matching Delimiter"))
+  ;;  (ojm/leader
+  ;;    "j" (ojm/prefix "Jump:")
+  ;;    "jo" (ojm/keycmd evil-previous-open-paren "Opening Paren")
+  ;;    "jc" (ojm/keycmd evil-next-close-paren "Closing Paren")
+  ;;    "jm" (ojm/keycmd evil-jump-item "Matching Delimiter"))
 
-   (ojm/leader
-     "t" (ojm/prefix "Toggle:")
-     "tt" (ojm/keycmd counsel-load-theme "Choose Theme")
-     "ts" (ojm/keycmd hydra-text-scale/body "Scale Adjustment")
-     "tS" (ojm/keycmd flyspell-mode "Flyspell Mode")
-     "tr" (ojm/keycmd hydra-window-size/body "Window Adjustment")
-     "tw" (ojm/keycmd toggle-truncate-lines)
-     "tp" (ojm/keycmd electric-pair-mode))
+  ;;  (ojm/leader
+  ;;    "t" (ojm/prefix "Toggle:")
+  ;;    "tt" (ojm/keycmd counsel-load-theme "Choose Theme")
+  ;;    "ts" (ojm/keycmd hydra-text-scale/body "Scale Adjustment")
+  ;;    "tS" (ojm/keycmd flyspell-mode "Flyspell Mode")
+  ;;    "tr" (ojm/keycmd hydra-window-size/body "Window Adjustment")
+  ;;    "tw" (ojm/keycmd toggle-truncate-lines)
+  ;;    "tp" (ojm/keycmd electric-pair-mode))
 
-   (ojm/leader
-     "g" (ojm/prefix "Git:")
-     "gg" (ojm/keycmd magit "Launch Magit")
-     "gb" (ojm/keycmd magit-branch-or-checkout)
-     "gs" (ojm/keycmd magit-stage)
-     "gi" (ojm/keycmd magit-init)
-     "gF" (ojm/keycmd magit-pull)
-     "gp" (ojm/keycmd magit-push)
-     "gd" (ojm/keycmd magit-diff-unstaged)
-     "gc" (ojm/keycmd magit-commit))
+  ;;  (ojm/leader
+  ;;    "g" (ojm/prefix "Git:")
+  ;;    "gg" (ojm/keycmd magit "Launch Magit")
+  ;;    "gb" (ojm/keycmd magit-branch-or-checkout)
+  ;;    "gs" (ojm/keycmd magit-stage)
+  ;;    "gi" (ojm/keycmd magit-init)
+  ;;    "gF" (ojm/keycmd magit-pull)
+  ;;    "gp" (ojm/keycmd magit-push)
+  ;;    "gd" (ojm/keycmd magit-diff-unstaged)
+  ;;    "gc" (ojm/keycmd magit-commit))
 
-   (ojm/leader
-     "f" (ojm/prefix "File Command:")
-     "fd" (ojm/keycmd delete-file)
-     "fr" (ojm/keycmd counsel-buffer-or-recentf)
-     "fb" (ojm/prefix "Bookmark:")
-     "fbm" (ojm/keycmd bookmark-set)
-     "fbM" (ojm/keycmd bookmark-set-no-overwrite)
-     "fbb" (ojm/keycmd bookmark-jump))
+  ;;  (ojm/leader
+  ;;    "f" (ojm/prefix "File Command:")
+  ;;    "fd" (ojm/keycmd delete-file)
+  ;;    "fr" (ojm/keycmd counsel-buffer-or-recentf)
+  ;;    "fb" (ojm/prefix "Bookmark:")
+  ;;    "fbm" (ojm/keycmd bookmark-set)
+  ;;    "fbM" (ojm/keycmd bookmark-set-no-overwrite)
+  ;;    "fbb" (ojm/keycmd bookmark-jump))
 
-   (ojm/leader
-     "b" (ojm/prefix "Buffer Command:")
-     "bn" (ojm/keycmd switch-to-next-buffer "Next")
-     "bp" (ojm/keycmd switch-to-prev-buffer "Prev")
-     "bd" (ojm/keycmd kill-current-buffer)
-     "bs" (ojm/keycmd save-buffer)
-     "bx" (ojm/keycmd org-capture))
+  ;;  (ojm/leader
+  ;;    "b" (ojm/prefix "Buffer Command:")
+  ;;    "bn" (ojm/keycmd switch-to-next-buffer "Next")
+  ;;    "bp" (ojm/keycmd switch-to-prev-buffer "Prev")
+  ;;    "bd" (ojm/keycmd kill-current-buffer)
+  ;;    "bs" (ojm/keycmd save-buffer)
+  ;;    "bx" (ojm/keycmd org-capture))
 
-   (ojm/leader
-     "q" (ojm/prefix "Quit:")
-     "qq" (ojm/keycmd save-buffers-kill-terminal "Quit"))
+  ;;  (ojm/leader
+  ;;    "q" (ojm/prefix "Quit:")
+  ;;    "qq" (ojm/keycmd save-buffers-kill-terminal "Quit"))
 
-   (ojm/leader
-     "i" (ojm/prefix "Insert: ")
-     "ie" (ojm/keycmd emojify-insert-emoji)
-     "is" (ojm/keycmd yas-insert-snippet)
-     "iu" (ojm/keycmd counsel-unicode-char))
+  ;;  (ojm/leader
+  ;;    "i" (ojm/prefix "Insert: ")
+  ;;    "ie" (ojm/keycmd emojify-insert-emoji)
+  ;;    "is" (ojm/keycmd yas-insert-snippet)
+  ;;    "iu" (ojm/keycmd counsel-unicode-char))
 
-   (ojm/local-leader 'normal 'circe-mode-map
-     "q" (ojm/keycmd circe-command-QUERY)
-     "j" (ojm/keycmd circe-command-JOIN)
-     "p" (ojm/keycmd circe-command-PING)
-     "a" (ojm/keycmd circe-command-GAWAY)
-     "b" (ojm/keycmd circe-command-BACK)
-     "u" (ojm/keycmd lui-track-jump-to-indicator)
-     "m" (ojm/keycmd lui-track-move "Mark Read")
-     "r" (ojm/keycmd circe-reconnect)
-     "R" (ojm/keycmd circe-reconnect-all))
+  ;;  (ojm/local-leader 'normal 'circe-mode-map
+  ;;    "q" (ojm/keycmd circe-command-QUERY)
+  ;;    "j" (ojm/keycmd circe-command-JOIN)
+  ;;    "p" (ojm/keycmd circe-command-PING)
+  ;;    "a" (ojm/keycmd circe-command-GAWAY)
+  ;;    "b" (ojm/keycmd circe-command-BACK)
+  ;;    "u" (ojm/keycmd lui-track-jump-to-indicator)
+  ;;    "m" (ojm/keycmd lui-track-move "Mark Read")
+  ;;    "r" (ojm/keycmd circe-reconnect)
+  ;;    "R" (ojm/keycmd circe-reconnect-all))
 
-   (ojm/local-leader 'normal 'rustic-mode-map
-     "b" (ojm/keycmd rustic-cargo-build)
-     "c" (ojm/keycmd rustic-compile)
-     "d" (ojm/keycmd rustic-racer-describe)
-     "D" (ojm/keycmd rustic-cargo-doc)
-     "n" (ojm/keycmd flymake-goto-next-error)
-     "N" (ojm/keycmd flymake-goto-prev-error)
-     ;; "a" (ojm/keycmd eglot-code-actions)
-     "," (ojm/keycmd rustic-docstring-dwim))
+  ;;  (ojm/local-leader 'normal 'rustic-mode-map
+  ;;    "b" (ojm/keycmd rustic-cargo-build)
+  ;;    "c" (ojm/keycmd rustic-compile)
+  ;;    "d" (ojm/keycmd rustic-racer-describe)
+  ;;    "D" (ojm/keycmd rustic-cargo-doc)
+  ;;    "n" (ojm/keycmd flymake-goto-next-error)
+  ;;    "N" (ojm/keycmd flymake-goto-prev-error)
+  ;;    ;; "a" (ojm/keycmd eglot-code-actions)
+  ;;    "," (ojm/keycmd rustic-docstring-dwim))
 
-   (ojm/leader
-     "o" (ojm/prefix "Open: ")
-     "oa" (ojm/keycmd org-agenda)
-     "oc" (ojm/keycmd circe)
-     "og" (ojm/keycmd gnus)
-     "oe" (ojm/keycmd message-mail)
-     "ot" (ojm/keycmd vterm-tmux "TMux")
-     "oT" '((lambda nil
-              (interactive)
-              (let
-                  ((current-prefix-arg
-                    '(4)))
-                (call-interactively 'vterm-tmux)))
-            :which-key "TMux Remote"))) 
+  ;;  (ojm/leader
+  ;;    "o" (ojm/prefix "Open: ")
+  ;;    "oa" (ojm/keycmd org-agenda)
+  ;;    "oc" (ojm/keycmd circe)
+  ;;    "og" (ojm/keycmd gnus)
+  ;;    "oe" (ojm/keycmd message-mail)
+  ;;    "ot" (ojm/keycmd vterm-tmux "TMux")
+  ;;    "oT" '((lambda nil
+  ;;             (interactive)
+  ;;             (let
+  ;;                 ((current-prefix-arg
+  ;;                   '(4)))
+  ;;               (call-interactively 'vterm-tmux)))
+  ;;           :which-key "TMux Remote"))) 
 #+end_src
 
 # *** Treemacs
@@ -806,19 +806,20 @@ Live updating:
 
 *** Counsel/Ivy
 #+begin_src emacs-lisp
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-switch-buffer)
-         ("C-x C-f" . counsel-find-file)
-         ("C-s" . swiper)
-         :map minibuffer-local-map
-         ("C-r" . counsel-minibuffer-history))
-  :config
-  (ivy-mode 1)) ;; default starts with ^
+  (use-package counsel
+    :bind (("M-x" . counsel-M-x)
+           ("C-x b" . counsel-switch-buffer)
+           ("C-x C-f" . counsel-find-file)
+           ("C-x R" . counsel-buffer-or-recentf)
+           ("C-s" . swiper)
+           :map minibuffer-local-map
+           ("C-r" . counsel-minibuffer-history))
+    :config
+    (ivy-mode 1)) ;; default starts with ^
 
-(use-package ivy-rich
-  :config
-  (ivy-rich-mode 1))
+  (use-package ivy-rich
+    :config
+    (ivy-rich-mode 1))
 #+end_src
 
 *** Pass
