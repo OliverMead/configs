@@ -24,7 +24,6 @@
     - [[#line-numbers][Line Numbers]]
   - [[#enable-flyspell][Enable Flyspell]]
   - [[#recent-files][Recent Files]]
-  - [[#non-package-no-leader-keys][Non-package (no leader) Keys]]
   - [[#tramp-configuration][TRAMP Configuration]]
 - [[#package-management][Package Management]]
   - [[#packaged-with-gnu-emacs][Packaged with GNU Emacs]]
@@ -61,7 +60,7 @@
       - [[#emmet-html-css][Emmet (HTML, CSS)]]
       - [[#lsp-mode][lsp-mode]]
       - [[#haskell][Haskell]]
-      - [[#lisp][Lisp*]]
+      - [[#lisp][Lisp]]
       - [[#common-lisp][Common Lisp]]
       - [[#scheme][Scheme]]
       - [[#cc][C/C++]]
@@ -305,9 +304,11 @@ Live updating:
 (setq recentf-max-saved-items 40)
 #+end_src
 
-** Non-package (no leader) Keys
+** COMMENT Non-package (no leader) Keys
 #+begin_src emacs-lisp
-;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (global-set-key (kbd "C-x x x") 'org-capture)
+  (global-set-key (kbd "C-x x a") 'org-agenda)
 #+end_src
 
 ** TRAMP Configuration
@@ -436,10 +437,10 @@ Live updating:
 
 **** All-the-icons
 #+begin_src emacs-lisp
-(use-package all-the-icons
-  :if (display-graphic-p))
-(use-package nerd-icons
-  :if (display-graphic-p))
+  (use-package all-the-icons
+    :if (display-graphic-p))
+  (use-package nerd-icons
+    :if (display-graphic-p))
 #+end_src
 
 *** Undo Tree
@@ -984,9 +985,9 @@ Live updating:
     (setq haskell-process-load-or-reload-prompt t)) 
 #+end_src
 
-**** Lisp*
+**** Lisp
 #+begin_src emacs-lisp
- (use-package paredit) 
+  (use-package paredit) 
 #+end_src
 
 **** Common Lisp
@@ -1151,7 +1152,7 @@ Live updating:
     ;;             (select-frame frame)
     ;;             (load-theme 'doom-gruvbox-light t)))
     ;;     (load-theme 'doom-gruvbox-light t))
-    (load-theme 'doom-gruvbox-light t)
+    (load-theme 'doom-gruvbox t)
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
     ;; Enable custom neotree theme (all-the-icons must be installed!)
@@ -1173,6 +1174,8 @@ Live updating:
   (require 'ox-extra)
 
   (ox-extras-activate '(ignore-headlines))
+
+  (use-package ox-pandoc)
 #+end_src
 
 **** Table of Contents in Org
