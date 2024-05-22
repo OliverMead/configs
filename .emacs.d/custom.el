@@ -91,6 +91,7 @@
  '(custom-safe-themes
    '("ff24d14f5f7d355f47d53fd016565ed128bf3af30eb7ce8cae307ee4fe7f3fd0" "691d671429fa6c6d73098fc6ff05d4a14a323ea0a18787daeb93fde0e48ab18b" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "467dc6fdebcf92f4d3e2a2016145ba15841987c71fbe675dcfe34ac47ffb9195" default))
  '(doom-modeline-mode 1 nil nil "Customized with use-package doom-modeline")
+ '(ede-project-directories '("/home/olivermead/book"))
  '(fill-column 80)
  '(helm-minibuffer-history-key "M-p")
  '(mml-secure-key-preferences
@@ -103,6 +104,33 @@
       (encrypt))))
  '(mml-secure-openpgp-sign-with-sender t)
  '(org-agenda-files '("~/org/notes.org.gpg" "~/org/todo.org.gpg"))
+ '(org-latex-classes
+   '(("article" "\\documentclass[11pt]{article}"
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+     ("report" "\\documentclass[11pt]{report}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("book" "\\documentclass[11pt]{book}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+     ("memoir" "\\documentclass[11pt]{memoir}"
+      ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}")
+      ("\\section{%s}" . "\\section*{%s}")
+      ("\\subsection{%s}" . "\\subsection*{%s}")
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+ '(org-latex-hyperref-template
+   "\\hypersetup{\12 pdfauthor={%a},\12 pdftitle={%t},\12 pdfkeywords={%k},\12 pdfsubject={%d},\12 pdfcreator={%c}, \12 pdflang={%L},\12 colorlinks=true,\12 linkcolor=black,}\12")
  '(org-link-search-must-match-exact-headline nil)
  '(package-selected-packages
    '(nov-xwidget nov ox-pandoc devil devil-mode tramp-container tramp-containers emms webpaste docker-tramp zig-mode company-jedi python-mode blender-python blender-python-mode lsp-mode circe-notifications racket-mode magit bnf-mode auctex pdf-tools format-all lsp-jedi ox-extra poetry astyle flycheck company-irony irony pinentry emmet-mode tramp-nspawn toc-org geiser-guile geiser org-plus-contrib org-contrib sly desktop-environment exwm simple-httpd gnus-desktop-notify gnus-notify exec-path-from-shell eglot haskell-mode yasnippet company evil-magit counsel-projectile transmission beacon debbugs emojify multi-vterm vterm multi-term-tmux multi-term general which-key use-package undo-tree treemacs-tab-bar treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil rainbow-delimiters pass parinfer-rust-mode ivy-rich ivy-pass helm evil-surround evil-snipe evil-commentary evil-collection doom-themes doom-modeline counsel command-log-mode circe all-the-icons))
@@ -126,7 +154,8 @@
       (python-mode "./.env/bin/pyls"))
      (python-shell-interpreter . "./env/bin/python")
      (diff-add-log-use-relative-names . t)
-     (vc-git-annotate-switches . "-w"))))
+     (vc-git-annotate-switches . "-w")))
+ '(sentence-end-double-space nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

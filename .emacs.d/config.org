@@ -8,6 +8,8 @@
 - [[#pre-packages][Pre-packages]]
   - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
   - [[#general-macros][General macros]]
+  - [[#advice][Advice]]
+  - [[#keys][Keys]]
   - [[#memoization][Memoization]]
   - [[#the-holy-scratch-buffer][The Holy Scratch buffer]]
   - [[#built-in-application-configuration][Built in Application Configuration]]
@@ -44,11 +46,11 @@
       - [[#all-the-icons][All-the-icons]]
     - [[#undo-tree][Undo Tree]]
     - [[#devil-mode][DEVIL Mode]]
-    - [[#evil-mode][EVIL Mode]]
     - [[#misc-unconfigured][Misc Unconfigured]]
     - [[#which-key][Which-key]]
-    - [[#hydra][Hydra]]
-    - [[#generalel][General.el]]
+    - [[#treemacs][Treemacs]]
+      - [[#treemacs-itself][Treemacs Itself]]
+      - [[#treemacs-extensions][Treemacs Extensions]]
     - [[#counselivy][Counsel/Ivy]]
     - [[#pass][Pass]]
     - [[#circe][Circe]]
@@ -105,11 +107,26 @@ Execute some operation within the current project.
 Manually invalidate the vc property cache of a project.
 #+begin_src emacs-lisp
   (defun project-really-forget-project (project)
-    "Remove directory PROJECT-ROOT from the project list.
-  also remove PROJECT-ROOT's VC property 'project-git-root"
+    "Remove directory PROJECT-ROOT from the project list. Also remove PROJECT-ROOT's VC property 'project-git-root"
     (interactive (list (project-prompt-project-dir)))
     (project-forget-project project)
     (vc-file-setprop project 'project-git-root nil))
+#+end_src
+** Advice
+#+begin_src emacs-lisp  
+  (advice-add 'other-window :before
+              (defun other-window-split-if-single (&rest _)
+                "Split the frame if there is a single window."
+                (when (one-window-p) (split-window-sensibly))))
+#+end_src
+
+** Keys
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-h C-f") 'find-function)
+  ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (global-set-key (kbd "C-x x x") 'org-capture)
+  (global-set-key (kbd "C-x x a") 'org-agenda)
+  (global-set-key (kbd "M-o") 'other-window)
 #+end_src
 
 ** Memoization
@@ -206,15 +223,15 @@ Live updating:
   (setq eshell-prompt-regexp "^[^$]* [#$] $")
   (defun +eshell/quit-or-delete-char (arg)
     "Delete a character (ahead of the cursor) or quit eshell if there's nothing to
-  delete."
+    delete."
     (interactive "p")
     (if (eolp)
         (if (looking-back eshell-prompt-regexp nil)
             (eshell-life-is-too-much)
           (eshell-send-eof-to-process))
       (delete-char arg)))
-  ;; (with-eval-after-load "eshell-mode"
-  ;;   (define-key eshell-mode-map (kbd "C-d") '+eshell/quit-or-delete-char))
+  (with-eval-after-load 'esh-mode
+    (define-key eshell-mode-map (kbd "C-d") '+eshell/quit-or-delete-char))
 #+end_src
 
 *** EPA
@@ -250,6 +267,9 @@ Live updating:
   (minibuffer-depth-indicate-mode 1)
   (display-battery-mode 1)
   (blink-cursor-mode -1)
+  (windmove-default-keybindings)
+  (setq windmove-wrap-around t)
+  (repeat-mode 1)
 #+end_src
 
 ** Appearance
@@ -304,13 +324,6 @@ Live updating:
 (setq recentf-max-saved-items 40)
 #+end_src
 
-** COMMENT Non-package (no leader) Keys
-#+begin_src emacs-lisp
-  ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "C-x x x") 'org-capture)
-  (global-set-key (kbd "C-x x a") 'org-agenda)
-#+end_src
-
 ** TRAMP Configuration
 #+begin_src emacs-lisp
   (require 'tramp)
@@ -326,9 +339,11 @@ Live updating:
 :END:
 ** Packaged with GNU Emacs
 #+begin_src emacs-lisp
-(require 'dired-x)
-(require 'project)
-(require 'package)
+  (require 'dired-x)
+  (require 'project)
+  (setq project-vc-merge-submodules nil) ;; submodules are not part of parent project
+  (setq project-vc-extra-root-markers '(".project.el" ".projectile" ))
+  (require 'package)
 #+end_src
 
 ** Package Locations
@@ -344,17 +359,17 @@ Live updating:
 
 ** Install use-package
 #+begin_src emacs-lisp
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(require 'use-package)
-(setq use-package-always-ensure t)
+  ;;(unless (package-installed-p 'use-package)
+  ;;  (package-install 'use-package))
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+;;  (setq use-package-always-defer t)
 #+end_src
 
 ** Packages
 *** WebPaste
 #+begin_src emacs-lisp
   (use-package webpaste
-  :ensure t
   ;; :bind (("C-9 p" . webpaste-paste-buffer)
   ;;        ("C-9 M-p" . webpaste-paste-region))
   :config
@@ -414,9 +429,11 @@ Live updating:
 *** Vterm
 #+begin_src emacs-lisp
   (use-package vterm
+    :demand t
     :config
     (add-to-list 'vterm-tramp-shells '("ssh" "/usr/bin/zsh")))
   (use-package multi-vterm
+    :demand t
     :after vterm
     :config
     (require 'vterm-tmux)
@@ -446,62 +463,25 @@ Live updating:
 *** Undo Tree
 #+begin_src emacs-lisp
   (use-package undo-tree
+    :demand t
     :config
     (setq undo-tree-history-directory-alist
           `(("." . ,(expand-file-name "undo-tree/" user-emacs-directory))))
     (global-undo-tree-mode))
 #+end_src
+
 *** DEVIL Mode
 #+begin_src emacs-lisp
   (use-package devil
+    :demand t
     :bind ("C-," . 'global-devil-mode)
     :config
     (global-devil-mode))
 #+end_src
 
-*** EVIL Mode
-#+begin_src emacs-lisp
-  ;; (use-package evil
-  ;;   :init
-  ;;   (setq evil-want-C-u-scroll nil
-  ;;         evil-want-keybinding nil
-  ;;         evil-want-C-h-delete t
-  ;;         evil-want-fine-undo t
-  ;;         evil-undo-system 'undo-tree
-  ;;         evil-insert-state-message nil)
-  ;;   :config
-  ;;   (evil-mode 1)
-  ;;   (evil-define-key 'insert eshell-mode-map (kbd "C-d") '+eshell/quit-or-delete-char))
-  ;;   ;; (define-key evil-insert-state-map
-  ;;   ;;   (kbd "C-h") 'evil-delete-backward-char-and-join))
-
-  ;; (use-package evil-commentary
-  ;;   :after evil
-  ;;   :config (evil-commentary-mode))
-
-  ;; (use-package evil-surround
-  ;;   :after evil
-  ;;   :config
-  ;;   (global-evil-surround-mode 1))
-
-  ;; (use-package evil-collection
-  ;;   :after evil
-  ;;   :config
-  ;;   (evil-collection-init))
-
-  ;; (use-package evil-snipe
-  ;;   :after evil
-  ;;   :config
-  ;;   (evil-snipe-mode 1))
-
-#+end_src
 
 *** Misc Unconfigured
 #+begin_src emacs-lisp
-  (use-package transmission)
-
-  (use-package helm)
-
   (use-package debbugs)
 
   (use-package compat)
@@ -514,6 +494,7 @@ Live updating:
 *** Which-key
 #+begin_src emacs-lisp
   (use-package which-key
+    :demand t
     :init (progn (setq which-key-idle-delay 0.3)
                  (setq which-key-allow-imprecise-window-fit nil))
     :config
@@ -530,292 +511,122 @@ Live updating:
       (which-key-mode)))
 #+end_src
 
-*** Hydra
+
+*** Treemacs
+**** Treemacs Itself
 #+begin_src emacs-lisp
-  ;; (use-package hydra
-  ;;   :config
-  ;;   (defhydra hydra-text-scale (:timeout 4)
-  ;;       "Scale text in current buffer"
-  ;;       ("j" text-scale-increase "Increase")
-  ;;       ("k" text-scale-decrease "Decrease")
-  ;;       ("q" nil "Quit" :exit t))
-  ;;   (defhydra hydra-window-size (:timeout 4)
-  ;;     "Resize the current Emacs window"
-  ;;     ("j" evil-window-increase-height "Incr Height")
-  ;;     ("k" evil-window-decrease-height "Decr Height")
-  ;;     ("l" evil-window-increase-width "Incr Width")
-  ;;     ("h" evil-window-decrease-width "Decr Width")
-  ;;     ("q" nil "Quit :exit t")))
+ (use-package treemacs
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay        0.5
+          treemacs-directory-name-transformer      #'identity
+          treemacs-display-in-side-window          t
+          treemacs-eldoc-display                   'simple
+          treemacs-file-event-delay                2000
+          treemacs-file-extension-regex            treemacs-last-period-regex-value
+          treemacs-file-follow-delay               0.2
+          treemacs-file-name-transformer           #'identity
+          treemacs-follow-after-init               t
+          treemacs-expand-after-init               t
+          treemacs-find-workspace-method           'find-for-file-or-pick-first
+          treemacs-git-command-pipe                ""
+          treemacs-goto-tag-strategy               'refetch-index
+          treemacs-header-scroll-indicators        '(nil . "^^^^^^")
+          treemacs-hide-dot-git-directory          t
+          treemacs-indentation                     2
+          treemacs-indentation-string              " "
+          treemacs-is-never-other-window           nil
+          treemacs-max-git-entries                 5000
+          treemacs-missing-project-action          'ask
+          treemacs-move-forward-on-expand          nil
+          treemacs-no-png-images                   nil
+          treemacs-no-delete-other-windows         t
+          treemacs-project-follow-cleanup          nil
+          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                        'left
+          treemacs-read-string-input               'from-child-frame
+          treemacs-recenter-distance               0.1
+          treemacs-recenter-after-file-follow      nil
+          treemacs-recenter-after-tag-follow       nil
+          treemacs-recenter-after-project-jump     'always
+          treemacs-recenter-after-project-expand   'on-distance
+          treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
+          treemacs-show-cursor                     nil
+          treemacs-show-hidden-files               t
+          treemacs-silent-filewatch                nil
+          treemacs-silent-refresh                  nil
+          treemacs-sorting                         'alphabetic-asc
+          treemacs-select-when-already-in-treemacs 'move-back
+          treemacs-space-between-root-nodes        t
+          treemacs-tag-follow-cleanup              t
+          treemacs-tag-follow-delay                1.5
+          treemacs-text-scale                      nil
+          treemacs-user-mode-line-format           nil
+          treemacs-user-header-line-format         nil
+          treemacs-wide-toggle-width               70
+          treemacs-width                           35
+          treemacs-width-increment                 1
+          treemacs-width-is-initially-locked       t
+          treemacs-workspace-switch-cleanup        nil)
+
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always)
+    (when treemacs-python-executable
+      (treemacs-git-commit-diff-mode t))
+
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple)))
+
+    (treemacs-hide-gitignored-files-mode nil))
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t d"   . treemacs-select-directory)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
 #+end_src
 
-*** General.el
+**** Treemacs Extensions
 #+begin_src emacs-lisp
-  ;; (use-package general
-  ;;  :after (which-key evil hydra multi-vterm)
-  ;;  :config
-  ;;  (general-create-definer ojm/leader
-  ;;    :keymaps '(normal insert visual emacs debbugs pdf-view)
-  ;;    :prefix "SPC"
-  ;;    :global-prefix "C-SPC")
+;(use-package treemacs-evil
+;  :after (treemacs evil))
 
-  ;;  (general-create-definer ojm/local-leader
-  ;;    :prefix "SPC m")
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
 
-  ;;  (general-create-definer ojm/local-leader-which-key
-  ;;    :prefix "SPC")
+(use-package treemacs-magit
+  :after (treemacs magit))
 
-  ;;  (defmacro ojm/prefix (&optional prompt &rest maps)
-  ;;    `'(:ignore t :which-key ,(or prompt "prefix") :keymaps ,maps))
-  ;;  (defmacro ojm/keycmd (cmd &optional name)
-  ;;    `'(,cmd :which-key ,(or name (symbol-name cmd))))
-  ;;  (defmacro ojm/simulate (key &optional name)
-  ;;    `(general-key ,key))
+(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
+  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
+  :config (treemacs-set-scope-type 'Perspectives))
 
-  ;;  (defun ojm/scratch ()
-  ;;    (interactive)
-  ;;    (switch-to-buffer "*scratch*"))
-
-  ;;  (defun ojm/transmission (socket)
-  ;;    (interactive (list (if current-prefix-arg
-  ;;                           (read-file-name
-  ;;                            "Transmission Remote Socket: "))))
-  ;;    (let ((transmission-host (or socket transmission-host)))
-  ;;      (transmission)))
-
-  ;;  (ojm/local-leader-which-key 'normal
-  ;;    "m" (ojm/prefix "Org Command:" 'org-mode-map)
-  ;;    "m" (ojm/prefix "ELisp Command:" 'lisp-interaction-mode-map)
-  ;;    "m" (ojm/prefix "Circe Command:" 'circe-mode-map)
-  ;;    "m" (ojm/prefix "Rustic Command:" 'rustic-mode-map))
-
-  ;;  (ojm/leader
-  ;;    "s" (ojm/keycmd ojm/scratch)
-  ;;    "u" (ojm/keycmd universal-argument "Universal Argument")
-  ;;    "." (ojm/keycmd counsel-find-file "Find File")
-  ;;    "," (ojm/keycmd counsel-switch-buffer "Switch Buffer")
-  ;;    "w" (general-key "C-w")
-  ;;    "W" (ojm/keycmd which-key-show-top-level "What Do?")
-  ;;    "h" (general-key "C-h")
-  ;;    "x" (general-key "C-x")
-  ;;    "e" (ojm/keycmd eval-last-sexp "Eval Last")
-  ;;    "SPC" (ojm/keycmd project-find-file)
-  ;;    "p" '(:keymap project-prefix-map
-  ;;                  :which-key "Project Command:"))
-
-  ;;  (ojm/leader
-  ;;    "TAB" (ojm/prefix "Tabs:")
-  ;;    "TAB t" (ojm/keycmd tab-bar-mode "Toggle Tab Bar")
-  ;;    "TAB d" (ojm/keycmd tab-close "Close Tab")
-  ;;    "TAB n" (ojm/keycmd tab-new "New Tab"))
-
-  ;;  (ojm/leader
-  ;;    "c" (ojm/prefix "Util:")
-  ;;    "cw" (ojm/keycmd dictionary-search "Define Word"))
-
-  ;;  (ojm/leader
-  ;;    "j" (ojm/prefix "Jump:")
-  ;;    "jo" (ojm/keycmd evil-previous-open-paren "Opening Paren")
-  ;;    "jc" (ojm/keycmd evil-next-close-paren "Closing Paren")
-  ;;    "jm" (ojm/keycmd evil-jump-item "Matching Delimiter"))
-
-  ;;  (ojm/leader
-  ;;    "t" (ojm/prefix "Toggle:")
-  ;;    "tt" (ojm/keycmd counsel-load-theme "Choose Theme")
-  ;;    "ts" (ojm/keycmd hydra-text-scale/body "Scale Adjustment")
-  ;;    "tS" (ojm/keycmd flyspell-mode "Flyspell Mode")
-  ;;    "tr" (ojm/keycmd hydra-window-size/body "Window Adjustment")
-  ;;    "tw" (ojm/keycmd toggle-truncate-lines)
-  ;;    "tp" (ojm/keycmd electric-pair-mode))
-
-  ;;  (ojm/leader
-  ;;    "g" (ojm/prefix "Git:")
-  ;;    "gg" (ojm/keycmd magit "Launch Magit")
-  ;;    "gb" (ojm/keycmd magit-branch-or-checkout)
-  ;;    "gs" (ojm/keycmd magit-stage)
-  ;;    "gi" (ojm/keycmd magit-init)
-  ;;    "gF" (ojm/keycmd magit-pull)
-  ;;    "gp" (ojm/keycmd magit-push)
-  ;;    "gd" (ojm/keycmd magit-diff-unstaged)
-  ;;    "gc" (ojm/keycmd magit-commit))
-
-  ;;  (ojm/leader
-  ;;    "f" (ojm/prefix "File Command:")
-  ;;    "fd" (ojm/keycmd delete-file)
-  ;;    "fr" (ojm/keycmd counsel-buffer-or-recentf)
-  ;;    "fb" (ojm/prefix "Bookmark:")
-  ;;    "fbm" (ojm/keycmd bookmark-set)
-  ;;    "fbM" (ojm/keycmd bookmark-set-no-overwrite)
-  ;;    "fbb" (ojm/keycmd bookmark-jump))
-
-  ;;  (ojm/leader
-  ;;    "b" (ojm/prefix "Buffer Command:")
-  ;;    "bn" (ojm/keycmd switch-to-next-buffer "Next")
-  ;;    "bp" (ojm/keycmd switch-to-prev-buffer "Prev")
-  ;;    "bd" (ojm/keycmd kill-current-buffer)
-  ;;    "bs" (ojm/keycmd save-buffer)
-  ;;    "bx" (ojm/keycmd org-capture))
-
-  ;;  (ojm/leader
-  ;;    "q" (ojm/prefix "Quit:")
-  ;;    "qq" (ojm/keycmd save-buffers-kill-terminal "Quit"))
-
-  ;;  (ojm/leader
-  ;;    "i" (ojm/prefix "Insert: ")
-  ;;    "ie" (ojm/keycmd emojify-insert-emoji)
-  ;;    "is" (ojm/keycmd yas-insert-snippet)
-  ;;    "iu" (ojm/keycmd counsel-unicode-char))
-
-  ;;  (ojm/local-leader 'normal 'circe-mode-map
-  ;;    "q" (ojm/keycmd circe-command-QUERY)
-  ;;    "j" (ojm/keycmd circe-command-JOIN)
-  ;;    "p" (ojm/keycmd circe-command-PING)
-  ;;    "a" (ojm/keycmd circe-command-GAWAY)
-  ;;    "b" (ojm/keycmd circe-command-BACK)
-  ;;    "u" (ojm/keycmd lui-track-jump-to-indicator)
-  ;;    "m" (ojm/keycmd lui-track-move "Mark Read")
-  ;;    "r" (ojm/keycmd circe-reconnect)
-  ;;    "R" (ojm/keycmd circe-reconnect-all))
-
-  ;;  (ojm/local-leader 'normal 'rustic-mode-map
-  ;;    "b" (ojm/keycmd rustic-cargo-build)
-  ;;    "c" (ojm/keycmd rustic-compile)
-  ;;    "d" (ojm/keycmd rustic-racer-describe)
-  ;;    "D" (ojm/keycmd rustic-cargo-doc)
-  ;;    "n" (ojm/keycmd flymake-goto-next-error)
-  ;;    "N" (ojm/keycmd flymake-goto-prev-error)
-  ;;    ;; "a" (ojm/keycmd eglot-code-actions)
-  ;;    "," (ojm/keycmd rustic-docstring-dwim))
-
-  ;;  (ojm/leader
-  ;;    "o" (ojm/prefix "Open: ")
-  ;;    "oa" (ojm/keycmd org-agenda)
-  ;;    "oc" (ojm/keycmd circe)
-  ;;    "og" (ojm/keycmd gnus)
-  ;;    "oe" (ojm/keycmd message-mail)
-  ;;    "ot" (ojm/keycmd vterm-tmux "TMux")
-  ;;    "oT" '((lambda nil
-  ;;             (interactive)
-  ;;             (let
-  ;;                 ((current-prefix-arg
-  ;;                   '(4)))
-  ;;               (call-interactively 'vterm-tmux)))
-  ;;           :which-key "TMux Remote"))) 
+(use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
+  :after (treemacs)
+  :config (treemacs-set-scope-type 'Tabs))
 #+end_src
-
-# *** Treemacs
-# **** Treemacs Itself
-# #+begin_src emacs-lisp
-#  (use-package treemacs
-#   :defer t
-#   :init
-#   (with-eval-after-load 'winum
-#     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-#   :config
-#   (progn
-#     (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
-#           treemacs-deferred-git-apply-delay        0.5
-#           treemacs-directory-name-transformer      #'identity
-#           treemacs-display-in-side-window          t
-#           treemacs-eldoc-display                   'simple
-#           treemacs-file-event-delay                2000
-#           treemacs-file-extension-regex            treemacs-last-period-regex-value
-#           treemacs-file-follow-delay               0.2
-#           treemacs-file-name-transformer           #'identity
-#           treemacs-follow-after-init               t
-#           treemacs-expand-after-init               t
-#           treemacs-find-workspace-method           'find-for-file-or-pick-first
-#           treemacs-git-command-pipe                ""
-#           treemacs-goto-tag-strategy               'refetch-index
-#           treemacs-header-scroll-indicators        '(nil . "^^^^^^")
-#           treemacs-hide-dot-git-directory          t
-#           treemacs-indentation                     2
-#           treemacs-indentation-string              " "
-#           treemacs-is-never-other-window           nil
-#           treemacs-max-git-entries                 5000
-#           treemacs-missing-project-action          'ask
-#           treemacs-move-forward-on-expand          nil
-#           treemacs-no-png-images                   nil
-#           treemacs-no-delete-other-windows         t
-#           treemacs-project-follow-cleanup          nil
-#           treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-#           treemacs-position                        'left
-#           treemacs-read-string-input               'from-child-frame
-#           treemacs-recenter-distance               0.1
-#           treemacs-recenter-after-file-follow      nil
-#           treemacs-recenter-after-tag-follow       nil
-#           treemacs-recenter-after-project-jump     'always
-#           treemacs-recenter-after-project-expand   'on-distance
-#           treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
-#           treemacs-show-cursor                     nil
-#           treemacs-show-hidden-files               t
-#           treemacs-silent-filewatch                nil
-#           treemacs-silent-refresh                  nil
-#           treemacs-sorting                         'alphabetic-asc
-#           treemacs-select-when-already-in-treemacs 'move-back
-#           treemacs-space-between-root-nodes        t
-#           treemacs-tag-follow-cleanup              t
-#           treemacs-tag-follow-delay                1.5
-#           treemacs-text-scale                      nil
-#           treemacs-user-mode-line-format           nil
-#           treemacs-user-header-line-format         nil
-#           treemacs-wide-toggle-width               70
-#           treemacs-width                           35
-#           treemacs-width-increment                 1
-#           treemacs-width-is-initially-locked       t
-#           treemacs-workspace-switch-cleanup        nil)
-
-#     ;; The default width and height of the icons is 22 pixels. If you are
-#     ;; using a Hi-DPI display, uncomment this to double the icon size.
-#     ;;(treemacs-resize-icons 44)
-
-#     (treemacs-follow-mode t)
-#     (treemacs-filewatch-mode t)
-#     (treemacs-fringe-indicator-mode 'always)
-#     (when treemacs-python-executable
-#       (treemacs-git-commit-diff-mode t))
-
-#     (pcase (cons (not (null (executable-find "git")))
-#                  (not (null treemacs-python-executable)))
-#       (`(t . t)
-#        (treemacs-git-mode 'deferred))
-#       (`(t . _)
-#        (treemacs-git-mode 'simple)))
-
-#     (treemacs-hide-gitignored-files-mode nil))
-#   :bind
-#   (:map global-map
-#         ("M-0"       . treemacs-select-window)
-#         ("C-x t 1"   . treemacs-delete-other-windows)
-#         ("C-x t t"   . treemacs)
-#         ("C-x t d"   . treemacs-select-directory)
-#         ("C-x t B"   . treemacs-bookmark)
-#         ("C-x t C-t" . treemacs-find-file)
-#         ("C-x t M-t" . treemacs-find-tag)))
-# #+end_src
-
-# **** Treemacs Extensions
-# #+begin_src emacs-lisp
-# (use-package treemacs-evil
-#   :after (treemacs evil))
-
-# (use-package treemacs-icons-dired
-#   :hook (dired-mode . treemacs-icons-dired-enable-once))
-
-# (use-package treemacs-magit
-#   :after (treemacs magit))
-
-# (use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
-#   :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-#   :config (treemacs-set-scope-type 'Perspectives))
-
-# (use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
-#   :after (treemacs)
-#   :config (treemacs-set-scope-type 'Tabs))
-# #+end_src
 
 *** Counsel/Ivy
 #+begin_src emacs-lisp
   (use-package counsel
+    :demand t
     :bind (("M-x" . counsel-M-x)
            ("C-x b" . counsel-switch-buffer)
            ("C-x C-f" . counsel-find-file)
@@ -827,6 +638,7 @@ Live updating:
     (ivy-mode 1)) ;; default starts with ^
 
   (use-package ivy-rich
+    :demand t
     :config
     (ivy-rich-mode 1))
 #+end_src
@@ -1131,6 +943,7 @@ Live updating:
 *** It came from DOOM...
 #+begin_src emacs-lisp
   (use-package doom-modeline
+    :demand t
     :init
     (setq doom-modeline-height 25
           doom-modeline-gnus t
@@ -1140,6 +953,7 @@ Live updating:
     (doom-modeline-mode 1))
 
   (use-package doom-themes
+    :demand t
     :config
     ;; Global settings (defaults)
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -1166,7 +980,7 @@ Live updating:
 
 *** Org
 #+begin_src emacs-lisp
- (use-package org-contrib :pin "nongnu") 
+ (use-package org-contrib :demand t :pin "nongnu") 
 #+end_src
 
 **** Exports
@@ -1187,10 +1001,15 @@ Live updating:
 *** PDF
 #+begin_src emacs-lisp
   (use-package pdf-tools
-    ;:hook (pdf-view-mode . pdf-view-themed-minor-mode)
+    :demand t
+                                          ;:hook (pdf-view-mode . pdf-view-themed-minor-mode)
     :config
     (pdf-tools-install)
-    (add-hook 'pdf-view-mode-hook #'pdf-view-themed-minor-mode))
+    (add-hook 'pdf-view-mode-hook #'pdf-view-themed-minor-mode)
+    (keymap-set pdf-view-mode-map "<remap> <scroll-up-command>"
+                #'pdf-view-scroll-up-or-next-page)
+    (keymap-set pdf-view-mode-map "<remap> <scroll-down-command>"
+                #'pdf-view-scroll-down-or-previous-page))
 #+end_src
 
 * Org Settings
@@ -1286,7 +1105,7 @@ Live updating:
 
 ** Org Indent
 #+begin_src emacs-lisp
-  ;; (add-hook 'org-mode-hook 'org-indent-mode) 
+  (add-hook 'org-mode-hook 'org-indent-mode) 
 #+end_src
 
 ** Startup Visibility
