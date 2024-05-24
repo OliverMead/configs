@@ -2,9 +2,6 @@
 #+title: Literate Emacs Configuration
 
 * Table of Contents                                          :TOC_4:noexport:
-:PROPERTIES:
-:VISIBILITY: folded
-:END:
 - [[#pre-packages][Pre-packages]]
   - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
   - [[#general-macros][General macros]]
@@ -48,9 +45,6 @@
     - [[#devil-mode][DEVIL Mode]]
     - [[#misc-unconfigured][Misc Unconfigured]]
     - [[#which-key][Which-key]]
-    - [[#treemacs][Treemacs]]
-      - [[#treemacs-itself][Treemacs Itself]]
-      - [[#treemacs-extensions][Treemacs Extensions]]
     - [[#counselivy][Counsel/Ivy]]
     - [[#pass][Pass]]
     - [[#circe][Circe]]
@@ -69,11 +63,11 @@
       - [[#python][Python]]
       - [[#zig][Zig]]
       - [[#rust][Rust]]
-      - [[#flutterdart][Flutter/Dart]]
     - [[#it-came-from-doom][It came from DOOM...]]
     - [[#org][Org]]
       - [[#exports][Exports]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
+      - [[#org-download][Org-download]]
     - [[#pdf][PDF]]
 - [[#org-settings][Org Settings]]
   - [[#images][Images]]
@@ -112,6 +106,24 @@ Manually invalidate the vc property cache of a project.
     (project-forget-project project)
     (vc-file-setprop project 'project-git-root nil))
 #+end_src
+
+Start a new line
+#+begin_src emacs-lisp
+  (defun ojm/newline ()
+    "Start a new line at the correct indentation, from anywhere on the previous."
+    (interactive)
+    (beginning-of-line 2)
+    (open-line 1)
+    (indent-for-tab-command))
+
+  (defun ojm/backnewline ()
+    "Start a new line at the correct indentation, from anywhere on the next"
+    (interactive)
+    (beginning-of-line 1)
+    (open-line 1)
+    (intend-for-tab-command))
+#+end_src
+
 ** Advice
 #+begin_src emacs-lisp  
   (advice-add 'other-window :before
@@ -122,6 +134,8 @@ Manually invalidate the vc property cache of a project.
 
 ** Keys
 #+begin_src emacs-lisp
+  (global-set-key (kbd "M-n") 'ojm/newline)
+  (global-set-key (kbd "M-p") 'ojm/backnewline)
   (global-set-key (kbd "C-h C-f") 'find-function)
   ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (global-set-key (kbd "C-x x x") 'org-capture)
@@ -254,22 +268,31 @@ Live updating:
 
 ** 'Sensible' Anti-heretical Settings
 #+begin_src emacs-lisp
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 2)
-  (setq-default make-backup-files nil)
-  (setq-default backup-directory-alist
-        `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
-  (setq server-kill-new-buffers nil)
+  (setq-default indent-tabs-mode nil
+                tab-width 2
+                make-backup-files nil
+                backup-directory-alist
+                `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
+
+  (setq server-kill-new-buffers nil
+        enable-recursive-minibuffers t
+        tab-always-indent 'complete
+        completion-cycle-threshold t
+        search-whitespace-regexp ".*?"
+        windmove-wrap-around t
+        set-mark-command-repeat-pop t
+        use-dialog-box nil)
+
   (winner-mode 1)
-  (setq enable-recursive-minibuffers t)
-  (setq tab-always-indent 'complete)
-  (setq completion-cycle-threshold t)
   (minibuffer-depth-indicate-mode 1)
   (display-battery-mode 1)
   (blink-cursor-mode -1)
   (windmove-default-keybindings)
-  (setq windmove-wrap-around t)
   (repeat-mode 1)
+  (savehist-mode 1)
+  (save-place-mode 1)
+  (global-auto-revert-mode 1)
+  (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
 ** Appearance
@@ -511,118 +534,6 @@ Live updating:
       (which-key-mode)))
 #+end_src
 
-
-*** Treemacs
-**** Treemacs Itself
-#+begin_src emacs-lisp
- (use-package treemacs
-  :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
-  :config
-  (progn
-    (setq treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
-          treemacs-deferred-git-apply-delay        0.5
-          treemacs-directory-name-transformer      #'identity
-          treemacs-display-in-side-window          t
-          treemacs-eldoc-display                   'simple
-          treemacs-file-event-delay                2000
-          treemacs-file-extension-regex            treemacs-last-period-regex-value
-          treemacs-file-follow-delay               0.2
-          treemacs-file-name-transformer           #'identity
-          treemacs-follow-after-init               t
-          treemacs-expand-after-init               t
-          treemacs-find-workspace-method           'find-for-file-or-pick-first
-          treemacs-git-command-pipe                ""
-          treemacs-goto-tag-strategy               'refetch-index
-          treemacs-header-scroll-indicators        '(nil . "^^^^^^")
-          treemacs-hide-dot-git-directory          t
-          treemacs-indentation                     2
-          treemacs-indentation-string              " "
-          treemacs-is-never-other-window           nil
-          treemacs-max-git-entries                 5000
-          treemacs-missing-project-action          'ask
-          treemacs-move-forward-on-expand          nil
-          treemacs-no-png-images                   nil
-          treemacs-no-delete-other-windows         t
-          treemacs-project-follow-cleanup          nil
-          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
-          treemacs-position                        'left
-          treemacs-read-string-input               'from-child-frame
-          treemacs-recenter-distance               0.1
-          treemacs-recenter-after-file-follow      nil
-          treemacs-recenter-after-tag-follow       nil
-          treemacs-recenter-after-project-jump     'always
-          treemacs-recenter-after-project-expand   'on-distance
-          treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
-          treemacs-show-cursor                     nil
-          treemacs-show-hidden-files               t
-          treemacs-silent-filewatch                nil
-          treemacs-silent-refresh                  nil
-          treemacs-sorting                         'alphabetic-asc
-          treemacs-select-when-already-in-treemacs 'move-back
-          treemacs-space-between-root-nodes        t
-          treemacs-tag-follow-cleanup              t
-          treemacs-tag-follow-delay                1.5
-          treemacs-text-scale                      nil
-          treemacs-user-mode-line-format           nil
-          treemacs-user-header-line-format         nil
-          treemacs-wide-toggle-width               70
-          treemacs-width                           35
-          treemacs-width-increment                 1
-          treemacs-width-is-initially-locked       t
-          treemacs-workspace-switch-cleanup        nil)
-
-    ;; The default width and height of the icons is 22 pixels. If you are
-    ;; using a Hi-DPI display, uncomment this to double the icon size.
-    ;;(treemacs-resize-icons 44)
-
-    (treemacs-follow-mode t)
-    (treemacs-filewatch-mode t)
-    (treemacs-fringe-indicator-mode 'always)
-    (when treemacs-python-executable
-      (treemacs-git-commit-diff-mode t))
-
-    (pcase (cons (not (null (executable-find "git")))
-                 (not (null treemacs-python-executable)))
-      (`(t . t)
-       (treemacs-git-mode 'deferred))
-      (`(t . _)
-       (treemacs-git-mode 'simple)))
-
-    (treemacs-hide-gitignored-files-mode nil))
-  :bind
-  (:map global-map
-        ("M-0"       . treemacs-select-window)
-        ("C-x t 1"   . treemacs-delete-other-windows)
-        ("C-x t t"   . treemacs)
-        ("C-x t d"   . treemacs-select-directory)
-        ("C-x t B"   . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
-#+end_src
-
-**** Treemacs Extensions
-#+begin_src emacs-lisp
-;(use-package treemacs-evil
-;  :after (treemacs evil))
-
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once))
-
-(use-package treemacs-magit
-  :after (treemacs magit))
-
-(use-package treemacs-persp ;;treemacs-perspective if you use perspective.el vs. persp-mode
-  :after (treemacs persp-mode) ;;or perspective vs. persp-mode
-  :config (treemacs-set-scope-type 'Perspectives))
-
-(use-package treemacs-tab-bar ;;treemacs-tab-bar if you use tab-bar-mode
-  :after (treemacs)
-  :config (treemacs-set-scope-type 'Tabs))
-#+end_src
-
 *** Counsel/Ivy
 #+begin_src emacs-lisp
   (use-package counsel
@@ -631,7 +542,6 @@ Live updating:
            ("C-x b" . counsel-switch-buffer)
            ("C-x C-f" . counsel-find-file)
            ("C-x R" . counsel-buffer-or-recentf)
-           ("C-s" . swiper)
            :map minibuffer-local-map
            ("C-r" . counsel-minibuffer-history))
     :config
@@ -674,7 +584,6 @@ Live updating:
 *** Circe
 #+begin_src emacs-lisp
   (use-package circe
-   :defer t
    :config
    (defun ojm/pretty-lui ()
      (setq fringed-outside-margins t
@@ -799,7 +708,13 @@ Live updating:
 
 **** Lisp
 #+begin_src emacs-lisp
-  (use-package paredit) 
+  (use-package paredit
+    :hook ((emacs-lisp-mode 
+            eval-expression-minibuffer-setup 
+            ielm-mode 
+            lisp-mode 
+            lisp-interaction-mode 
+            scheme-mode) .  enable-paredit-mode))
 #+end_src
 
 **** Common Lisp
@@ -931,26 +846,16 @@ Live updating:
     (delete-process p))
 #+end_src
 
-**** Flutter/Dart
-#+begin_src emacs-lisp
- (use-package dart-mode
-   :hook '((dart-mode . eglot))
-   :config
-   (add-hook 'dart-mode-hook (lambda () (setf (alist-get 'dart eglot-server-programs) '("fvm" "dart" "language-server" "--client-id" "emacs.eglot-dart")))))
- (use-package flutter)
-#+end_src
-
 *** It came from DOOM...
 #+begin_src emacs-lisp
   (use-package doom-modeline
-    :demand t
+    :hook server-after-make-frame
     :init
     (setq doom-modeline-height 25
           doom-modeline-gnus t
           doom-modeline-gnus-timer 1)
     :custom
-    (delete '(circe-mode . special) doom-modeline-mode-alist)
-    (doom-modeline-mode 1))
+    (delete '(circe-mode . special) doom-modeline-mode-alist))
 
   (use-package doom-themes
     :demand t
@@ -980,7 +885,7 @@ Live updating:
 
 *** Org
 #+begin_src emacs-lisp
- (use-package org-contrib :demand t :pin "nongnu") 
+ (use-package org-contrib :pin "nongnu") 
 #+end_src
 
 **** Exports
@@ -998,14 +903,19 @@ Live updating:
     :hook ((org-mode . toc-org-mode)))
 #+end_src
 
+**** Org-download
+#+begin_src emacs-lisp
+  (use-package org-download
+    :hook (dired-mode . org-download-enable))
+#+end_src
 *** PDF
 #+begin_src emacs-lisp
   (use-package pdf-tools
     :demand t
-                                          ;:hook (pdf-view-mode . pdf-view-themed-minor-mode)
+    :hook ((pdf-view-mode . pdf-view-themed-minor-mode)
+           (pdf-view-mode . pdf-view-fit-page-to-window)           )
     :config
-    (pdf-tools-install)
-    (add-hook 'pdf-view-mode-hook #'pdf-view-themed-minor-mode)
+    (pdf-loader-install)
     (keymap-set pdf-view-mode-map "<remap> <scroll-up-command>"
                 #'pdf-view-scroll-up-or-next-page)
     (keymap-set pdf-view-mode-map "<remap> <scroll-down-command>"
