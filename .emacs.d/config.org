@@ -2,6 +2,9 @@
 #+title: Literate Emacs Configuration
 
 * Table of Contents                                          :TOC_4:noexport:
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
 - [[#pre-packages][Pre-packages]]
   - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
   - [[#general-macros][General macros]]
@@ -29,6 +32,7 @@
   - [[#package-locations][Package Locations]]
   - [[#install-use-package][Install use-package]]
   - [[#packages][Packages]]
+    - [[#mixed-pitch][Mixed Pitch]]
     - [[#webpaste][WebPaste]]
     - [[#web-development][Web Development]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
@@ -69,6 +73,7 @@
       - [[#table-of-contents-in-org][Table of Contents in Org]]
       - [[#org-download][Org-download]]
     - [[#pdf][PDF]]
+    - [[#avy][Avy]]
 - [[#org-settings][Org Settings]]
   - [[#images][Images]]
   - [[#org-capture-templates][Org Capture Templates]]
@@ -299,7 +304,9 @@ Live updating:
 *** Fonts
 #+begin_src emacs-lisp
   (defun configure-fonts ()
-    (set-face-attribute 'default nil :font "Unifont" :height 100))
+    (set-face-attribute 'default nil :font "Unifont" :height 100)
+    (set-face-attribute 'fixed-pitch nil :font "Unifont" :height 100)
+    (set-face-attribute 'variable-pitch nil :font "TeX Gyre Termes" :height 110))
   (add-hook 'after-init-hook 'configure-fonts)
   (add-hook 'server-after-make-frame-hook 'configure-fonts)
 #+end_src
@@ -390,6 +397,12 @@ Live updating:
 #+end_src
 
 ** Packages
+*** Mixed Pitch
+#+begin_src emacs-lisp
+(use-package mixed-pitch
+  :hook (text-mode . mixed-pitch-mode))
+#+end_src
+
 *** WebPaste
 #+begin_src emacs-lisp
   (use-package webpaste
@@ -849,7 +862,7 @@ Live updating:
 *** It came from DOOM...
 #+begin_src emacs-lisp
   (use-package doom-modeline
-    :hook server-after-make-frame
+    :hook (server-after-make-frame . doom-modeline-mode)
     :init
     (setq doom-modeline-height 25
           doom-modeline-gnus t
@@ -871,7 +884,7 @@ Live updating:
     ;;             (select-frame frame)
     ;;             (load-theme 'doom-gruvbox-light t)))
     ;;     (load-theme 'doom-gruvbox-light t))
-    (load-theme 'doom-gruvbox t)
+    (load-theme 'doom-gruvbox-light t)
     ;; Enable flashing mode-line on errors
     (doom-themes-visual-bell-config)
     ;; Enable custom neotree theme (all-the-icons must be installed!)
@@ -920,6 +933,17 @@ Live updating:
                 #'pdf-view-scroll-up-or-next-page)
     (keymap-set pdf-view-mode-map "<remap> <scroll-down-command>"
                 #'pdf-view-scroll-down-or-previous-page))
+#+end_src
+
+*** Avy
+#+begin_src emacs-lisp
+  (use-package avy
+    :bind (("C-c C-j" . avy-resume)
+           ("C-:" . avy-goto-char)
+           ("C-'" . avy-goto-char-2)
+           ("M-g f" . avy-goto-line))
+    :config
+    (avy-setup-default))
 #+end_src
 
 * Org Settings
@@ -1014,8 +1038,9 @@ Live updating:
 #+end_src
 
 ** Org Indent
+Actually don't use this it ruins the perfect head/list ration in DWM
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook 'org-indent-mode) 
+  ;;(add-hook 'org-mode-hook 'org-indent-mode) 
 #+end_src
 
 ** Startup Visibility
