@@ -104,7 +104,9 @@
       (sign)
       (encrypt))))
  '(mml-secure-openpgp-sign-with-sender t)
- '(org-agenda-files '("~/org/notes.org.gpg" "~/org/todo.org.gpg"))
+ '(org-agenda-files
+   '("~/org/cal.org.gpg" "/home/olivermead/org/notes.org.gpg" "/home/olivermead/org/todo.org.gpg"))
+ '(org-export-in-background t)
  '(org-latex-classes
    '(("article" "\\documentclass[11pt]{article}"
       ("\\section{%s}" . "\\section*{%s}")
@@ -133,6 +135,7 @@
  '(org-latex-hyperref-template
    "\\hypersetup{\12 pdfauthor={%a},\12 pdftitle={%t},\12 pdfkeywords={%k},\12 pdfsubject={%d},\12 pdfcreator={%c}, \12 pdflang={%L},\12 colorlinks=true,\12 linkcolor=black,}\12")
  '(org-link-search-must-match-exact-headline nil)
+ '(org-num-skip-tags '("ignore" "noexport"))
  '(package-selected-packages
    '(mixed-pitch org-download org-modern nov-xwidget nov ox-pandoc devil devil-mode tramp-container tramp-containers emms webpaste docker-tramp zig-mode company-jedi python-mode blender-python blender-python-mode lsp-mode circe-notifications racket-mode magit bnf-mode auctex pdf-tools format-all lsp-jedi ox-extra poetry astyle flycheck company-irony irony pinentry emmet-mode tramp-nspawn toc-org geiser-guile geiser org-plus-contrib org-contrib sly desktop-environment exwm simple-httpd gnus-desktop-notify gnus-notify exec-path-from-shell eglot haskell-mode yasnippet company evil-magit counsel-projectile transmission beacon debbugs emojify multi-vterm vterm multi-term-tmux multi-term general which-key use-package undo-tree treemacs-tab-bar treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil rainbow-delimiters pass parinfer-rust-mode ivy-rich ivy-pass helm evil-surround evil-snipe evil-commentary evil-collection doom-themes doom-modeline counsel command-log-mode circe all-the-icons))
  '(safe-local-variable-values

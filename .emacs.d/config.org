@@ -75,6 +75,9 @@
     - [[#pdf][PDF]]
     - [[#avy][Avy]]
 - [[#org-settings][Org Settings]]
+  - [[#org-speed-keys][Org Speed Keys]]
+  - [[#keys-1][Keys]]
+  - [[#electric-pair][Electric Pair]]
   - [[#images][Images]]
   - [[#org-capture-templates][Org Capture Templates]]
   - [[#org-todo-states][Org Todo States]]
@@ -304,9 +307,9 @@ Live updating:
 *** Fonts
 #+begin_src emacs-lisp
   (defun configure-fonts ()
-    (set-face-attribute 'default nil :font "Unifont" :height 100)
-    (set-face-attribute 'fixed-pitch nil :font "Unifont" :height 100)
-    (set-face-attribute 'variable-pitch nil :font "TeX Gyre Termes" :height 110))
+    (set-face-attribute 'default nil :font "Unifont" :height 108)
+    (set-face-attribute 'fixed-pitch nil :font "Unifont")
+    (set-face-attribute 'variable-pitch nil :font "TeX Gyre Termes"))
   (add-hook 'after-init-hook 'configure-fonts)
   (add-hook 'server-after-make-frame-hook 'configure-fonts)
 #+end_src
@@ -950,6 +953,23 @@ Live updating:
 :PROPERTIES:
 :header-args:emacs-lisp: :lexical t :results none 
 :END:
+** Org Speed Keys
+#+begin_src emacs-lisp
+  (setq org-use-speed-commands t)
+#+end_src
+
+** Keys
+#+begin_src emacs-lisp
+  (with-eval-after-load "org"
+    (bind-key "M--" #'org-cycle-list-bullet org-mode-map))
+#+end_src
+
+** Electric Pair
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook #'electric-pair-mode)
+  (add-hook 'org-mode-hook #'org-num-mode)
+#+end_src
+
 ** Images
 #+begin_src emacs-lisp
   (setq org-image-actual-width nil)
@@ -965,6 +985,7 @@ Live updating:
   (setq org-confirm-babel-evaluate nil
         +org-capture-journal-file "journal.org.gpg"
         +org-capture-todo-file "todo.org.gpg"
+        +org-capture-calendar-file "cal.org.gpg"
         +org-capture-notes-file "notes.org.gpg"
         +org-capture-bread-file "bread.org")
 
@@ -976,24 +997,30 @@ Live updating:
   (setq org-capture-templates
         `(("t" "Personal todo" entry
            (file+headline ,(ojm/org-dir +org-capture-todo-file) "Inbox")
-           "* TODO %?\n%i\n%a" :prepend t)
+           "* TODO %?\n%i\n%a" :prepend t :kill-buffer t)
           ("n" "Personal notes" entry
            (file+headline ,(ojm/org-dir +org-capture-notes-file) "Inbox")
-           "* %U %?\n%i\n%a" :prepend t)
+           "* %U %?\n%i\n%a" :prepend t :kill-buffer t)
+          ("c" "Calendar" entry
+           (file+headline ,(ojm/org-dir +org-capture-calendar-file) "Inbox")
+           "* %?\n%^t" :prepend t :time-prompt t :kill-buffer t)
+          ("C" "Calendar (range)" entry
+           (file+headline ,(ojm/org-dir +org-capture-calendar-file) "Inbox")
+           "* %?\n%^{Start:}t--%^{End:}t" :prepend t :time-prompt t :kill-buffer t)
           ("b" "BREAD" entry
            (file+headline ,(ojm/org-dir +org-capture-bread-file) "Inbox")
-           "* %U %?\n%i\n" :prepend t)
+           "* %U %?\n%i\n" :prepend t :kill-buffer t)
           ("j" "Journal" entry
            (file+olp+datetree ,(ojm/org-dir +org-capture-journal-file))
-           "* %U %?\n%i\n%a" :prepend t)
+           "* %U %?\n%i\n%a" :prepend t :kill-buffer t)
           ;; Project Local Capture
           ("p" "Templates for projects")
           ("pt" "Project todo" entry
            (file+headline +org-capture-project-todo-file "Inbox")
-           "* TODO %?\n%i\n%a" :prepend t)
+           "* TODO %?\n%i\n%a" :prepend t :kill-buffer t)
           ("pn" "Project notes" entry
            (file+headline +org-capture-project-notes-file "Inbox")
-           "* %U %?\n%i\n%a")))
+           "* %U %?\n%i\n%a" :prepend t :kill-buffer t)))
 #+end_src
 ** Org Todo States
 'Stolen' from doomemacs.
