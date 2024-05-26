@@ -92,7 +92,6 @@
  '(custom-safe-themes
    '("ff24d14f5f7d355f47d53fd016565ed128bf3af30eb7ce8cae307ee4fe7f3fd0" "691d671429fa6c6d73098fc6ff05d4a14a323ea0a18787daeb93fde0e48ab18b" "e3daa8f18440301f3e54f2093fe15f4fe951986a8628e98dcd781efbec7a46f2" "467dc6fdebcf92f4d3e2a2016145ba15841987c71fbe675dcfe34ac47ffb9195" default))
  '(doom-modeline-mode 1 nil nil "Customized with use-package doom-modeline")
- '(ede-project-directories '("/home/olivermead/book"))
  '(fill-column 80)
  '(helm-minibuffer-history-key "M-p")
  '(mml-secure-key-preferences
@@ -103,9 +102,7 @@
      (CMS
       (sign)
       (encrypt))))
- '(mml-secure-openpgp-sign-with-sender t)
- '(org-agenda-files
-   '("~/org/cal.org.gpg" "/home/olivermead/org/notes.org.gpg" "/home/olivermead/org/todo.org.gpg"))
+ '(mml-secure-openpgp-sign-with-sender t) 
  '(org-export-in-background t)
  '(org-latex-classes
    '(("article" "\\documentclass[11pt]{article}"
