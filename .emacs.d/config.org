@@ -1010,6 +1010,9 @@ Live updating:
           ("C" "Calendar (range)" entry
            (file+headline ,(ojm/org-dir +org-capture-calendar-file) "Inbox")
            "* %?\n%^{Start:}t--%^{End:}t" :prepend t :time-prompt t :kill-buffer t)
+          ("w" "Work" entry
+           (file+headline ,(ojm/org-dir +org-capture-calendar-file) "Inbox")
+           "* Work\n%^{Start:}t--%^{End:}t" :prepend t :time-prompt t :kill-buffer t)
           ("b" "BREAD" entry
            (file+headline ,(ojm/org-dir +org-capture-bread-file) "Inbox")
            "* %U %?\n%i\n" :prepend t :kill-buffer t)
