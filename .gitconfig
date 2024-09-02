@@ -16,3 +16,5 @@
 	fsckObjects = false
 [diff "gpg"]
 	textconv = gpg --no-tty --decrypt
+[rerere]
+	enabled = true
