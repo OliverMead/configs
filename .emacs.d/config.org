@@ -39,7 +39,6 @@
     - [[#yasnippet][Yasnippet]]
     - [[#company][Company]]
     - [[#flycheck][Flycheck]]
-    - [[#tramp-with-systemd-nspawn][TRAMP with systemd-nspawn]]
     - [[#vterm][Vterm]]
     - [[#zone-tmux-clock][Zone-tmux-clock]]
     - [[#icons-and-emoji][Icons and Emoji]]
@@ -49,7 +48,6 @@
     - [[#devil-mode][DEVIL Mode]]
     - [[#misc-unconfigured][Misc Unconfigured]]
     - [[#which-key][Which-key]]
-    - [[#counselivy][Counsel/Ivy]]
     - [[#pass][Pass]]
     - [[#circe][Circe]]
     - [[#parentheses-and-such][Parentheses and such]]
@@ -59,7 +57,6 @@
       - [[#latex][LaTeX]]
       - [[#emmet-html-css][Emmet (HTML, CSS)]]
       - [[#lsp-mode][lsp-mode]]
-      - [[#haskell][Haskell]]
       - [[#lisp][Lisp]]
       - [[#common-lisp][Common Lisp]]
       - [[#scheme][Scheme]]
@@ -459,11 +456,6 @@ Live updating:
   (use-package flycheck
     :config (global-flycheck-mode))
 #+end_src
-*** TRAMP with systemd-nspawn
-#+begin_src emacs-lisp
-  (use-package tramp-nspawn
-    :hook ((after-init . tramp-nspawn-setup))) 
-#+end_src
 
 *** Vterm
 #+begin_src emacs-lisp
@@ -550,24 +542,24 @@ Live updating:
       (which-key-mode)))
 #+end_src
 
-*** Counsel/Ivy
-#+begin_src emacs-lisp
-  (use-package counsel
-    :demand t
-    :bind (("M-x" . counsel-M-x)
-           ("C-x b" . counsel-switch-buffer)
-           ("C-x C-f" . counsel-find-file)
-           ("C-x R" . counsel-buffer-or-recentf)
-           :map minibuffer-local-map
-           ("C-r" . counsel-minibuffer-history))
-    :config
-    (ivy-mode 1)) ;; default starts with ^
+# *** Counsel/Ivy
+# #+begin_src emacs-lisp
+#   (use-package counsel
+#     :demand t
+#     :bind (("M-x" . counsel-M-x)
+#            ("C-x b" . counsel-switch-buffer)
+#            ("C-x C-f" . counsel-find-file)
+#            ("C-x R" . counsel-buffer-or-recentf)
+#            :map minibuffer-local-map
+#            ("C-r" . counsel-minibuffer-history))
+#     :config
+#     (ivy-mode 1)) ;; default starts with ^
 
-  (use-package ivy-rich
-    :demand t
-    :config
-    (ivy-rich-mode 1))
-#+end_src
+#   (use-package ivy-rich
+#     :demand t
+#     :config
+#     (ivy-rich-mode 1))
+# #+end_src
 
 *** Pass
 #+begin_src emacs-lisp
@@ -715,12 +707,12 @@ Live updating:
 # #+end_src
 
 
-**** Haskell
-#+begin_src emacs-lisp
-  (use-package haskell-mode
-    :hook ((haskell-mode . interactive-haskell-mode))
-    (setq haskell-process-load-or-reload-prompt t)) 
-#+end_src
+# **** Haskell
+# #+begin_src emacs-lisp
+#   (use-package haskell-mode
+#     :hook ((haskell-mode . interactive-haskell-mode))
+#     (setq haskell-process-load-or-reload-prompt t)) 
+# #+end_src
 
 **** Lisp
 #+begin_src emacs-lisp
@@ -809,6 +801,8 @@ Live updating:
 **** Rust
 #+begin_src emacs-lisp
   (use-package rustic
+    :init
+    (add-hook 'rustic-mode-hook (lambda () (set-fill-column 100)))
     :config
     (setq rustic-lsp-client 'eglot
           rustic-format-trigger 'on-save))
