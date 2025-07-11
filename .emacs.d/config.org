@@ -605,8 +605,9 @@ Live updating:
             :port 6697
             :nick "olivermead"
             :sasl-username ,(+pass-get-user "irc.libera.chat")
-            :sasl-password (lambda (&rest _) (memoised #'+pass-get-secret "irc.libera.chat"))
-            :channels ("#emacs" "#org-mode"))))
+            :sasl-password (lambda (x) (memoised #'+pass-get-secret "irc.libera.chat"))
+            ;; :sasl-password (lambda (x) (read-passwd "Libera Chat Password: "))
+            :channels ("#emacs" "#org-mode" "##rust"))))
    (setq circe-use-cycle-completion t)
    (require' circe-color-nicks)
    (add-hook 'circe-channel-mode-hook #'enable-circe-color-nicks)
