@@ -801,6 +801,13 @@ Live updating:
 **** Rust
 #+begin_src emacs-lisp
   (use-package rustic
+    :bind (:map rustic-mode-map
+                ("C-c C-e" . eglot-code-actions)
+                ("C-c e o" . eglot-code-action-organize-imports)
+                ("C-c e e" . eglot-code-action-extract)
+                ("C-c e q" . eglot-code-action-quickfix)
+                ("C-c e i" . eglot-code-action-inline)
+                ("C-c e r" . eglot-rename))
     :init
     (add-hook 'rustic-mode-hook (lambda () (set-fill-column 100)))
     :config
