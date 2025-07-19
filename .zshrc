@@ -1,6 +1,9 @@
-export MANPATH=/usr/local/texlive/2025/texmf-dist/doc/man:$MANPATH
-export INFOPATH=/usr/local/texlive/2025/texmf-dist/doc/info:$INFOPATH
-export PATH=$HOME/.cargo/bin:$HOME/node_modules/.bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$HOME/.local/bin:/usr/local/texlive/2025/bin/x86_64-linux:$PATH
+if (( ! ${+PREFIX} )); then
+	export PREFIX=$PREFIX
+fi
+export MANPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/man:$MANPATH
+export INFOPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/info:$INFOPATH
+export PATH=$HOME/.cargo/bin:$HOME/node_modules/.bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$HOME/.local/bin:$PREFIX/local/texlive/2025/bin/x86_64-linux:$PATH
 [ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
 
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
@@ -15,7 +18,7 @@ export PATH=$HOME/.cargo/bin:$HOME/node_modules/.bin:$HOME/.ghcup/bin:$HOME/.cab
 setopt extended_glob
 typeset -U fpath
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:$PREFIX/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 ZSH=$HOME/.config/oh-my-zsh
@@ -82,7 +85,7 @@ plugins=(zsh-syntax-highlighting zsh-completions nix-shell)
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# export MANPATH="$PREFIX/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 export LANG=en_GB.UTF-8
@@ -122,8 +125,8 @@ ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
-# [[ -d "/usr/lib/avr/include" ]] && export C_INCLUDE_PATH="/usr/lib/avr/include":$C_INCLUDE_PATH
-# [[ -d "/usr/avr/include" ]] && export C_INCLUDE_PATH="/usr/avr/include":$C_INCLUDE_PATH
+# [[ -d "$PREFIX/lib/avr/include" ]] && export C_INCLUDE_PATH="$PREFIX/lib/avr/include":$C_INCLUDE_PATH
+# [[ -d "$PREFIX/avr/include" ]] && export C_INCLUDE_PATH="$PREFIX/avr/include":$C_INCLUDE_PATH
 
 # export LC_COLLATE="C"
 # export PATH="$HOME/.cargo/bin:$PATH"
