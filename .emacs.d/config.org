@@ -592,68 +592,69 @@ Live updating:
 *** Circe
 #+begin_src emacs-lisp
   (use-package circe
-   :config
-   (defun ojm/pretty-lui ()
-     (setq fringed-outside-margins t
-           right-margin-width 7 
-           word-wrap t
-           wrap-prefix "    "))
+    :config
+    (defun ojm/pretty-lui ()
+      (setq fringed-outside-margins t
+            right-margin-width 7 
+            word-wrap t
+            wrap-prefix "    "))
 
-   (setq circe-network-options 
-         `(("Libera Chat"
-            :tls t
-            :port 6697
-            :nick "olivermead"
-            :sasl-username ,(+pass-get-user "irc.libera.chat")
-            :sasl-password (lambda (&rest _) (memoised #'+pass-get-secret "irc.libera.chat"))
-            :channels ("#emacs" "#org-mode"))))
-   (setq circe-use-cycle-completion t)
-   (require' circe-color-nicks)
-   (add-hook 'circe-channel-mode-hook #'enable-circe-color-nicks)
-   (add-hook 'lui-mode-hook #'enable-lui-track-bar)
-   (add-hook 'lui-mode-hook #'ojm/pretty-lui)
-   (defvar +irc-left-padding 13)
-   (defsubst +irc--pad (left right)
-     (format (format "%%%ds | %%s" +irc-left-padding)
-             (concat "*** " left) right))
-   (setq circe-color-nicks-min-contrast-ratio 4.5
-         circe-color-nicks-everywhere t
-         circe-reduce-lurker-spam t
+    (setq circe-network-options 
+          `(("Libera Chat"
+             :tls t
+             :port 6697
+             :nick "olivermead"
+             :sasl-username ,(+pass-get-user "irc.libera.chat")
+             :sasl-password (lambda (x) (memoised #'+pass-get-secret "irc.libera.chat"))
+             ;; :sasl-password (lambda (x) (read-passwd "Libera Chat Password: "))
+             :channels ("#emacs" "#org-mode" "##rust"))))
+    (setq circe-use-cycle-completion t)
+    (require' circe-color-nicks)
+    (add-hook 'circe-channel-mode-hook #'enable-circe-color-nicks)
+    (add-hook 'lui-mode-hook #'enable-lui-track-bar)
+    (add-hook 'lui-mode-hook #'ojm/pretty-lui)
+    (defvar +irc-left-padding 13)
+    (defsubst +irc--pad (left right)
+      (format (format "%%%ds | %%s" +irc-left-padding)
+              (concat "*** " left) right))
+    (setq circe-color-nicks-min-contrast-ratio 4.5
+          circe-color-nicks-everywhere t
+          circe-reduce-lurker-spam t
 
-         lui-time-stamp-position 'right-margin
-         lui-fill-type nil
+          lui-time-stamp-position 'right-margin
+          lui-fill-type nil
 
-         circe-format-say (format "{nick:+%ss} │ {body}" +irc-left-padding)
-         circe-format-self-say circe-format-say
-         circe-format-action (format "{nick:+%ss} * {body}" +irc-left-padding)
-         circe-format-self-action circe-format-action
-         circe-format-notice (format "{nick:%ss} _ {body}" +irc-left-padding)
-         circe-format-server-topic
-         (+irc--pad "Topic" "{userhost}: {topic-diff}")
-         circe-format-server-join-in-channel
-         (+irc--pad "Join" "{nick} ({userinfo}) joined {channel}")
-         circe-format-server-join
-         (+irc--pad "Join" "{nick} ({userinfo})")
-         circe-format-server-part
-         (+irc--pad "Part" "{nick} ({userhost}) left {channel}: {reason}")
-         circe-format-server-quit
-         (+irc--pad "Quit" "{nick} ({userhost}) left IRC: {reason}]")
-         circe-format-server-quit-channel
-         (+irc--pad "Quit" "{nick} ({userhost}) left {channel}: {reason}]")
-         circe-format-server-rejoin
-         (+irc--pad "Re-join" "{nick} ({userhost}), left {departuredelta} ago")
-         circe-format-server-netmerge
-         (+irc--pad "Netmerge" "{split}, split {ago} ago (Use /WL to see who's still missing)")
-         circe-format-server-nick-change
-         (+irc--pad "Nick" "{old-nick} ({userhost}) is now known as {new-nick}")
-         circe-format-server-nick-change-self
-         (+irc--pad "Nick" "You are now known as {new-nick} ({old-nick})")
-         circe-format-server-nick-change-self
-         (+irc--pad "Nick" "{old-nick} ({userhost}) is now known as {new-nick}")
-         circe-format-server-mode-change
-         (+irc--pad "Mode" "{change} on {target} by {setter} ({userhost})")
-         circe-format-server-lurker-activity
-         (+irc--pad "Lurk" "{nick} joined {joindelta} ago"))) 
+          circe-format-say (format "{nick:+%ss} │ {body}" +irc-left-padding)
+          circe-format-self-say circe-format-say
+          circe-format-action (format "{nick:+%ss} * {body}" +irc-left-padding)
+          circe-format-self-action circe-format-action
+          circe-format-notice (format "{nick:%ss} _ {body}" +irc-left-padding)
+          circe-format-server-topic
+          (+irc--pad "Topic" "{userhost}: {topic-diff}")
+          circe-format-server-join-in-channel
+          (+irc--pad "Join" "{nick} ({userinfo}) joined {channel}")
+          circe-format-server-join
+          (+irc--pad "Join" "{nick} ({userinfo})")
+          circe-format-server-part
+          (+irc--pad "Part" "{nick} ({userhost}) left {channel}: {reason}")
+          circe-format-server-quit
+          (+irc--pad "Quit" "{nick} ({userhost}) left IRC: {reason}]")
+          circe-format-server-quit-channel
+          (+irc--pad "Quit" "{nick} ({userhost}) left {channel}: {reason}]")
+          circe-format-server-rejoin
+          (+irc--pad "Re-join" "{nick} ({userhost}), left {departuredelta} ago")
+          circe-format-server-netmerge
+          (+irc--pad "Netmerge" "{split}, split {ago} ago (Use /WL to see who's still missing)")
+          circe-format-server-nick-change
+          (+irc--pad "Nick" "{old-nick} ({userhost}) is now known as {new-nick}")
+          circe-format-server-nick-change-self
+          (+irc--pad "Nick" "You are now known as {new-nick} ({old-nick})")
+          circe-format-server-nick-change-self
+          (+irc--pad "Nick" "{old-nick} ({userhost}) is now known as {new-nick}")
+          circe-format-server-mode-change
+          (+irc--pad "Mode" "{change} on {target} by {setter} ({userhost})")
+          circe-format-server-lurker-activity
+          (+irc--pad "Lurk" "{nick} joined {joindelta} ago"))) 
 
   (use-package circe-notifications
     :after circe
@@ -801,6 +802,13 @@ Live updating:
 **** Rust
 #+begin_src emacs-lisp
   (use-package rustic
+    :bind (:map rustic-mode-map
+                ("C-c C-e" . eglot-code-actions)
+                ("C-c e o" . eglot-code-action-organize-imports)
+                ("C-c e e" . eglot-code-action-extract)
+                ("C-c e q" . eglot-code-action-quickfix)
+                ("C-c e i" . eglot-code-action-inline)
+                ("C-c e r" . eglot-rename))
     :init
     (add-hook 'rustic-mode-hook (lambda () (set-fill-column 100)))
     :config

@@ -1,6 +1,9 @@
-export MANPATH=/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH
-export INFOPATH=/usr/local/texlive/2024/texmf-dist/doc/info:$INFOPATH
-export PATH=/home/olivermead/.cargo/bin:/home/olivermead/node_modules/.bin:/home/olivermead/.ghcup/bin:/home/olivermead/.cabal/bin:/home/olivermead/.local/bin:/usr/local/texlive/2024/bin/x86_64-linux:$PATH
+if (( ! ${+PREFIX} )); then
+	export PREFIX=$PREFIX
+fi
+export MANPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/man:$MANPATH
+export INFOPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/info:$INFOPATH
+export PATH=$HOME/.cargo/bin:$HOME/node_modules/.bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$HOME/.local/bin:$PREFIX/local/texlive/2025/bin/x86_64-linux:$PATH
 [ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
 
 [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
@@ -15,11 +18,11 @@ export PATH=/home/olivermead/.cargo/bin:/home/olivermead/node_modules/.bin:/home
 setopt extended_glob
 typeset -U fpath
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# export PATH=$HOME/bin:$PREFIX/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-ZSH=/home/olivermead/.config/oh-my-zsh
-TPMUX=/home/olivermead/.tmux/plugins/tpm
+ZSH=$HOME/.config/oh-my-zsh
+TPMUX=$HOME/.tmux/plugins/tpm
 [ -d "$ZSH" ] || git clone https://github.com/ohmyzsh/ohmyzsh "$ZSH"
 [ -d "$TPMUX" ] || git clone https://github.com/tmux-plugins/tpm "$TPMUX"
 
@@ -82,7 +85,7 @@ plugins=(zsh-syntax-highlighting zsh-completions nix-shell)
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# export MANPATH="$PREFIX/local/man:$MANPATH"
 
 # You may need to manually set your language environment
 export LANG=en_GB.UTF-8
@@ -122,8 +125,8 @@ ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
 ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
-# [[ -d "/usr/lib/avr/include" ]] && export C_INCLUDE_PATH="/usr/lib/avr/include":$C_INCLUDE_PATH
-# [[ -d "/usr/avr/include" ]] && export C_INCLUDE_PATH="/usr/avr/include":$C_INCLUDE_PATH
+# [[ -d "$PREFIX/lib/avr/include" ]] && export C_INCLUDE_PATH="$PREFIX/lib/avr/include":$C_INCLUDE_PATH
+# [[ -d "$PREFIX/avr/include" ]] && export C_INCLUDE_PATH="$PREFIX/avr/include":$C_INCLUDE_PATH
 
 # export LC_COLLATE="C"
 # export PATH="$HOME/.cargo/bin:$PATH"
@@ -135,11 +138,11 @@ alias please="sudo"
 alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne/input -it alexjc/neural-enhance ${@:1:$#-1} "input/`basename ${@:$#}`"; }; ne'
 alias vnctunnel='ssh home -L 9901:localhost:5901'
 alias getip='curl icanhazip.com'
-alias vpn="sudo sshuttle --dns -r home:443 0/0 -x home -e 'ssh -i /home/olivermead/.ssh/id_rsa'"
-alias rip="HandBrakeCLI -Z 'HQ 576p25 Surround' -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
-# alias bMount="sshfs olivermead@home:/home/olivermead/.config/blender ~/.config/blender -C && sshfs olivermead@home:/store /store -C"
-alias blendSync="rsync -azuP olivermead@home:/home/olivermead/.config/blender ~/.config/ ; rsync -azuP --existing olivermead@home:/store/blender /"
-alias blendSyncUp="rsync -azuP ~/.config/blender olivermead@home:/home/olivermead/.config/ ; rsync -azuP /blender olivermead@home:/store/"
+alias vpn="sudo sshuttle --dns -r home:443 0/0 -x home -e 'ssh -i $HOME/.ssh/id_rsa'"
+alias rip="HandBrakeCLI -Z 'Very Fast 576p25' -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
+# alias bMount="sshfs olivermead@home:$HOME/.config/blender ~/.config/blender -C && sshfs olivermead@home:/store /store -C"
+alias blendSync="rsync -azuP olivermead@home:$HOME/.config/blender ~/.config/ ; rsync -azuP --existing olivermead@home:/store/blender /"
+alias blendSyncUp="rsync -azuP ~/.config/blender olivermead@home:$HOME/.config/ ; rsync -azuP /blender olivermead@home:/store/"
 
 bindkey -v
 # function zle-line-init zle-keymap-select {
