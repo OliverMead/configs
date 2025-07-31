@@ -136,7 +136,7 @@ alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne
 alias vnctunnel='ssh home -L 9901:localhost:5901'
 alias getip='curl icanhazip.com'
 alias vpn="sudo sshuttle --dns -r home:443 0/0 -x home -e 'ssh -i /home/olivermead/.ssh/id_rsa'"
-alias rip="HandBrakeCLI -Z 'Very Fast 576p25' -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
+alias rip="HandBrakeCLI -Z 'HQ 576p25 Surround' -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
 # alias bMount="sshfs olivermead@home:/home/olivermead/.config/blender ~/.config/blender -C && sshfs olivermead@home:/store /store -C"
 alias blendSync="rsync -azuP olivermead@home:/home/olivermead/.config/blender ~/.config/ ; rsync -azuP --existing olivermead@home:/store/blender /"
 alias blendSyncUp="rsync -azuP ~/.config/blender olivermead@home:/home/olivermead/.config/ ; rsync -azuP /blender olivermead@home:/store/"
