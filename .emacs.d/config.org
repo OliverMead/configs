@@ -273,6 +273,7 @@ Live updating:
 
 ** 'Sensible' Anti-heretical Settings
 #+begin_src emacs-lisp
+  (add-to-list 'display-buffer-alist '("*Async Shell Command*" display-buffer-no-window))
   (setq-default indent-tabs-mode nil
                 tab-width 2
                 make-backup-files nil
@@ -297,6 +298,7 @@ Live updating:
   (savehist-mode 1)
   (save-place-mode 1)
   (global-auto-revert-mode 1)
+  (fido-vertical-mode 1)
   (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
