@@ -37,14 +37,12 @@
     - [[#web-development][Web Development]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
     - [[#yasnippet][Yasnippet]]
-    - [[#company][Company]]
     - [[#flycheck][Flycheck]]
     - [[#vterm][Vterm]]
-    - [[#zone-tmux-clock][Zone-tmux-clock]]
     - [[#icons-and-emoji][Icons and Emoji]]
       - [[#emojify][Emojify]]
       - [[#all-the-icons][All-the-icons]]
-    - [[#undo-tree][Undo Tree]]
+    - [[#vundo][Vundo]]
     - [[#devil-mode][DEVIL Mode]]
     - [[#misc-unconfigured][Misc Unconfigured]]
     - [[#which-key][Which-key]]
@@ -70,7 +68,6 @@
       - [[#table-of-contents-in-org][Table of Contents in Org]]
       - [[#org-download][Org-download]]
     - [[#pdf][PDF]]
-    - [[#avy][Avy]]
 - [[#org-settings][Org Settings]]
   - [[#org-speed-keys][Org Speed Keys]]
   - [[#keys-1][Keys]]
@@ -139,13 +136,15 @@ Start a new line
 
 ** Keys
 #+begin_src emacs-lisp
-  (global-set-key (kbd "M-n") 'ojm/newline)
-  (global-set-key (kbd "M-p") 'ojm/backnewline)
-  (global-set-key (kbd "C-h C-f") 'find-function)
-  ;; (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (global-set-key (kbd "C-x x x") 'org-capture)
-  (global-set-key (kbd "C-x x a") 'org-agenda)
-  (global-set-key (kbd "M-o") 'other-window)
+  (keymap-global-set "M-n" 'ojm/newline)
+  (keymap-global-set "M-p" 'ojm/backnewline)
+  (keymap-global-set "C-h C-f" 'find-function)
+  ;; (keymap-global-set "<escape>" 'keyboard-escape-quit)
+  (keymap-global-set "C-x x x" 'org-capture)
+  (keymap-global-set "C-x x a" 'org-agenda)
+  (keymap-global-set "M-o" 'other-window)
+  (keymap-global-set "C-c b m" (lambda () (interactive) (switch-to-buffer "*Messages*")))
+  (keymap-global-set "C-c b s" (lambda () (interactive) (switch-to-buffer "*scratch*")))
 #+end_src
 
 ** Memoization
@@ -165,6 +164,11 @@ Start everything in the scratch buffer:
 #+begin_src emacs-lisp
 (setq inhibit-startup-message t)
 (setq tab-bar-new-tab-choice "*scratch*")
+#+end_src
+
+Easily switch to it:
+#+begin_src emacs-lisp
+  (keymap-global-set "C-c s" (lambda () (interactive) (switch-to-buffer "*scratch*")))
 #+end_src
 
 And preserve the scratch buffer forever:
@@ -284,6 +288,13 @@ Live updating:
         enable-recursive-minibuffers t
         tab-always-indent 'complete
         completion-cycle-threshold t
+        completion-styles '(basic flex)
+        completion-auto-select t
+        completion-auto-help 'always
+        completions-format 'one-column
+        completions-sort 'historical
+        completions-max-height 20
+        completion-ignore-case t
         search-whitespace-regexp ".*?"
         windmove-wrap-around t
         set-mark-command-repeat-pop t
@@ -437,7 +448,7 @@ Live updating:
     (yas-global-mode 1))
 #+end_src
 
-*** Company
+*** COMMENT Company
 #+begin_src emacs-lisp
   (use-package company
     :init
@@ -470,10 +481,11 @@ Live updating:
     :after vterm
     :config
     (require 'vterm-tmux)
-    (vterm-tmux-default-binding))
+    (vterm-tmux-default-binding)
+    (keymap-global-set "C-c t" 'vterm-tmux))
 #+end_src
 
-*** Zone-tmux-clock
+*** COMMENT Zone-tmux-clock
 #+begin_src emacs-lisp
  (use-package zone-tmux-clock) 
 #+end_src
@@ -493,7 +505,7 @@ Live updating:
     :if (display-graphic-p))
 #+end_src
 
-*** Undo Tree
+*** COMMENT Undo Tree
 #+begin_src emacs-lisp
   (use-package undo-tree
     :demand t
@@ -501,6 +513,11 @@ Live updating:
     (setq undo-tree-history-directory-alist
           `(("." . ,(expand-file-name "undo-tree/" user-emacs-directory))))
     (global-undo-tree-mode))
+#+end_src
+
+*** Vundo
+#+begin_src emacs-lisp
+  (use-package vundo)
 #+end_src
 
 *** DEVIL Mode
@@ -511,7 +528,6 @@ Live updating:
     :config
     (global-devil-mode))
 #+end_src
-
 
 *** Misc Unconfigured
 #+begin_src emacs-lisp
@@ -762,10 +778,10 @@ Live updating:
                 ([remap completion-at-point] . irony-completion-at-point-async)
                 ([remap complete-symbol] . irony-completion-at-point-async)))
 
-  (use-package company-irony
-    :config
-    (add-hook 'c-mode-hook (set-company-backends '((company-irony company-etags company-yasnippet))))
-    (add-hook 'c++-mode-hook (set-company-backends '((company-irony company-etags company-yasnippet)))))
+;  (use-package company-irony)
+ ;   :config
+;    (add-hook 'c-mode-hook (set-company-backends '((company-irony company-etags company-yasnippet))))
+;    (add-hook 'c++-mode-hook (set-company-backends '((company-irony company-etags company-yasnippet)))))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -788,12 +804,12 @@ Live updating:
     (setq pyvenv-post-deactivate-hooks
           (list (lambda ()
                   (setq python-shell-interpreter "python3"))))) 
-  (use-package company-jedi)
+  ;(use-package company-jedi)
 #+end_src
 
 ***** Completion
 #+begin_src emacs-lisp
-  (add-hook 'python-mode-hook (set-company-backends '((company-jedi))))
+;  (add-hook 'python-mode-hook (set-company-backends '((company-jedi))))
 #+end_src
 **** Zig
 #+begin_src emacs-lisp
@@ -942,7 +958,7 @@ Live updating:
                 #'pdf-view-scroll-down-or-previous-page))
 #+end_src
 
-*** Avy
+*** COMMENT Avy
 #+begin_src emacs-lisp
   (use-package avy
     :bind (("C-c C-j" . avy-resume)

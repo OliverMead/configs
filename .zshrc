@@ -1,5 +1,5 @@
 if (( ! ${+PREFIX} )); then
-	export PREFIX=$PREFIX
+	export PREFIX=/usr
 fi
 export MANPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/man:$MANPATH
 export INFOPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/info:$INFOPATH
