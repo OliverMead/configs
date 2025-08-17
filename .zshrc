@@ -1,5 +1,5 @@
 if (( ! ${+PREFIX} )); then
-	export PREFIX=$PREFIX
+	export PREFIX=/usr
 fi
 export MANPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/man:$MANPATH
 export INFOPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/info:$INFOPATH
@@ -139,7 +139,7 @@ alias enhance='function ne() { docker run --rm -v "$(pwd)/`dirname ${@:$#}`":/ne
 alias vnctunnel='ssh home -L 9901:localhost:5901'
 alias getip='curl icanhazip.com'
 alias vpn="sudo sshuttle --dns -r home:443 0/0 -x home -e 'ssh -i $HOME/.ssh/id_rsa'"
-alias rip="HandBrakeCLI -Z 'Very Fast 576p25' -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
+alias rip="HandBrakeCLI -Z 'Fast 576p25' --no-comb-detect --no-deinterlace -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
 # alias bMount="sshfs olivermead@home:$HOME/.config/blender ~/.config/blender -C && sshfs olivermead@home:/store /store -C"
 alias blendSync="rsync -azuP olivermead@home:$HOME/.config/blender ~/.config/ ; rsync -azuP --existing olivermead@home:/store/blender /"
 alias blendSyncUp="rsync -azuP ~/.config/blender olivermead@home:$HOME/.config/ ; rsync -azuP /blender olivermead@home:/store/"
