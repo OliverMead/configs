@@ -8,7 +8,6 @@
 - [[#pre-packages][Pre-packages]]
   - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
   - [[#general-macros][General macros]]
-  - [[#advice][Advice]]
   - [[#keys][Keys]]
   - [[#memoization][Memoization]]
   - [[#the-holy-scratch-buffer][The Holy Scratch buffer]]
@@ -32,46 +31,25 @@
   - [[#package-locations][Package Locations]]
   - [[#install-use-package][Install use-package]]
   - [[#packages][Packages]]
-    - [[#mixed-pitch][Mixed Pitch]]
-    - [[#webpaste][WebPaste]]
-    - [[#web-development][Web Development]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
-    - [[#yasnippet][Yasnippet]]
-    - [[#flycheck][Flycheck]]
-    - [[#vterm][Vterm]]
     - [[#icons-and-emoji][Icons and Emoji]]
       - [[#emojify][Emojify]]
       - [[#all-the-icons][All-the-icons]]
     - [[#vundo][Vundo]]
     - [[#devil-mode][DEVIL Mode]]
     - [[#misc-unconfigured][Misc Unconfigured]]
-    - [[#which-key][Which-key]]
-    - [[#pass][Pass]]
-    - [[#circe][Circe]]
     - [[#parentheses-and-such][Parentheses and such]]
     - [[#format-all][Format All]]
     - [[#language-specific][Language-Specific]]
-      - [[#bnf][BNF]]
-      - [[#latex][LaTeX]]
-      - [[#emmet-html-css][Emmet (HTML, CSS)]]
-      - [[#lsp-mode][lsp-mode]]
-      - [[#lisp][Lisp]]
-      - [[#common-lisp][Common Lisp]]
-      - [[#scheme][Scheme]]
-      - [[#cc][C/C++]]
-      - [[#python][Python]]
-      - [[#zig][Zig]]
-      - [[#rust][Rust]]
     - [[#it-came-from-doom][It came from DOOM...]]
     - [[#org][Org]]
       - [[#exports][Exports]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
       - [[#org-download][Org-download]]
-    - [[#pdf][PDF]]
 - [[#org-settings][Org Settings]]
   - [[#org-speed-keys][Org Speed Keys]]
   - [[#keys-1][Keys]]
-  - [[#electric-pair][Electric Pair]]
+  - [[#org-num][Org Num]]
   - [[#images][Images]]
   - [[#org-capture-templates][Org Capture Templates]]
   - [[#org-todo-states][Org Todo States]]
@@ -126,7 +104,7 @@ Start a new line
     (intend-for-tab-command))
 #+end_src
 
-** Advice
+** COMMENT Advice
 #+begin_src emacs-lisp  
   (advice-add 'other-window :before
               (defun other-window-split-if-single (&rest _)
@@ -145,6 +123,7 @@ Start a new line
   (keymap-global-set "M-o" 'other-window)
   (keymap-global-set "C-c b m" (lambda () (interactive) (switch-to-buffer "*Messages*")))
   (keymap-global-set "C-c b s" (lambda () (interactive) (switch-to-buffer "*scratch*")))
+  (keymap-global-set "C-c c" 'check-parens)
 #+end_src
 
 ** Memoization
@@ -287,18 +266,17 @@ Live updating:
   (setq server-kill-new-buffers nil
         enable-recursive-minibuffers t
         tab-always-indent 'complete
-        completion-cycle-threshold t
         completion-styles '(basic flex)
-        completion-auto-select t
         completion-auto-help 'always
-        completions-format 'one-column
+        ;; completions-format 'one-column
         completions-sort 'historical
-        completions-max-height 20
+        ;; completions-max-height 20
         completion-ignore-case t
         search-whitespace-regexp ".*?"
         windmove-wrap-around t
         set-mark-command-repeat-pop t
         use-dialog-box nil)
+
   (fset 'yes-or-no-p 'y-or-n-p)
   (winner-mode 1)
   (minibuffer-depth-indicate-mode 1)
@@ -309,6 +287,8 @@ Live updating:
   (savehist-mode 1)
   (save-place-mode 1)
   (global-auto-revert-mode 1)
+  (global-completion-preview-mode 1)
+  (global-hl-line-mode 1)
   (fido-vertical-mode 1)
   (setq global-auto-revert-non-file-buffers t)
 #+end_src
@@ -362,18 +342,19 @@ Live updating:
 
 ** Recent Files
 #+begin_src emacs-lisp
-(recentf-mode 1)
-(setq recentf-max-menu-items 40)
-(setq recentf-max-saved-items 40)
+  (setq recentf-auto-cleanup 'never)
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 40)
+  (setq recentf-max-saved-items 40)
 #+end_src
 
 ** TRAMP Configuration
 #+begin_src emacs-lisp
-  (require 'tramp)
-  (with-eval-after-load "tramp" (setq tramp-default-remote-shell "/usr/bin/zsh"))
-  (add-to-list 'tramp-remote-path "~/.ghcup/bin/")
-  (add-to-list 'tramp-remote-path "~/.local/bin/")
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+;;    (require 'tramp)
+  ;  (with-eval-after-load "tramp" (setq tramp-default-remote-shell "/usr/bin/zsh"))
+  ;  (add-to-list 'tramp-remote-path "~/.ghcup/bin/")
+  ;  (add-to-list 'tramp-remote-path "~/.local/bin/")
+  ;  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 #+end_src
 
 * Package Management
@@ -405,18 +386,18 @@ Live updating:
   ;;(unless (package-installed-p 'use-package)
   ;;  (package-install 'use-package))
   (require 'use-package)
-  (setq use-package-always-ensure t)
-;;  (setq use-package-always-defer t)
+  (setq use-package-always-ensure nil)
+  (setq use-package-always-defer t)
 #+end_src
 
 ** Packages
-*** Mixed Pitch
+*** COMMENT Mixed Pitch
 #+begin_src emacs-lisp
 (use-package mixed-pitch
   :hook (text-mode . mixed-pitch-mode))
 #+end_src
 
-*** WebPaste
+*** COMMENT WebPaste
 #+begin_src emacs-lisp
   (use-package webpaste
   ;; :bind (("C-9 p" . webpaste-paste-buffer)
@@ -426,7 +407,7 @@ Live updating:
     (setq webpaste-provider-priority '("bpa.st"))))
 #+end_src
 
-*** Web Development
+*** COMMENT Web Development
 #+begin_src emacs-lisp
  (use-package simple-httpd) 
 #+end_src
@@ -439,13 +420,13 @@ Live updating:
       (exec-path-from-shell-initialize)))
 #+end_src
 
-*** Yasnippet
+*** COMMENT Yasnippet
 #+begin_src emacs-lisp
   (use-package yasnippet)
-  (use-package yasnippet-snippets
-    :after yasnippet
-    :config
-    (yas-global-mode 1))
+  ;; (use-package yasnippet-snippets
+  ;;   :after yasnippet
+  ;;   :config
+  ;;   (yas-global-mode 1))
 #+end_src
 
 *** COMMENT Company
@@ -464,13 +445,13 @@ Live updating:
     `(lambda () (setq company-backends ,backends)))
 #+end_src
 
-*** Flycheck
+*** COMMENT Flycheck
 #+begin_src emacs-lisp
   (use-package flycheck
     :config (global-flycheck-mode))
 #+end_src
 
-*** Vterm
+*** COMMENT Vterm
 #+begin_src emacs-lisp
   (use-package vterm
     :demand t
@@ -540,7 +521,7 @@ Live updating:
   (use-package org)
 #+end_src
 
-*** Which-key
+*** COMMENT Which-key
 #+begin_src emacs-lisp
   (use-package which-key
     :demand t
@@ -579,7 +560,7 @@ Live updating:
 #     (ivy-rich-mode 1))
 # #+end_src
 
-*** Pass
+*** COMMENT Pass
 #+begin_src emacs-lisp
   (use-package pass
    :init
@@ -607,7 +588,7 @@ Live updating:
   (use-package ivy-pass)
 #+end_src
 
-*** Circe
+*** COMMENT Circe
 #+begin_src emacs-lisp
   (use-package circe
     :config
@@ -696,17 +677,12 @@ Live updating:
 #+end_src
 
 *** Language-Specific
-**** BNF
+**** COMMENT BNF
 #+begin_src emacs-lisp
  (use-package bnf-mode) 
 #+end_src
 
-**** LaTeX
-#+begin_src emacs-lisp
- ;(use-package auctex)
-#+end_src
-
-**** Emmet (HTML, CSS)
+**** COMMENT Emmet (HTML, CSS)
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :hook ((sgml-mode css-mode) . emmet-mode)
@@ -715,7 +691,7 @@ Live updating:
     (define-key emmet-mode-keymap (kbd "M-j") #'emmet-expand-line)) 
 #+end_src
 
-**** lsp-mode
+**** COMMENT lsp-mode
 #+begin_src emacs-lisp
 (use-package lsp-mode)  
 #+end_src
@@ -733,7 +709,7 @@ Live updating:
 #     (setq haskell-process-load-or-reload-prompt t)) 
 # #+end_src
 
-**** Lisp
+**** COMMENT Lisp
 #+begin_src emacs-lisp
   (use-package paredit
     :hook ((emacs-lisp-mode 
@@ -744,14 +720,14 @@ Live updating:
             scheme-mode) .  enable-paredit-mode))
 #+end_src
 
-**** Common Lisp
+**** COMMENT Common Lisp
 #+begin_src emacs-lisp
   (use-package sly
     :config
     (setq sly-lisp-implementations '(("ccl" ("ccl")))))
 #+end_src
 
-**** Scheme
+**** COMMENT Scheme
 #+begin_src emacs-lisp
   (use-package geiser)
 #+end_src
@@ -770,7 +746,7 @@ Live updating:
 #+begin_src emacs-lisp
  (use-package geiser-guile) 
 #+end_src
-**** C/C++
+**** COMMENT C/C++
 #+begin_src emacs-lisp
   (use-package irony
     :hook ((c++-mode c-mode) . irony-mode)
@@ -781,7 +757,7 @@ Live updating:
 ;  (use-package company-irony)
  ;   :config
 ;    (add-hook 'c-mode-hook (set-company-backends '((company-irony company-etags company-yasnippet))))
-;    (add-hook 'c++-mode-hook (set-company-backends '((company-irony company-etags company-yasnippet)))))
+;    (add-hook 'c++-mode-hook (set-company-backends '((company-irony company-etags company-yasnippet))))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -789,7 +765,7 @@ Live updating:
     :when (executable-find "astyle")
     :hook (c-mode-common . astyle-on-save-mode))
 #+end_src
-**** Python
+**** COMMENT Python
 #+begin_src emacs-lisp
   (use-package python-mode
     :bind (:map python-mode-map
@@ -811,13 +787,12 @@ Live updating:
 #+begin_src emacs-lisp
 ;  (add-hook 'python-mode-hook (set-company-backends '((company-jedi))))
 #+end_src
-**** Zig
+**** COMMENT Zig
 #+begin_src emacs-lisp
   (use-package zig-mode)
 #+end_src
 
-
-**** Rust
+**** COMMENT Rust
 #+begin_src emacs-lisp
   (use-package rustic
     :bind (:map rustic-mode-map
@@ -884,14 +859,14 @@ Live updating:
 
 *** It came from DOOM...
 #+begin_src emacs-lisp
-  (use-package doom-modeline
-    :hook (server-after-make-frame . doom-modeline-mode)
-    :init
-    (setq doom-modeline-height 25
-          doom-modeline-gnus t
-          doom-modeline-gnus-timer 1)
-    :custom
-    (delete '(circe-mode . special) doom-modeline-mode-alist))
+  ;; (use-package doom-modeline
+  ;;   :hook (server-after-make-frame . doom-modeline-mode)
+  ;;   :init
+  ;;   (setq doom-modeline-height 25
+  ;;         doom-modeline-gnus t
+  ;;         doom-modeline-gnus-timer 1)
+  ;;   :custom
+  ;;   (delete '(circe-mode . special) doom-modeline-mode-alist))
 
   (use-package doom-themes
     :demand t
@@ -899,29 +874,13 @@ Live updating:
     ;; Global settings (defaults)
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    ;; (when (display-graphic-p) (load-theme 'doom-gruvbox-light t))
-    ;; (load-theme 'doom-gruvbox-light t)
-    ;; (if (daemonp)
-    ;;     (add-hook 'after-make-frame-functions
-    ;;         (lambda (frame)
-    ;;             (select-frame frame)
-    ;;             (load-theme 'doom-gruvbox-light t)))
-    ;;     (load-theme 'doom-gruvbox-light t))
     (load-theme 'doom-gruvbox-light t)
-    ;; Enable flashing mode-line on errors
-    (doom-themes-visual-bell-config)
-    ;; Enable custom neotree theme (all-the-icons must be installed!)
-    (doom-themes-neotree-config)
-    ;; or for treemacs users
-    (setq doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
-    (doom-themes-treemacs-config)
-    ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config))
 #+end_src
 
 *** Org
 #+begin_src emacs-lisp
- (use-package org-contrib :pin "nongnu") 
+ (use-package org-contrib :ensure t) 
 #+end_src
 
 **** Exports
@@ -944,7 +903,7 @@ Live updating:
   (use-package org-download
     :hook (dired-mode . org-download-enable))
 #+end_src
-*** PDF
+*** COMMENT PDF
 #+begin_src emacs-lisp
   (use-package pdf-tools
     :demand t
@@ -984,9 +943,9 @@ Live updating:
     (bind-key "M--" #'org-cycle-list-bullet org-mode-map))
 #+end_src
 
-** Electric Pair
+** Org Num 
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook #'electric-pair-mode)
+  ;; (add-hook 'org-mode-hook #'electric-pair-mode)
   (add-hook 'org-mode-hook #'org-num-mode)
 #+end_src
 
@@ -1091,7 +1050,7 @@ Live updating:
 #+end_src
 
 ** Org Indent
-Actually don't use this it ruins the perfect head/list ration in DWM
+Actually don't use this it ruins the perfect head/list ratio in DWM
 #+begin_src emacs-lisp
   ;;(add-hook 'org-mode-hook 'org-indent-mode) 
 #+end_src
