@@ -8,6 +8,7 @@
 - [[#pre-packages][Pre-packages]]
   - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
   - [[#general-macros][General macros]]
+  - [[#advice][Advice]]
   - [[#keys][Keys]]
   - [[#memoization][Memoization]]
   - [[#the-holy-scratch-buffer][The Holy Scratch buffer]]
@@ -46,6 +47,7 @@
       - [[#exports][Exports]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
       - [[#org-download][Org-download]]
+    - [[#pdf][PDF]]
 - [[#org-settings][Org Settings]]
   - [[#org-speed-keys][Org Speed Keys]]
   - [[#keys-1][Keys]]
@@ -104,7 +106,7 @@ Start a new line
     (intend-for-tab-command))
 #+end_src
 
-** COMMENT Advice
+** Advice
 #+begin_src emacs-lisp  
   (advice-add 'other-window :before
               (defun other-window-split-if-single (&rest _)
@@ -903,7 +905,7 @@ Live updating:
   (use-package org-download
     :hook (dired-mode . org-download-enable))
 #+end_src
-*** COMMENT PDF
+*** PDF
 #+begin_src emacs-lisp
   (use-package pdf-tools
     :demand t
