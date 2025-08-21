@@ -29,6 +29,7 @@
   - [[#tramp-configuration][TRAMP Configuration]]
 - [[#package-management][Package Management]]
   - [[#packaged-with-gnu-emacs][Packaged with GNU Emacs]]
+    - [[#put-some-of-these-requires-into-hooks][put some of these "require"s into hooks]]
   - [[#package-locations][Package Locations]]
   - [[#install-use-package][Install use-package]]
   - [[#packages][Packages]]
@@ -364,6 +365,7 @@ Live updating:
 :header-args:emacs-lisp: :lexical t :results none 
 :END:
 ** Packaged with GNU Emacs
+*** TODO put some of these "require"s into hooks
 #+begin_src emacs-lisp
   (require 'dired-x)
   (require 'project)
