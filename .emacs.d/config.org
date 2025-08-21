@@ -38,7 +38,6 @@
     - [[#format-all][Format All]]
     - [[#it-came-from-doom][It came from DOOM...]]
     - [[#org][Org]]
-      - [[#exports][Exports]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
 - [[#org-settings][Org Settings]]
   - [[#org-speed-keys][Org Speed Keys]]
@@ -912,12 +911,8 @@ Live updating:
                         (visual-line-mode)))) 
 #+end_src
 
-**** Exports
+**** COMMENT Exports
 #+begin_src emacs-lisp
-  (require 'ox-extra)
-
-  (ox-extras-activate '(ignore-headlines))
-
   (use-package ox-pandoc)
 #+end_src
 
