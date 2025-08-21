@@ -108,6 +108,13 @@ Start a new line
 
 ** Keys
 #+begin_src emacs-lisp
+  (defun backward-symbol (arg)
+    (interactive "^p")
+    (forward-symbol (* -1 (or arg 1))))
+
+  (keymap-global-set "C-<right>" 'forward-symbol)
+  (keymap-global-set "C-<left>" 'backward-symbol)
+
   (keymap-global-set "M-n" 'ojm/newline)
   (keymap-global-set "M-p" 'ojm/backnewline)
   (keymap-global-set "C-h C-f" 'find-function)
