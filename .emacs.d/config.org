@@ -377,7 +377,7 @@ Live updating:
            (term-buffer (get-buffer term-buffer-name)))
       (if (and term-buffer (not current-prefix-arg))
           (pop-to-buffer term-buffer (bound-and-true-p display-comint-buffer-action))
-        (term t))))
+        (call-interactively 'term))))
 
   (keymap-set project-prefix-map "t" 'project-term)
   (require 'package)
