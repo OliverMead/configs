@@ -30,7 +30,7 @@
  '(org-link-search-must-match-exact-headline nil)
  '(org-num-skip-tags '("ignore" "noexport"))
  '(package-selected-packages nil)
-  '(sentence-end-double-space nil))
+ '(sentence-end-double-space nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
