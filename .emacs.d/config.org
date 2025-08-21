@@ -35,7 +35,6 @@
     - [[#exec-path-from-shell][exec-path-from-shell]]
     - [[#vundo][Vundo]]
     - [[#devil-mode][DEVIL Mode]]
-    - [[#misc-unconfigured][Misc Unconfigured]]
     - [[#format-all][Format All]]
     - [[#it-came-from-doom][It came from DOOM...]]
     - [[#org][Org]]
@@ -119,6 +118,8 @@ Start a new line
   (keymap-global-set "C-c b m" (lambda () (interactive) (switch-to-buffer "*Messages*")))
   (keymap-global-set "C-c b s" (lambda () (interactive) (switch-to-buffer "*scratch*")))
   (keymap-global-set "C-c c" 'check-parens)
+  (keymap-global-set "C-c e" 'eshell)
+  (keymap-global-set "C-c t" 'term)
 #+end_src
 
 ** Memoization
