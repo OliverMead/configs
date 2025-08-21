@@ -519,7 +519,9 @@ Live updating:
 
 *** Vundo
 #+begin_src emacs-lisp
-  (use-package vundo)
+  (use-package vundo
+    :commands vundo
+    :bind ("C-c v" . vundo))
 #+end_src
 
 *** DEVIL Mode
@@ -694,7 +696,8 @@ Live updating:
 
 *** Format All
 #+begin_src emacs-lisp
-  (use-package format-all)
+  (use-package format-all
+    :hook prog-mode)
 #+end_src
 
 *** COMMENT Language-Specific
@@ -901,7 +904,11 @@ Live updating:
 
 *** Org
 #+begin_src emacs-lisp
- (use-package org-contrib :ensure t) 
+  (use-package org-contrib
+    :hook (org-mode . (lambda ()
+                        (require 'ox-extra)
+                        (ox-extras-activate '(ignore-headlines))
+                        (visual-line-mode)))) 
 #+end_src
 
 **** Exports
