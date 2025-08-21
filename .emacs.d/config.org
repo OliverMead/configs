@@ -387,6 +387,7 @@ Live updating:
         (call-interactively 'term))))
 
   (keymap-set project-prefix-map "t" 'project-term)
+  (require 'notifications)
   (require 'package)
 #+end_src
 
@@ -1112,7 +1113,6 @@ Actually don't use this it ruins the perfect head/list ratio in DWM
 :header-args:emacs-lisp: :lexical t :results none 
 :END:
 #+begin_src emacs-lisp
-  (require 'notifications)
   (when (daemonp)
     (notifications-notify :title "(daemon) Emacs has loaded"))
 #+end_src
