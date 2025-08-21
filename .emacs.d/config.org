@@ -505,7 +505,7 @@ Live updating:
     (global-devil-mode))
 #+end_src
 
-*** Misc Unconfigured
+*** COMMENT Misc Unconfigured
 #+begin_src emacs-lisp
   ; (use-package debbugs)
 
