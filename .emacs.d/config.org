@@ -33,21 +33,14 @@
   - [[#install-use-package][Install use-package]]
   - [[#packages][Packages]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
-    - [[#icons-and-emoji][Icons and Emoji]]
-      - [[#emojify][Emojify]]
-      - [[#all-the-icons][All-the-icons]]
     - [[#vundo][Vundo]]
     - [[#devil-mode][DEVIL Mode]]
     - [[#misc-unconfigured][Misc Unconfigured]]
-    - [[#parentheses-and-such][Parentheses and such]]
     - [[#format-all][Format All]]
-    - [[#language-specific][Language-Specific]]
     - [[#it-came-from-doom][It came from DOOM...]]
     - [[#org][Org]]
       - [[#exports][Exports]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
-      - [[#org-download][Org-download]]
-    - [[#pdf][PDF]]
 - [[#org-settings][Org Settings]]
   - [[#org-speed-keys][Org Speed Keys]]
   - [[#keys-1][Keys]]
@@ -388,7 +381,7 @@ Live updating:
   ;;(unless (package-installed-p 'use-package)
   ;;  (package-install 'use-package))
   (require 'use-package)
-  (setq use-package-always-ensure nil)
+  (setq use-package-always-ensure t)
   (setq use-package-always-defer t)
 #+end_src
 
@@ -473,7 +466,7 @@ Live updating:
  (use-package zone-tmux-clock) 
 #+end_src
 
-*** Icons and Emoji
+*** COMMENT Icons and Emoji
 **** Emojify
 #+begin_src emacs-lisp
 (use-package emojify
@@ -514,13 +507,13 @@ Live updating:
 
 *** Misc Unconfigured
 #+begin_src emacs-lisp
-  (use-package debbugs)
+  ; (use-package debbugs)
 
-  (use-package compat)
+  ;(use-package compat)
 
   (use-package magit)
 
-  (use-package org)
+  ; (use-package org)
 #+end_src
 
 *** COMMENT Which-key
@@ -663,7 +656,7 @@ Live updating:
 
 #+end_src
 
-*** Parentheses and such
+*** COMMENT Parentheses and such
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
@@ -678,7 +671,7 @@ Live updating:
   (use-package format-all)
 #+end_src
 
-*** Language-Specific
+*** COMMENT Language-Specific
 **** COMMENT BNF
 #+begin_src emacs-lisp
  (use-package bnf-mode) 
@@ -900,12 +893,12 @@ Live updating:
     :hook ((org-mode . toc-org-mode)))
 #+end_src
 
-**** Org-download
+**** COMMENT Org-download
 #+begin_src emacs-lisp
   (use-package org-download
     :hook (dired-mode . org-download-enable))
 #+end_src
-*** PDF
+*** COMMENT PDF
 #+begin_src emacs-lisp
   (use-package pdf-tools
     :demand t
