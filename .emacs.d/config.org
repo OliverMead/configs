@@ -63,9 +63,9 @@
 ** General macros
 Execute some operation within the current project.
 #+begin_src emacs-lisp
-   (defmacro in-project (exp)
-    `(let ((default-directory (project-root (project-current))))
-       ,exp))
+  (defmacro in-project (exp)
+   `(let ((default-directory (project-root (project-current))))
+      ,exp))
 #+end_src
 
 Manually invalidate the vc property cache of a project.
@@ -127,21 +127,21 @@ Start a new line
 
 ** Memoization
 #+begin_src emacs-lisp
-(let ((memo_table (make-hash-table :test #'equal)))
-  (defun get-memo-table () memo_table)
-  (defun memoised (f &rest args)
-    (or (gethash (cons f args) memo_table)
-        (progn (setf (gethash (cons f args) memo_table)
-                     (apply `(,f ,@args)))
-               ;; (message "not in table")
-               ))))
+  (let ((memo_table (make-hash-table :test #'equal)))
+    (defun get-memo-table () memo_table)
+    (defun memoised (f &rest args)
+      (or (gethash (cons f args) memo_table)
+          (progn (setf (gethash (cons f args) memo_table)
+                       (apply `(,f ,@args)))
+                 ;; (message "not in table")
+                 ))))
 #+end_src
 
 ** The Holy Scratch buffer
 Start everything in the scratch buffer:
 #+begin_src emacs-lisp
-(setq inhibit-startup-message t)
-(setq tab-bar-new-tab-choice "*scratch*")
+  (setq inhibit-startup-message t)
+  (setq tab-bar-new-tab-choice "*scratch*")
 #+end_src
 
 Easily switch to it:
@@ -151,8 +151,8 @@ Easily switch to it:
 
 And preserve the scratch buffer forever:
 #+begin_src emacs-lisp
-(with-current-buffer "*scratch*"
-  (emacs-lock-mode 'kill))
+  (with-current-buffer "*scratch*"
+    (emacs-lock-mode 'kill))
 #+end_src
 
 ** Built in Application Configuration
@@ -182,14 +182,14 @@ And preserve the scratch buffer forever:
 *** EWW
 EWW as default browser:
 #+begin_src emacs-lisp
-(setq browse-url-browser-function 'eww-browse-url)
+  (setq browse-url-browser-function 'eww-browse-url)
 #+end_src
 
 *** GNUS
 Tell Emacs who I am.
 #+begin_src emacs-lisp
-(setq user-mail-address "olivermead@olivermead.xyz"
-      user-full-name "Oliver J. Mead")
+  (setq user-mail-address "olivermead@olivermead.xyz"
+        user-full-name "Oliver J. Mead")
 #+end_src
 
 Configure GNUS methods to receive mail:
@@ -1085,8 +1085,8 @@ Lazy Load ox-extra and activate ignore-headlines.
 :header-args:emacs-lisp: :lexical t :results none 
 :END:
 #+begin_src emacs-lisp
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load custom-file)
 #+end_src
 
 * Undo early-init GC
@@ -1094,9 +1094,9 @@ Lazy Load ox-extra and activate ignore-headlines.
 :header-args:emacs-lisp: :lexical t :results none 
 :END:
 #+begin_src emacs-lisp
-(setq gc-cons-threshold 1600000 ;; 160KB
-      gc-cons-percentage 0.1
-      file-name-handler-alist last-file-name-handler-alist) 
+  (setq gc-cons-threshold 1600000 ;; 160KB
+        gc-cons-percentage 0.1
+        file-name-handler-alist last-file-name-handler-alist) 
 #+end_src
 
 * Notify that the daemon has started
