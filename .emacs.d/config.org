@@ -339,8 +339,11 @@ Live updating:
     (set-face-attribute 'default nil :font "Unifont" :height 105)
     (set-face-attribute 'fixed-pitch nil :font "Unifont")
     (set-face-attribute 'variable-pitch nil :font "TeX Gyre Termes"))
-  (add-hook 'after-init-hook 'configure-fonts)
-  (add-hook 'server-after-make-frame-hook 'configure-fonts)
+  (dolist
+      (hook
+       '(after-init-hook
+         server-after-make-frame-hook))
+    (add-hook hook 'configure-fonts))
 #+end_src
 
 *** Clock
@@ -356,7 +359,7 @@ Live updating:
 
 #+begin_src emacs-lisp
   (dolist
-      (mode
+      (hook
        '(;; org-mode-hook
          epa-key-mode-hook
          epa-key-list-mode-hook
@@ -367,16 +370,20 @@ Live updating:
          doc-view-mode-hook
          ;; circe-mode-hook
          eshell-mode-hook))
-    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+    (add-hook hook (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
 ** Enable Flyspell
 #+begin_src emacs-lisp
   (setq ispell-list-command "--list")
   (dolist
-      (mode
-       '(org-mode-hook))
-    (add-hook mode (lambda () (flyspell-mode))))
+      (hook
+       '(text-mode-hook))
+    (add-hook hook 'flyspell-mode))
+  (dolist
+      (hook
+       '(prog-mode-hook))
+    (add-hook hook 'flyspell-prog-mode))
 #+end_src
 
 ** Recent Files
@@ -1090,9 +1097,12 @@ Lazy Load ox-extra and activate ignore-headlines.
 
 ** Org Hooks 
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook 'electric-pair-local-mode)
-  (add-hook 'org-mode-hook 'org-num-mode)
-  (add-hook 'org-mode-hook 'org-indent-mode)
+  (dolist
+      (mode
+       '(electric-pair-local-mode
+         org-num-mode
+         org-indent-mode))
+    (add-hook 'org-mode-hook mode))
 #+end_src
 
 * Custom(ize) Settings
