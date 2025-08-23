@@ -35,9 +35,7 @@
   - [[#packages][Packages]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
     - [[#vundo][Vundo]]
-    - [[#devil-mode][DEVIL Mode]]
-    - [[#format-all][Format All]]
-    - [[#it-came-from-doom][It came from DOOM...]]
+    - [[#gruvbox][Gruvbox]]
     - [[#org][Org]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
 - [[#org-settings][Org Settings]]
@@ -528,7 +526,7 @@ Live updating:
     :bind ("C-c v" . vundo))
 #+end_src
 
-*** DEVIL Mode
+*** COMMENT DEVIL Mode
 #+begin_src emacs-lisp
   (use-package devil
     :demand t
@@ -698,7 +696,7 @@ Live updating:
   ;;   :hook emacs-lisp-mode)
 #+end_src
 
-*** Format All
+*** COMMENT Format All
 #+begin_src emacs-lisp
   (use-package format-all
     :hook prog-mode)
@@ -885,7 +883,7 @@ Live updating:
     (delete-process p))
 #+end_src
 
-*** It came from DOOM...
+*** COMMENT It came from DOOM...
 #+begin_src emacs-lisp
   ;; (use-package doom-modeline
   ;;   :hook (server-after-make-frame . doom-modeline-mode)
@@ -905,8 +903,15 @@ Live updating:
     (load-theme 'doom-gruvbox-light t)
     (doom-themes-org-config))
 #+end_src
-
+*** Gruvbox
+#+begin_src emacs-lisp
+  (use-package gruvbox-theme
+    :demand t
+    :config
+    (load-theme 'gruvbox-light-medium t))
+#+end_src
 *** Org
+Lazy Load ox-extra and activate ignore-headlines.
 #+begin_src emacs-lisp
   (use-package org-contrib
     :hook (org-mode . (lambda ()
