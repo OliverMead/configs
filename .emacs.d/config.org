@@ -154,6 +154,8 @@ And preserve the scratch buffer forever:
 #+begin_src emacs-lisp
   (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill))
+  (with-current-buffer "*Messages*"
+    (emacs-lock-mode 'kill))
 #+end_src
 
 ** Built in Application Configuration
@@ -331,15 +333,15 @@ Live updating:
 #+begin_src emacs-lisp
   (dolist
       (mode
-       '(org-mode-hook
+       '(;; org-mode-hook
          epa-key-mode-hook
          epa-key-list-mode-hook
          epa-info-mode-hook
-         term-mode-hook
-         vterm-mode-hook
+         ;; term-mode-hook
+         ;; vterm-mode-hook
          pdf-view-mode-hook
          doc-view-mode-hook
-         circe-mode-hook
+         ;; circe-mode-hook
          eshell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
