@@ -13,6 +13,7 @@
   - [[#memoization][Memoization]]
   - [[#the-holy-scratch-buffer][The Holy Scratch buffer]]
   - [[#built-in-application-configuration][Built in Application Configuration]]
+    - [[#packageel][Package.el]]
     - [[#eww][EWW]]
     - [[#gnus][GNUS]]
       - [[#secondary-methods][Secondary Methods]]
@@ -29,7 +30,6 @@
   - [[#tramp-configuration][TRAMP Configuration]]
 - [[#package-management][Package Management]]
   - [[#packaged-with-gnu-emacs][Packaged with GNU Emacs]]
-    - [[#put-some-of-these-requires-into-hooks][put some of these "require"s into hooks]]
   - [[#package-locations][Package Locations]]
   - [[#install-use-package][Install use-package]]
   - [[#packages][Packages]]
@@ -158,6 +158,29 @@ And preserve the scratch buffer forever:
 #+end_src
 
 ** Built in Application Configuration
+*** Package.el
+#+begin_src emacs-lisp
+  (setq project-vc-merge-submodules nil) ;; submodules are not part of parent project
+  (setq project-vc-extra-root-markers '(".project.el" ".projectile" ))
+
+  (defun project-term ()
+    "Start Term in the current project's root directory.
+  If a buffer already exists for running Term in the project's root,
+  switch to it.  Otherwise, create a new Term buffer.
+  With \\[universal-argument] prefix arg, create a new Term buffer even
+  if one already exists. (Mimicks \\[project-eshell])"
+    (interactive)
+    (defvar term-buffer-name)
+    (let* ((default-directory (project-root (project-current t)))
+           (term-buffer-name (project-prefixed-buffer-name "term"))
+           (term-buffer (get-buffer term-buffer-name)))
+      (if (and term-buffer (not current-prefix-arg))
+          (pop-to-buffer term-buffer (bound-and-true-p display-comint-buffer-action))
+        (call-interactively 'term))))
+
+  (keymap-set project-prefix-map "t" 'project-term)
+#+end_src
+
 *** EWW
 EWW as default browser:
 #+begin_src emacs-lisp
@@ -222,19 +245,19 @@ Live updating:
 
 *** EShell
 #+begin_src emacs-lisp
-  (require 'eshell)
-  (setq eshell-prompt-regexp "^[^$]* [#$] $")
-  (defun +eshell/quit-or-delete-char (arg)
-    "Delete a character (ahead of the cursor) or quit eshell if there's nothing to
-    delete."
-    (interactive "p")
-    (if (eolp)
-        (if (looking-back eshell-prompt-regexp nil)
-            (eshell-life-is-too-much)
-          (eshell-send-eof-to-process))
-      (delete-char arg)))
-  (with-eval-after-load 'esh-mode
-    (define-key eshell-mode-map (kbd "C-d") '+eshell/quit-or-delete-char))
+  ;; (require 'eshell)
+  ;; (setq eshell-prompt-regexp "^[^$]* [#$] $")
+  (with-eval-after-load 'eshell 
+    (defun +eshell/quit-or-delete-char (arg)
+      "Delete a character (ahead of the cursor) or quit eshell if there's nothing to
+     delete."
+      (interactive "p")
+      (if (eolp)
+          (if (looking-back eshell-prompt-regexp nil)
+              (eshell-life-is-too-much)
+            (eshell-send-eof-to-process))
+        (delete-char arg)))
+    (keymap-set eshell-mode-map "C-d" '+eshell/quit-or-delete-char))
 #+end_src
 
 *** EPA
@@ -364,30 +387,7 @@ Live updating:
 :header-args:emacs-lisp: :lexical t :results none 
 :END:
 ** Packaged with GNU Emacs
-*** TODO put some of these "require"s into hooks
 #+begin_src emacs-lisp
-  (require 'dired-x)
-  (require 'project)
-  (setq project-vc-merge-submodules nil) ;; submodules are not part of parent project
-  (setq project-vc-extra-root-markers '(".project.el" ".projectile" ))
-
-  (defun project-term ()
-    "Start Term in the current project's root directory.
-  If a buffer already exists for running Term in the project's root,
-  switch to it.  Otherwise, create a new Term buffer.
-  With \\[universal-argument] prefix arg, create a new Term buffer even
-  if one already exists. (Mimicks \\[project-eshell])"
-    (interactive)
-    (defvar term-buffer-name)
-    (let* ((default-directory (project-root (project-current t)))
-           (term-buffer-name (project-prefixed-buffer-name "term"))
-           (term-buffer (get-buffer term-buffer-name)))
-      (if (and term-buffer (not current-prefix-arg))
-          (pop-to-buffer term-buffer (bound-and-true-p display-comint-buffer-action))
-        (call-interactively 'term))))
-
-  (keymap-set project-prefix-map "t" 'project-term)
-
   (require 'notifications)
   (require 'package)
 #+end_src
