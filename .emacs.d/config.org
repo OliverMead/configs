@@ -911,11 +911,9 @@ Live updating:
 *** Org
 Lazy Load ox-extra and activate ignore-headlines.
 #+begin_src emacs-lisp
-  (use-package org-contrib
-    :hook (org-mode . (lambda ()
-                        (require 'ox-extra))))
-   
-  (with-eval-after-load 'ox-extra 
+  (use-package org-contrib)
+  (with-eval-after-load 'org 
+    (require 'ox-extra)
     (ox-extras-activate '(ignore-headlines)))
 #+end_src
 
@@ -1067,15 +1065,15 @@ Lazy Load ox-extra and activate ignore-headlines.
            (file+headline +org-capture-project-notes-file "Inbox")
            "* %U %?\n%i\n%a" :prepend t :kill-buffer t)))
 #+end_src
-** Keys
+** Keys 
 #+begin_src emacs-lisp
-  (with-eval-after-load "org"
+  (with-eval-after-load 'org
     (keymap-set org-mode-map "M--" 'org-cycle-list-bullet))
 #+end_src
 
 ** Org Hooks 
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook #'electric-pair-mode)
+  (add-hook 'org-mode-hook 'electric-pair-local-mode)
   (add-hook 'org-mode-hook 'org-num-mode)
   (add-hook 'org-mode-hook 'org-indent-mode)
 #+end_src
