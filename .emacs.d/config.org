@@ -288,6 +288,7 @@ Live updating:
   (windmove-default-keybindings)
   (repeat-mode 1)
   (savehist-mode 1)
+  (electric-indent-mode -1)
   (save-place-mode 1)
   (global-auto-revert-mode 1)
   (global-completion-preview-mode 1)
