@@ -9,9 +9,9 @@
   - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
   - [[#general-macros][General macros]]
   - [[#advice][Advice]]
-  - [[#keys][Keys]]
   - [[#memoization][Memoization]]
-  - [[#the-holy-scratch-buffer][The Holy Scratch buffer]]
+  - [[#the-holy-scratch-buffer-and-messages][The Holy Scratch buffer (and Messages)]]
+  - [[#keys][Keys]]
   - [[#built-in-application-configuration][Built in Application Configuration]]
     - [[#packageel][Package.el]]
     - [[#eww][EWW]]
@@ -103,6 +103,46 @@ Start a new line
                 (when (one-window-p) (split-window-sensibly))))
 #+end_src
 
+** Memoization
+#+begin_src emacs-lisp
+  (let ((memo_table (make-hash-table :test #'equal)))
+    (defun get-memo-table () memo_table)
+    (defun memoised (f &rest args)
+      (or (gethash (cons f args) memo_table)
+          (progn (setf (gethash (cons f args) memo_table)
+                       (apply `(,f ,@args)))
+                 ;; (message "not in table")
+                 ))))
+#+end_src
+
+** The Holy Scratch buffer (and Messages)
+Start everything in the scratch buffer:
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+  (setq tab-bar-new-tab-choice "*scratch*")
+#+end_src
+
+Easily switch to them:
+#+begin_src emacs-lisp
+  (defun ojm/messages ()
+    "Switch to the (immortal) *Messages* buffer."
+    (interactive)
+    (switch-to-buffer "*Messages*"))
+
+  (defun ojm/scratch ()
+    "Switch to the (immortal) *scratch* buffer"
+    (interactive)
+    (switch-to-buffer "*scratch*"))
+#+end_src
+
+And preserve the scratch buffer forever:
+#+begin_src emacs-lisp
+  (with-current-buffer "*scratch*"
+    (emacs-lock-mode 'kill))
+  (with-current-buffer "*Messages*"
+    (emacs-lock-mode 'kill))
+#+end_src
+
 ** Keys
 #+begin_src emacs-lisp
   (defun backward-symbol (arg)
@@ -119,43 +159,27 @@ Start a new line
   (keymap-global-set "C-x x x" 'org-capture)
   (keymap-global-set "C-x x a" 'org-agenda)
   (keymap-global-set "M-o" 'other-window)
-  (keymap-global-set "C-c b m" (lambda () (interactive) (switch-to-buffer "*Messages*")))
-  (keymap-global-set "C-c b s" (lambda () (interactive) (switch-to-buffer "*scratch*")))
+
+  (keymap-global-set "C-c s" 'ojm/scratch)
+
+  (keymap-global-set "C-c b m" 'ojm/messages)
+  (keymap-global-set "C-c b s" 'ojm/scratch)
   (keymap-global-set "C-c c" 'check-parens)
   (keymap-global-set "C-c e" 'eshell)
   (keymap-global-set "C-c t" 'term)
-#+end_src
+  (keymap-global-set "C-c l g" 'gnus)
+  (keymap-global-set "C-c l i" 'erc-tls)
+  (keymap-global-set "C-c l d" 'doctor)
+  (keymap-global-set "C-c l p" 'list-packages)
 
-** Memoization
-#+begin_src emacs-lisp
-  (let ((memo_table (make-hash-table :test #'equal)))
-    (defun get-memo-table () memo_table)
-    (defun memoised (f &rest args)
-      (or (gethash (cons f args) memo_table)
-          (progn (setf (gethash (cons f args) memo_table)
-                       (apply `(,f ,@args)))
-                 ;; (message "not in table")
-                 ))))
-#+end_src
-
-** The Holy Scratch buffer
-Start everything in the scratch buffer:
-#+begin_src emacs-lisp
-  (setq inhibit-startup-message t)
-  (setq tab-bar-new-tab-choice "*scratch*")
-#+end_src
-
-Easily switch to it:
-#+begin_src emacs-lisp
-  (keymap-global-set "C-c s" (lambda () (interactive) (switch-to-buffer "*scratch*")))
-#+end_src
-
-And preserve the scratch buffer forever:
-#+begin_src emacs-lisp
-  (with-current-buffer "*scratch*"
-    (emacs-lock-mode 'kill))
-  (with-current-buffer "*Messages*"
-    (emacs-lock-mode 'kill))
+  (keymap-global-set "C-c g d" 'dunnet)
+  (keymap-global-set "C-c g p" 'pong)
+  (keymap-global-set "C-c g s" 'snake)
+  (keymap-global-set "C-c g t" 'tetris)
+  (keymap-global-set "C-c g S" 'solitaire)
+  (keymap-global-set "C-c g b" 'blackbox)
+  (keymap-global-set "C-c g m" 'mpuz)
+  (keymap-global-set "C-c g x" '5x5)
 #+end_src
 
 ** Built in Application Configuration
