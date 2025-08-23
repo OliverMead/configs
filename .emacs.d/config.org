@@ -300,7 +300,7 @@ Live updating:
 *** Fonts
 #+begin_src emacs-lisp
   (defun configure-fonts ()
-    (set-face-attribute 'default nil :font "Unifont" :height 110)
+    (set-face-attribute 'default nil :font "Unifont" :height 105)
     (set-face-attribute 'fixed-pitch nil :font "Unifont")
     (set-face-attribute 'variable-pitch nil :font "TeX Gyre Termes"))
   (add-hook 'after-init-hook 'configure-fonts)
@@ -388,6 +388,7 @@ Live updating:
         (call-interactively 'term))))
 
   (keymap-set project-prefix-map "t" 'project-term)
+
   (require 'notifications)
   (require 'package)
 #+end_src
