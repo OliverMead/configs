@@ -38,6 +38,7 @@
     - [[#gruvbox][Gruvbox]]
     - [[#org][Org]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
+    - [[#pdf][PDF]]
 - [[#org-settings][Org Settings]]
   - [[#org-variables][Org Variables]]
     - [[#basic][Basic]]
@@ -933,10 +934,11 @@ Lazy Load ox-extra and activate ignore-headlines.
   (use-package org-download
     :hook (dired-mode . org-download-enable))
 #+end_src
-*** COMMENT PDF
+*** PDF
 #+begin_src emacs-lisp
   (use-package pdf-tools
     :demand t
+    :mode "*.pdf"
     :hook ((pdf-view-mode . pdf-view-themed-minor-mode)
            (pdf-view-mode . pdf-view-fit-page-to-window)           )
     :config
