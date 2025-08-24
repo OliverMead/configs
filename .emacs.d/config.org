@@ -13,6 +13,7 @@
   - [[#the-holy-scratch-buffer-and-messages][The Holy Scratch buffer (and Messages)]]
   - [[#keys][Keys]]
   - [[#built-in-application-configuration][Built in Application Configuration]]
+    - [[#erc][ERC]]
     - [[#packageel][Package.el]]
     - [[#eww][EWW]]
     - [[#gnus][GNUS]]
@@ -184,6 +185,11 @@ And preserve the scratch buffer forever:
 #+end_src
 
 ** Built in Application Configuration
+*** ERC
+#+begin_src emacs-lisp
+  (setq erc-fill-column 72)
+#+end_src
+
 *** Package.el
 #+begin_src emacs-lisp
   (setq project-vc-merge-submodules nil) ;; submodules are not part of parent project
