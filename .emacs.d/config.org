@@ -33,6 +33,7 @@
   - [[#package-locations][Package Locations]]
   - [[#install-use-package][Install use-package]]
   - [[#packages][Packages]]
+    - [[#debbugs][Debbugs]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
     - [[#vundo][Vundo]]
     - [[#gruvbox][Gruvbox]]
@@ -328,7 +329,7 @@ Live updating:
   (global-auto-revert-mode 1)
   (global-completion-preview-mode 1)
   (global-hl-line-mode 1)
-  (fido-vertical-mode 1)
+;;  (fido-vertical-mode 1)
 ;;  (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
@@ -455,6 +456,10 @@ Live updating:
  (use-package simple-httpd) 
 #+end_src
 
+*** Debbugs
+#+begin_src emacs-lisp
+  (use-package debbugs)
+#+end_src
 *** exec-path-from-shell
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
