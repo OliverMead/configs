@@ -99,6 +99,7 @@ Start a new line
 
 ** Advice
 #+begin_src emacs-lisp  
+  (setq split-width-threshold 145)                                                                                                                       
   (advice-add 'other-window :before
               (defun other-window-split-if-single (&rest _)
                 "Split the frame if there is a single window."
@@ -331,6 +332,7 @@ Live updating:
   (repeat-mode 1)
   (savehist-mode 1)
   (electric-indent-mode -1)
+  (electric-pair-mode 1)
   (save-place-mode 1)
   (global-auto-revert-mode 1)
   (global-completion-preview-mode 1)
@@ -375,6 +377,7 @@ Live updating:
          ;; vterm-mode-hook
          pdf-view-mode-hook
          doc-view-mode-hook
+         gnus-mode-hook
          ;; circe-mode-hook
          eshell-mode-hook))
     (add-hook hook (lambda () (display-line-numbers-mode 0))))
