@@ -159,6 +159,8 @@ And preserve the scratch buffer forever:
   (keymap-global-set "C-<right>" 'forward-symbol)
   (keymap-global-set "C-<left>" 'backward-symbol)
 
+  (keymap-set lisp-interaction-mode-map "<RET>" 'newline-and-indent)
+
   (keymap-global-set "M-n" 'ojm/newline)
   (keymap-global-set "M-p" 'ojm/backnewline)
   (keymap-global-set "C-h C-f" 'find-function)
