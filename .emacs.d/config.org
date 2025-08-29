@@ -34,8 +34,12 @@
   - [[#package-locations][Package Locations]]
   - [[#install-use-package][Install use-package]]
   - [[#packages][Packages]]
+    - [[#webpaste][WebPaste]]
     - [[#debbugs][Debbugs]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
+    - [[#icons-and-emoji][Icons and Emoji]]
+      - [[#emojify][Emojify]]
+      - [[#all-the-icons][All-the-icons]]
     - [[#vundo][Vundo]]
     - [[#gruvbox][Gruvbox]]
     - [[#org][Org]]
@@ -242,6 +246,7 @@ Configure SMTP to send mail:
 #+begin_src emacs-lisp
   (setq message-send-mail-function 'smtpmail-send-it
         send-mail-function 'smtpmail-send-it ;; also configure for MailMode
+        message-mail-alias-type 'ecomplete ;; add sent-to addresses to a comlpetion db
         smtpmail-smtp-server "mail.olivermead.xyz"
         smtpmail-stream-type 'starttls
         smtpmail-smtp-service 587)
@@ -309,7 +314,8 @@ Live updating:
                 backup-directory-alist
                 `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
 
-  (setq server-kill-new-buffers nil
+  (setq use-short-answers t
+        server-kill-new-buffers nil
         enable-recursive-minibuffers t
         tab-always-indent 'complete
         completion-styles '(basic flex)
@@ -323,7 +329,7 @@ Live updating:
         set-mark-command-repeat-pop t
         use-dialog-box nil)
 
-  (fset 'yes-or-no-p 'y-or-n-p)
+  ;;  (fset 'yes-or-no-p 'y-or-n-p)
   (winner-mode 1)
   (minibuffer-depth-indicate-mode 1)
   (display-battery-mode 1)
@@ -375,10 +381,11 @@ Live updating:
          epa-info-mode-hook
          ;; term-mode-hook
          ;; vterm-mode-hook
+         Info-mode-hook
          pdf-view-mode-hook
          doc-view-mode-hook
          gnus-mode-hook
-         ;; circe-mode-hook
+         erc-mode-hook
          eshell-mode-hook))
     (add-hook hook (lambda () (display-line-numbers-mode 0))))
 #+end_src
@@ -450,14 +457,13 @@ Live updating:
   :hook (text-mode . mixed-pitch-mode))
 #+end_src
 
-*** COMMENT WebPaste
+*** WebPaste
 #+begin_src emacs-lisp
   (use-package webpaste
-  ;; :bind (("C-9 p" . webpaste-paste-buffer)
-  ;;        ("C-9 M-p" . webpaste-paste-region))
-  :config
-  (progn
-    (setq webpaste-provider-priority '("bpa.st"))))
+    :bind (("C-c p" . webpaste-paste-buffer-or-region))
+    :config
+    (progn
+      (setq webpaste-provider-priority '("bpa.st"))))
 #+end_src
 
 *** COMMENT Web Development
@@ -469,6 +475,7 @@ Live updating:
 #+begin_src emacs-lisp
   (use-package debbugs)
 #+end_src
+
 *** exec-path-from-shell
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -529,7 +536,7 @@ Live updating:
  (use-package zone-tmux-clock) 
 #+end_src
 
-*** COMMENT Icons and Emoji
+*** Icons and Emoji
 **** Emojify
 #+begin_src emacs-lisp
 (use-package emojify
@@ -540,6 +547,10 @@ Live updating:
 #+begin_src emacs-lisp
   (use-package all-the-icons
     :if (display-graphic-p))
+#+end_src
+
+**** COMMENT Nerd-icons
+#+begin_src emacs-lisp
   (use-package nerd-icons
     :if (display-graphic-p))
 #+end_src
