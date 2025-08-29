@@ -41,6 +41,7 @@
       - [[#emojify][Emojify]]
       - [[#all-the-icons][All-the-icons]]
     - [[#vundo][Vundo]]
+    - [[#misc-unconfigured][Misc Unconfigured]]
     - [[#gruvbox][Gruvbox]]
     - [[#org][Org]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
@@ -583,7 +584,7 @@ Live updating:
     (global-devil-mode))
 #+end_src
 
-*** COMMENT Misc Unconfigured
+*** Misc Unconfigured
 #+begin_src emacs-lisp
   ; (use-package debbugs)
 
