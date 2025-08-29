@@ -345,8 +345,8 @@ Live updating:
   (global-auto-revert-mode 1)
   (global-completion-preview-mode 1)
   (global-hl-line-mode 1)
-;;  (fido-vertical-mode 1)
-;;  (setq global-auto-revert-non-file-buffers t)
+  ;;  (fido-vertical-mode 1)
+  ;;  (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
 ** Appearance
