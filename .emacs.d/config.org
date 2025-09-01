@@ -636,32 +636,31 @@ Live updating:
 #     (ivy-rich-mode 1))
 # #+end_src
 
-*** COMMENT Pass
+*** Pass
 #+begin_src emacs-lisp
   (use-package pass
-   :init
-   (autoload 'auth-source-pass-parse-entry "auth-source-pass")
-   (defvar +pass-user-fields '("login" "user" "username" "email"))
-   (defvar +pass-url-fields '("url" "site" "location"))
-   :config
-   (defalias '+pass-get-entry #'auth-source-pass-parse-entry)
-   (defun +pass-get-field (entry fields &optional noerror)
-     (if-let* ((data (if (listp entry) entry (+pass-get-entry entry))))
-         (cl-loop for key in (ensure-list fields)
-                  when (assoc key data)
-                  return (cdr it))
-      (unless noerror
-           (error "Couldn't find entry: %s" entry))))
+    :init
+    (autoload 'auth-source-pass-parse-entry "auth-source-pass")
+    (defvar +pass-user-fields '("login" "user" "username" "email"))
+    (defvar +pass-url-fields '("url" "site" "location"))
+    :config
+    (defalias '+pass-get-entry #'auth-source-pass-parse-entry)
+    (defun +pass-get-field (entry fields &optional noerror)
+      (if-let* ((data (if (listp entry) entry (+pass-get-entry entry))))
+          (cl-loop for key in (ensure-list fields)
+                   when (assoc key data)
+                   return (cdr it))
+        (unless noerror
+          (error "Couldn't find entry: %s" entry))))
 
-   (defun +pass-get-user (entry)
-        (+pass-get-field entry +pass-user-fields))
+    (defun +pass-get-user (entry)
+      (+pass-get-field entry +pass-user-fields))
 
-   (defun +pass-get-secret (entry)
-        (+pass-get-field entry 'secret)))
+    (defun +pass-get-secret (entry)
+      (+pass-get-field entry 'secret)))
 
   (use-package password-store)
   (use-package password-store-otp)
-  (use-package ivy-pass)
 #+end_src
 
 *** COMMENT Circe
