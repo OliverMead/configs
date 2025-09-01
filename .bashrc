@@ -25,7 +25,7 @@ fi
 
 # export LANG=en_GB.UTF-8
 
-export EDITOR="emacsclient -a 'emacs -Qt'"
+export EDITOR='emacsclient -r -a "emacs -Q -nw"'
 export VISUAL=$EDITOR
 export GIT_EDITOR=$EDITOR
 export LESSHISTFILE=/dev/null
