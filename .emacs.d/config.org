@@ -41,7 +41,8 @@
       - [[#emojify][Emojify]]
       - [[#all-the-icons][All-the-icons]]
     - [[#vundo][Vundo]]
-    - [[#misc-unconfigured][Misc Unconfigured]]
+    - [[#magit][Magit]]
+    - [[#pass][Pass]]
     - [[#gruvbox][Gruvbox]]
     - [[#org][Org]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
@@ -388,7 +389,8 @@ Live updating:
          epa-key-mode-hook
          epa-key-list-mode-hook
          epa-info-mode-hook
-         ;; term-mode-hook
+         term-mode-hook
+         man-mode-hook
          ;; vterm-mode-hook
          Info-mode-hook
          pdf-view-mode-hook
@@ -590,15 +592,9 @@ Live updating:
     (global-devil-mode))
 #+end_src
 
-*** Misc Unconfigured
+*** Magit
 #+begin_src emacs-lisp
-  ; (use-package debbugs)
-
-  ;(use-package compat)
-
   (use-package magit)
-
-  ; (use-package org)
 #+end_src
 
 *** COMMENT Which-key
@@ -771,24 +767,6 @@ Live updating:
     (define-key emmet-mode-keymap (kbd "C-j") nil)
     (define-key emmet-mode-keymap (kbd "M-j") #'emmet-expand-line)) 
 #+end_src
-
-**** COMMENT lsp-mode
-#+begin_src emacs-lisp
-(use-package lsp-mode)  
-#+end_src
-
-# **** TRAMP for containers
-# #+begin_src emacs-lisp
-#   (use-package tramp-container)
-# #+end_src
-
-
-# **** Haskell
-# #+begin_src emacs-lisp
-#   (use-package haskell-mode
-#     :hook ((haskell-mode . interactive-haskell-mode))
-#     (setq haskell-process-load-or-reload-prompt t)) 
-# #+end_src
 
 **** COMMENT Lisp
 #+begin_src emacs-lisp
