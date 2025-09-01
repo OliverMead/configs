@@ -34,9 +34,15 @@
   - [[#package-locations][Package Locations]]
   - [[#install-use-package][Install use-package]]
   - [[#packages][Packages]]
+    - [[#webpaste][WebPaste]]
     - [[#debbugs][Debbugs]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
+    - [[#icons-and-emoji][Icons and Emoji]]
+      - [[#emojify][Emojify]]
+      - [[#all-the-icons][All-the-icons]]
     - [[#vundo][Vundo]]
+    - [[#magit][Magit]]
+    - [[#pass][Pass]]
     - [[#gruvbox][Gruvbox]]
     - [[#org][Org]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
@@ -155,6 +161,8 @@ And preserve the scratch buffer forever:
   (keymap-global-set "C-<right>" 'forward-symbol)
   (keymap-global-set "C-<left>" 'backward-symbol)
 
+  (keymap-set lisp-interaction-mode-map "<RET>" 'newline-and-indent)
+
   (keymap-global-set "M-n" 'ojm/newline)
   (keymap-global-set "M-p" 'ojm/backnewline)
   (keymap-global-set "C-h C-f" 'find-function)
@@ -164,6 +172,11 @@ And preserve the scratch buffer forever:
   (keymap-global-set "M-o" 'other-window)
 
   (keymap-global-set "C-c s" 'ojm/scratch)
+
+  (keymap-global-set "C-c a a" 'apropos)
+  (keymap-global-set "C-c a f" 'apropos-function)
+  (keymap-global-set "C-c a v" 'apropos-variable)
+  (keymap-global-set "C-c a i" 'info-apropos)
 
   (keymap-global-set "C-c b m" 'ojm/messages)
   (keymap-global-set "C-c b s" 'ojm/scratch)
@@ -242,6 +255,7 @@ Configure SMTP to send mail:
 #+begin_src emacs-lisp
   (setq message-send-mail-function 'smtpmail-send-it
         send-mail-function 'smtpmail-send-it ;; also configure for MailMode
+        message-mail-alias-type 'ecomplete ;; add sent-to addresses to a comlpetion db
         smtpmail-smtp-server "mail.olivermead.xyz"
         smtpmail-stream-type 'starttls
         smtpmail-smtp-service 587)
@@ -309,7 +323,8 @@ Live updating:
                 backup-directory-alist
                 `(("." . ,(expand-file-name "backups/" user-emacs-directory))))
 
-  (setq server-kill-new-buffers nil
+  (setq use-short-answers t
+        server-kill-new-buffers nil
         enable-recursive-minibuffers t
         tab-always-indent 'complete
         completion-styles '(basic flex)
@@ -323,7 +338,7 @@ Live updating:
         set-mark-command-repeat-pop t
         use-dialog-box nil)
 
-  (fset 'yes-or-no-p 'y-or-n-p)
+  ;;  (fset 'yes-or-no-p 'y-or-n-p)
   (winner-mode 1)
   (minibuffer-depth-indicate-mode 1)
   (display-battery-mode 1)
@@ -337,8 +352,8 @@ Live updating:
   (global-auto-revert-mode 1)
   (global-completion-preview-mode 1)
   (global-hl-line-mode 1)
-;;  (fido-vertical-mode 1)
-;;  (setq global-auto-revert-non-file-buffers t)
+  ;;  (fido-vertical-mode 1)
+  ;;  (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
 ** Appearance
@@ -346,7 +361,8 @@ Live updating:
 #+begin_src emacs-lisp
   (defun configure-fonts ()
     (set-face-attribute 'default nil :font "Unifont" :height 110)
-    (set-face-attribute 'fixed-pitch nil :font "Unifont")
+    ;; (set-face-attribute 'default nil :font "Terminus")
+    (set-face-attribute 'fixed-pitch nil :font "Unifont" :height 110)
     (set-face-attribute 'variable-pitch nil :font "TeX Gyre Termes"))
   (dolist
       (hook
@@ -373,12 +389,14 @@ Live updating:
          epa-key-mode-hook
          epa-key-list-mode-hook
          epa-info-mode-hook
-         ;; term-mode-hook
+         term-mode-hook
+         man-mode-hook
          ;; vterm-mode-hook
+         Info-mode-hook
          pdf-view-mode-hook
          doc-view-mode-hook
          gnus-mode-hook
-         ;; circe-mode-hook
+         erc-mode-hook
          eshell-mode-hook))
     (add-hook hook (lambda () (display-line-numbers-mode 0))))
 #+end_src
@@ -450,14 +468,13 @@ Live updating:
   :hook (text-mode . mixed-pitch-mode))
 #+end_src
 
-*** COMMENT WebPaste
+*** WebPaste
 #+begin_src emacs-lisp
   (use-package webpaste
-  ;; :bind (("C-9 p" . webpaste-paste-buffer)
-  ;;        ("C-9 M-p" . webpaste-paste-region))
-  :config
-  (progn
-    (setq webpaste-provider-priority '("bpa.st"))))
+    :bind (("C-c p" . webpaste-paste-buffer-or-region))
+    :config
+    (progn
+      (setq webpaste-provider-priority '("bpa.st"))))
 #+end_src
 
 *** COMMENT Web Development
@@ -469,6 +486,7 @@ Live updating:
 #+begin_src emacs-lisp
   (use-package debbugs)
 #+end_src
+
 *** exec-path-from-shell
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -529,7 +547,7 @@ Live updating:
  (use-package zone-tmux-clock) 
 #+end_src
 
-*** COMMENT Icons and Emoji
+*** Icons and Emoji
 **** Emojify
 #+begin_src emacs-lisp
 (use-package emojify
@@ -540,6 +558,10 @@ Live updating:
 #+begin_src emacs-lisp
   (use-package all-the-icons
     :if (display-graphic-p))
+#+end_src
+
+**** COMMENT Nerd-icons
+#+begin_src emacs-lisp
   (use-package nerd-icons
     :if (display-graphic-p))
 #+end_src
@@ -570,15 +592,9 @@ Live updating:
     (global-devil-mode))
 #+end_src
 
-*** COMMENT Misc Unconfigured
+*** Magit
 #+begin_src emacs-lisp
-  ; (use-package debbugs)
-
-  ;(use-package compat)
-
   (use-package magit)
-
-  ; (use-package org)
 #+end_src
 
 *** COMMENT Which-key
@@ -620,32 +636,31 @@ Live updating:
 #     (ivy-rich-mode 1))
 # #+end_src
 
-*** COMMENT Pass
+*** Pass
 #+begin_src emacs-lisp
   (use-package pass
-   :init
-   (autoload 'auth-source-pass-parse-entry "auth-source-pass")
-   (defvar +pass-user-fields '("login" "user" "username" "email"))
-   (defvar +pass-url-fields '("url" "site" "location"))
-   :config
-   (defalias '+pass-get-entry #'auth-source-pass-parse-entry)
-   (defun +pass-get-field (entry fields &optional noerror)
-     (if-let* ((data (if (listp entry) entry (+pass-get-entry entry))))
-         (cl-loop for key in (ensure-list fields)
-                  when (assoc key data)
-                  return (cdr it))
-      (unless noerror
-           (error "Couldn't find entry: %s" entry))))
+    :init
+    (autoload 'auth-source-pass-parse-entry "auth-source-pass")
+    (defvar +pass-user-fields '("login" "user" "username" "email"))
+    (defvar +pass-url-fields '("url" "site" "location"))
+    :config
+    (defalias '+pass-get-entry #'auth-source-pass-parse-entry)
+    (defun +pass-get-field (entry fields &optional noerror)
+      (if-let* ((data (if (listp entry) entry (+pass-get-entry entry))))
+          (cl-loop for key in (ensure-list fields)
+                   when (assoc key data)
+                   return (cdr it))
+        (unless noerror
+          (error "Couldn't find entry: %s" entry))))
 
-   (defun +pass-get-user (entry)
-        (+pass-get-field entry +pass-user-fields))
+    (defun +pass-get-user (entry)
+      (+pass-get-field entry +pass-user-fields))
 
-   (defun +pass-get-secret (entry)
-        (+pass-get-field entry 'secret)))
+    (defun +pass-get-secret (entry)
+      (+pass-get-field entry 'secret)))
 
   (use-package password-store)
   (use-package password-store-otp)
-  (use-package ivy-pass)
 #+end_src
 
 *** COMMENT Circe
@@ -751,24 +766,6 @@ Live updating:
     (define-key emmet-mode-keymap (kbd "C-j") nil)
     (define-key emmet-mode-keymap (kbd "M-j") #'emmet-expand-line)) 
 #+end_src
-
-**** COMMENT lsp-mode
-#+begin_src emacs-lisp
-(use-package lsp-mode)  
-#+end_src
-
-# **** TRAMP for containers
-# #+begin_src emacs-lisp
-#   (use-package tramp-container)
-# #+end_src
-
-
-# **** Haskell
-# #+begin_src emacs-lisp
-#   (use-package haskell-mode
-#     :hook ((haskell-mode . interactive-haskell-mode))
-#     (setq haskell-process-load-or-reload-prompt t)) 
-# #+end_src
 
 **** COMMENT Lisp
 #+begin_src emacs-lisp
