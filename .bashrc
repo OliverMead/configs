@@ -31,6 +31,11 @@ export GIT_EDITOR=$EDITOR
 export LESSHISTFILE=/dev/null
 export WM='dwm'
 
-export MANPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/man:$MANPATH
-export INFOPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/info:$INFOPATH
-export PATH=$HOME/.cargo/bin:$HOME/node_modules/.bin:$HOME/.ghcup/bin:$HOME/.cabal/bin:$HOME/.local/bin:$PREFIX/local/texlive/2025/bin/x86_64-linux:$PATH
+if [ -d $PREFIX/local/texlive/2025/ ]; then
+    PATH=$PREFIX/local/texlive/2025/bin/x86_64-linux:$PATH
+    MANPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/man:$MANPATH
+    INFOPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/info:$INFOPATH
+fi
+export PATH
+export MANPATH
+export INFOPATH
