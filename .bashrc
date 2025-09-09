@@ -23,7 +23,7 @@ if [[ -z "${PREFIX}" ]]; then
 	export PREFIX=/usr
 fi
 
-# export LANG=en_GB.UTF-8
+export LANG=en_GB.UTF-8
 
 export EDITOR='emacsclient -r -a "emacs -Q -nw"'
 export VISUAL=$EDITOR
