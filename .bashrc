@@ -36,6 +36,15 @@ if [ -d $PREFIX/local/texlive/2025/ ]; then
     MANPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/man:$MANPATH
     INFOPATH=$PREFIX/local/texlive/2025/texmf-dist/doc/info:$INFOPATH
 fi
+
+if [ -d $HOME/.local/bin/ ]; then
+    PATH=$HOME/.local/bin:$PATH
+fi
+
+if [ -d $HOME/.cargo/bin ]; then
+    PATH=$HOME/.cargo/bin:$PATH
+fi
+
 export PATH
 export MANPATH
 export INFOPATH

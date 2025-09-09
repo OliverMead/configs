@@ -8,13 +8,13 @@
 - [[#pre-packages][Pre-packages]]
   - [[#faster-startup-à-la-doom][Faster Startup à la Doom:]]
   - [[#general-macros][General macros]]
-  - [[#advice][Advice]]
+  - [[#window-splitting][Window Splitting]]
   - [[#memoization][Memoization]]
   - [[#the-holy-scratch-buffer-and-messages][The Holy Scratch buffer (and Messages)]]
   - [[#keys][Keys]]
   - [[#built-in-application-configuration][Built in Application Configuration]]
     - [[#erc][ERC]]
-    - [[#packageel][Package.el]]
+    - [[#projectel][Project.el]]
     - [[#eww][EWW]]
     - [[#gnus][GNUS]]
       - [[#secondary-methods][Secondary Methods]]
@@ -25,32 +25,25 @@
   - [[#appearance][Appearance]]
     - [[#fonts][Fonts]]
     - [[#clock][Clock]]
-    - [[#line-numbers][Line Numbers]]
   - [[#enable-flyspell][Enable Flyspell]]
-  - [[#recent-files][Recent Files]]
-  - [[#tramp-configuration][TRAMP Configuration]]
 - [[#package-management][Package Management]]
   - [[#packaged-with-gnu-emacs][Packaged with GNU Emacs]]
   - [[#package-locations][Package Locations]]
-  - [[#install-use-package][Install use-package]]
+  - [[#use-package][use-package]]
   - [[#packages][Packages]]
     - [[#webpaste][WebPaste]]
     - [[#debbugs][Debbugs]]
     - [[#exec-path-from-shell][exec-path-from-shell]]
-    - [[#icons-and-emoji][Icons and Emoji]]
-      - [[#emojify][Emojify]]
-      - [[#all-the-icons][All-the-icons]]
     - [[#vundo][Vundo]]
     - [[#magit][Magit]]
-    - [[#pass][Pass]]
     - [[#gruvbox][Gruvbox]]
     - [[#org][Org]]
       - [[#table-of-contents-in-org][Table of Contents in Org]]
     - [[#pdf][PDF]]
+    - [[#rust][Rust]]
 - [[#org-settings][Org Settings]]
   - [[#org-variables][Org Variables]]
     - [[#basic][Basic]]
-    - [[#org-todo-states][Org Todo States]]
     - [[#org-capture-templates][Org Capture Templates]]
   - [[#keys-1][Keys]]
   - [[#org-hooks][Org Hooks]]
@@ -103,7 +96,7 @@ Start a new line
     (intend-for-tab-command))
 #+end_src
 
-** Advice
+** Window Splitting
 #+begin_src emacs-lisp  
   (setq split-width-threshold 145)                                                                                                                       
   (advice-add 'other-window :before
@@ -163,15 +156,23 @@ And preserve the scratch buffer forever:
 
   (keymap-set lisp-interaction-mode-map "<RET>" 'newline-and-indent)
 
+  ;; (with-eval-after-load 'semantic 
+  ;;   (keymap-set semantic-mode-map "C-c j" 'semantic-ia-fast-jump)
+  ;;   (keymap-set semantic-mode-map "C-c i" 'semantic-ia-show-summary)
+  ;;   (keymap-set semantic-mode-map "C-c d" 'semantic-ia-show-doc))
+
+  (keymap-global-set "C-j" 'newline-and-indent)
   (keymap-global-set "M-n" 'ojm/newline)
   (keymap-global-set "M-p" 'ojm/backnewline)
   (keymap-global-set "C-h C-f" 'find-function)
   ;; (keymap-global-set "<escape>" 'keyboard-escape-quit)
+  (keymap-global-set "C-x C-b" 'ibuffer)
   (keymap-global-set "C-x x x" 'org-capture)
   (keymap-global-set "C-x x a" 'org-agenda)
   (keymap-global-set "M-o" 'other-window)
 
   (keymap-global-set "C-c s" 'ojm/scratch)
+  (keymap-global-set "C-c o" 'ff-find-other-file-other-window)
 
   (keymap-global-set "C-c a a" 'apropos)
   (keymap-global-set "C-c a f" 'apropos-function)
@@ -181,8 +182,8 @@ And preserve the scratch buffer forever:
   (keymap-global-set "C-c b m" 'ojm/messages)
   (keymap-global-set "C-c b s" 'ojm/scratch)
   (keymap-global-set "C-c c" 'check-parens)
-  (keymap-global-set "C-c e" 'eshell)
-  (keymap-global-set "C-c t" 'term)
+  (keymap-global-set "C-c l e" 'eshell)
+  (keymap-global-set "C-c l t" 'term)
   (keymap-global-set "C-c l g" 'gnus)
   (keymap-global-set "C-c l i" 'erc-tls)
   (keymap-global-set "C-c l d" 'doctor)
@@ -201,10 +202,19 @@ And preserve the scratch buffer forever:
 ** Built in Application Configuration
 *** ERC
 #+begin_src emacs-lisp
-  (setq erc-fill-column 72)
+  (with-eval-after-load 'erc 
+    (dolist (module '(capab-identify
+                      nicks
+                      notifications
+                      scrolltobottom
+                      spelling
+                      services-regain))
+      (add-to-list 'erc-modules module))
+    (setq erc-scrolltobottom-all t
+          erc-fill-column 100))
 #+end_src
 
-*** Package.el
+*** Project.el
 #+begin_src emacs-lisp
   (setq project-vc-merge-submodules nil) ;; submodules are not part of parent project
   (setq project-vc-extra-root-markers '(".project.el" ".projectile" ))
@@ -224,6 +234,18 @@ And preserve the scratch buffer forever:
           (pop-to-buffer term-buffer (bound-and-true-p display-comint-buffer-action))
         (call-interactively 'term))))
 
+  (defun project-gen-tags ()
+    "Generate (recursive) Ctags file for Emacs in the current project."
+    (interactive)
+    (in-project (shell-command "ctags -eR .")))
+
+  (defun project-todo ()
+    "Recursive grep for TODO in current project"
+    (interactive)
+     (project-find-regexp "\\<TODO\\>"))
+
+  (keymap-set project-prefix-map "E" 'project-gen-tags)
+  (keymap-set project-prefix-map "T" 'project-todo)
   (keymap-set project-prefix-map "t" 'project-term)
 #+end_src
 
@@ -255,7 +277,7 @@ Configure SMTP to send mail:
 #+begin_src emacs-lisp
   (setq message-send-mail-function 'smtpmail-send-it
         send-mail-function 'smtpmail-send-it ;; also configure for MailMode
-        message-mail-alias-type 'ecomplete ;; add sent-to addresses to a comlpetion db
+        message-mail-alias-type 'ecomplete ;; add sent-to addresses to a etion db
         smtpmail-smtp-server "mail.olivermead.xyz"
         smtpmail-stream-type 'starttls
         smtpmail-smtp-service 587)
@@ -338,31 +360,32 @@ Live updating:
         set-mark-command-repeat-pop t
         use-dialog-box nil)
 
-  ;;  (fset 'yes-or-no-p 'y-or-n-p)
-  (winner-mode 1)
-  (minibuffer-depth-indicate-mode 1)
-  (display-battery-mode 1)
   (blink-cursor-mode -1)
-  (windmove-default-keybindings)
-  (repeat-mode 1)
-  (savehist-mode 1)
-  (electric-indent-mode -1)
+
+  (display-battery-mode 1)
   (electric-pair-mode 1)
-  (save-place-mode 1)
   (global-auto-revert-mode 1)
   (global-completion-preview-mode 1)
   (global-hl-line-mode 1)
-  ;;  (fido-vertical-mode 1)
-  ;;  (setq global-auto-revert-non-file-buffers t)
+  (minibuffer-depth-indicate-mode 1)
+  (repeat-mode 1)
+  (save-place-mode 1)
+  (savehist-mode 1)
+  ;;  (semantic-mode 1)
+  (windmove-default-keybindings)
+  (windmove-delete-default-keybindings)
+  (windmove-display-default-keybindings)
+  (windmove-swap-states-default-keybindings)
+  (winner-mode 1)
 #+end_src
 
 ** Appearance
 *** Fonts
 #+begin_src emacs-lisp
   (defun configure-fonts ()
-    (set-face-attribute 'default nil :font "Unifont" :height 110)
+    (set-face-attribute 'default nil :font "IosevkaTermNerdFont" :height 90 :width 'narrow)
     ;; (set-face-attribute 'default nil :font "Terminus")
-    (set-face-attribute 'fixed-pitch nil :font "Unifont" :height 110)
+    (set-face-attribute 'fixed-pitch nil :font "IosevkaTermNerdFont" :height 90 :width 'narrow)
     (set-face-attribute 'variable-pitch nil :font "TeX Gyre Termes"))
   (dolist
       (hook
@@ -376,7 +399,8 @@ Live updating:
  (display-time-mode) 
 #+end_src
 
-*** Line Numbers
+*** COMMENT 
+Line Numbers
 #+begin_src emacs-lisp
 (global-display-line-numbers-mode t)
 (menu-bar--display-line-numbers-mode-relative)
@@ -390,7 +414,7 @@ Live updating:
          epa-key-list-mode-hook
          epa-info-mode-hook
          term-mode-hook
-         man-mode-hook
+         Man-mode-hook
          ;; vterm-mode-hook
          Info-mode-hook
          pdf-view-mode-hook
@@ -406,7 +430,8 @@ Live updating:
   (setq ispell-list-command "--list")
   (dolist
       (hook
-       '(text-mode-hook))
+       '(text-mode-hook
+         erc-mode-hook))
     (add-hook hook 'flyspell-mode))
   (dolist
       (hook
@@ -414,21 +439,26 @@ Live updating:
     (add-hook hook 'flyspell-prog-mode))
 #+end_src
 
-** Recent Files
+Apply Flyspell to yanked text.
 #+begin_src emacs-lisp
-  (setq recentf-auto-cleanup 'never)
+  (let ((flyspell-yank-excluded-modes
+         '(erc-mode)))
+    (defun ojm/flyspell-yanked (&rest args)
+      (when (and flyspell-mode
+                 (not (seq-find (lambda (m) (derived-mode-p m)) 
+                                flyspell-yank-excluded-modes)))
+        (flyspell-region (region-beginning) (region-end)))))
+
+  (advice-add 'yank :after 'ojm/flyspell-yanked)
+  (advice-add 'yank-pop :after 'ojm/flyspell-yanked)
+#+end_src
+
+** COMMENT Recent Files
+#+begin_src emacs-lisp
+;;  (setq recentf-auto-cleanup 'never)
   (recentf-mode 1)
   (setq recentf-max-menu-items 40)
   (setq recentf-max-saved-items 40)
-#+end_src
-
-** TRAMP Configuration
-#+begin_src emacs-lisp
-;;    (require 'tramp)
-  ;  (with-eval-after-load "tramp" (setq tramp-default-remote-shell "/usr/bin/zsh"))
-  ;  (add-to-list 'tramp-remote-path "~/.ghcup/bin/")
-  ;  (add-to-list 'tramp-remote-path "~/.local/bin/")
-  ;  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 #+end_src
 
 * Package Management
@@ -439,35 +469,34 @@ Live updating:
 #+begin_src emacs-lisp
   (require 'notifications)
   (require 'package)
+  (with-eval-after-load 'eglot
+    (setq eglot-ignored-server-capabilities '(:inlayHintProvider))
+    (keymap-set eglot-mode-map "C-c F" 'flymake-show-project-diagnostics)
+    (keymap-set eglot-mode-map "C-c f" 'flymake-show-buffer-diagnostics)
+    (keymap-set eglot-mode-map "C-c h" 'eldoc)
+    (keymap-set eglot-mode-map "C-c e a" 'eglot-code-actions)
+    (keymap-set eglot-mode-map "C-c e e" 'eglot-code-action-extract)
+    (keymap-set eglot-mode-map "C-c e i" 'eglot-code-action-inline)
+    (keymap-set eglot-mode-map "C-c e o" 'eglot-code-action-organize-imports)
+    (keymap-set eglot-mode-map "C-c e q" 'eglot-code-action-quickfix)
+    (keymap-set eglot-mode-map "C-c e r" 'eglot-rename))
 #+end_src
 
 ** Package Locations
 #+begin_src emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/lisp/")
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                           ("elpa" . "https://elpa.gnu.org/packages/")))
   (package-initialize)
   (unless package-archive-contents
     (package-refresh-contents))
 #+end_src
 
-** Install use-package
+** use-package
 #+begin_src emacs-lisp
-  ;;(unless (package-installed-p 'use-package)
-  ;;  (package-install 'use-package))
   (require 'use-package)
   (setq use-package-always-ensure t)
   (setq use-package-always-defer t)
 #+end_src
 
 ** Packages
-*** COMMENT Mixed Pitch
-#+begin_src emacs-lisp
-(use-package mixed-pitch
-  :hook (text-mode . mixed-pitch-mode))
-#+end_src
-
 *** WebPaste
 #+begin_src emacs-lisp
   (use-package webpaste
@@ -475,11 +504,6 @@ Live updating:
     :config
     (progn
       (setq webpaste-provider-priority '("bpa.st"))))
-#+end_src
-
-*** COMMENT Web Development
-#+begin_src emacs-lisp
- (use-package simple-httpd) 
 #+end_src
 
 *** Debbugs
@@ -496,7 +520,135 @@ Live updating:
       (exec-path-from-shell-initialize)))
 #+end_src
 
-*** COMMENT Yasnippet
+*** Vundo
+#+begin_src emacs-lisp
+  (use-package vundo
+    :commands vundo
+    :bind ("C-c v" . vundo))
+#+end_src
+
+*** Magit
+#+begin_src emacs-lisp
+  (use-package magit)
+#+end_src
+
+*** Gruvbox
+#+begin_src emacs-lisp
+  (use-package gruvbox-theme
+    :demand t
+    :config
+    (load-theme 'gruvbox-light-medium t))
+#+end_src
+*** Org
+Lazy Load ox-extra and activate ignore-headlines.
+#+begin_src emacs-lisp
+  (use-package org-contrib)
+  (with-eval-after-load 'org 
+    (require 'ox-extra)
+    (ox-extras-activate '(ignore-headlines)))
+#+end_src
+
+**** Table of Contents in Org
+#+begin_src emacs-lisp
+  (use-package toc-org
+    :hook ((org-mode . toc-org-mode)))
+#+end_src
+
+**** COMMENT Exports
+#+begin_src emacs-lisp
+  (use-package ox-pandoc)
+#+end_src
+
+**** COMMENT Org-download
+#+begin_src emacs-lisp
+  (use-package org-download
+    :hook (dired-mode . org-download-enable))
+#+end_src
+*** PDF
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :demand t
+    :mode "*.pdf"
+    :hook ((pdf-view-mode . pdf-view-themed-minor-mode)
+           (pdf-view-mode . pdf-view-fit-page-to-window)           )
+    :config
+    (pdf-loader-install)
+    (keymap-set pdf-view-mode-map "<remap> <scroll-up-command>"
+                #'pdf-view-scroll-up-or-next-page)
+    (keymap-set pdf-view-mode-map "<remap> <scroll-down-command>"
+                #'pdf-view-scroll-down-or-previous-page))
+#+end_src
+
+*** Rust
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :hook ((rust-mode . eglot-ensure))
+    :config
+    (add-hook 'rust-mode-hook (lambda () (set-fill-column 100)))
+    (setq rust-format-on-save t))
+#+end_src
+
+**** COMMENT Web App Development
+#+begin_src emacs-lisp
+  (defvar ojm/trunk-processes ())
+
+  (defvar ojm/trunk-process-port-alist ())
+
+  (defun ojm/kill-trunk-buffer (process)
+    (kill-buffer (process-buffer process))
+    (setq ojm/trunk-processes (delete process ojm/trunk-processes))
+    (setq ojm/trunk-process-port-alist
+          (assq-delete-all process ojm/trunk-process-port-alist)))
+
+  (defun ojm/list-sentinel (original list process event)
+    (funcall original process event)
+    (and (memq (process-status process) '(exit signal))
+         (buffer-live-p (process-buffer process))
+         (ojm/kill-trunk-buffer process)))
+
+  (defun ojm/trunk-free-port ()
+    (named-let rec ((port 8080))
+      (if (rassoc port ojm/trunk-process-port-alist)
+          (rec (+ port 1))
+        port)))
+
+  (defun ojm/trunk (target-dir port)
+    (interactive (list (in-project (unless (file-exists-p "index.html")
+                                     (read-directory-name "Dir Containing index.html")))
+                       (ojm/trunk-free-port)))
+    (in-project (let* ((target (expand-file-name "index.html" target-dir))
+                       (buffer-name (format "trunk on %s" target))
+                       (command (format "trunk serve --open %s %s" target
+                                        (when port (format "--port %d" port))))
+                       (proc (start-process-shell-command buffer-name (get-buffer-create buffer-name) command)))
+                  (push proc ojm/trunk-processes)
+                  (setf (alist-get proc ojm/trunk-process-port-alist) port)
+                  (let ((sentinel (process-sentinel proc)))
+                    (set-process-sentinel proc (apply-partially 'ojm/list-sentinel
+                                                                sentinel ojm/trunk-processes))))))
+
+  (defun ojm/trunk-kill (p)
+    (interactive (list (if ojm/trunk-processes
+                           (if (= (length ojm/trunk-processes) 1)
+                               (car ojm/trunk-processes)
+                             (completing-read "Kill trunk: " (mapcar 'process-name ojm/trunk-processes) () t))
+                         (user-error "No trunk processes found"))))
+    (delete-process p))
+#+end_src
+
+*** COMMENT Old
+**** COMMENT Mixed Pitch
+#+begin_src emacs-lisp
+(use-package mixed-pitch
+  :hook (text-mode . mixed-pitch-mode))
+#+end_src
+
+**** COMMENT Web Development
+#+begin_src emacs-lisp
+ (use-package simple-httpd) 
+#+end_src
+
+**** COMMENT Yasnippet
 #+begin_src emacs-lisp
   (use-package yasnippet)
   ;; (use-package yasnippet-snippets
@@ -505,7 +657,7 @@ Live updating:
   ;;   (yas-global-mode 1))
 #+end_src
 
-*** COMMENT Company
+**** COMMENT Company
 #+begin_src emacs-lisp
   (use-package company
     :init
@@ -521,13 +673,13 @@ Live updating:
     `(lambda () (setq company-backends ,backends)))
 #+end_src
 
-*** COMMENT Flycheck
+**** COMMENT Flycheck
 #+begin_src emacs-lisp
   (use-package flycheck
     :config (global-flycheck-mode))
 #+end_src
 
-*** COMMENT Vterm
+**** COMMENT Vterm
 #+begin_src emacs-lisp
   (use-package vterm
     :demand t
@@ -542,31 +694,31 @@ Live updating:
     (keymap-global-set "C-c t" 'vterm-tmux))
 #+end_src
 
-*** COMMENT Zone-tmux-clock
-#+begin_src emacs-lisp
- (use-package zone-tmux-clock) 
-#+end_src
-
-*** Icons and Emoji
-**** Emojify
+**** COMMENT Icons and Emoji
+***** Emojify
 #+begin_src emacs-lisp
 (use-package emojify
   :hook (after-init . global-emojify-mode))
 #+end_src
 
-**** All-the-icons
+***** All-the-icons
 #+begin_src emacs-lisp
   (use-package all-the-icons
     :if (display-graphic-p))
 #+end_src
 
-**** COMMENT Nerd-icons
+***** COMMENT Nerd-icons
 #+begin_src emacs-lisp
   (use-package nerd-icons
     :if (display-graphic-p))
 #+end_src
 
-*** COMMENT Undo Tree
+**** COMMENT Zone-tmux-clock
+#+begin_src emacs-lisp
+ (use-package zone-tmux-clock) 
+#+end_src
+
+**** COMMENT Undo Tree
 #+begin_src emacs-lisp
   (use-package undo-tree
     :demand t
@@ -576,14 +728,7 @@ Live updating:
     (global-undo-tree-mode))
 #+end_src
 
-*** Vundo
-#+begin_src emacs-lisp
-  (use-package vundo
-    :commands vundo
-    :bind ("C-c v" . vundo))
-#+end_src
-
-*** COMMENT DEVIL Mode
+**** COMMENT DEVIL Mode
 #+begin_src emacs-lisp
   (use-package devil
     :demand t
@@ -592,12 +737,7 @@ Live updating:
     (global-devil-mode))
 #+end_src
 
-*** Magit
-#+begin_src emacs-lisp
-  (use-package magit)
-#+end_src
-
-*** COMMENT Which-key
+**** COMMENT Which-key
 #+begin_src emacs-lisp
   (use-package which-key
     :demand t
@@ -636,7 +776,7 @@ Live updating:
 #     (ivy-rich-mode 1))
 # #+end_src
 
-*** Pass
+**** COMMENT Pass
 #+begin_src emacs-lisp
   (use-package pass
     :init
@@ -663,7 +803,7 @@ Live updating:
   (use-package password-store-otp)
 #+end_src
 
-*** COMMENT Circe
+**** COMMENT Circe
 #+begin_src emacs-lisp
   (use-package circe
     :config
@@ -736,7 +876,7 @@ Live updating:
 
 #+end_src
 
-*** COMMENT Parentheses and such
+**** COMMENT Parentheses and such
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
@@ -746,19 +886,19 @@ Live updating:
   ;;   :hook emacs-lisp-mode)
 #+end_src
 
-*** COMMENT Format All
+**** COMMENT Format All
 #+begin_src emacs-lisp
   (use-package format-all
     :hook prog-mode)
 #+end_src
 
-*** COMMENT Language-Specific
-**** COMMENT BNF
+**** COMMENT Language-Specific
+***** COMMENT BNF
 #+begin_src emacs-lisp
  (use-package bnf-mode) 
 #+end_src
 
-**** COMMENT Emmet (HTML, CSS)
+***** COMMENT Emmet (HTML, CSS)
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :hook ((sgml-mode css-mode) . emmet-mode)
@@ -767,7 +907,7 @@ Live updating:
     (define-key emmet-mode-keymap (kbd "M-j") #'emmet-expand-line)) 
 #+end_src
 
-**** COMMENT Lisp
+***** COMMENT Lisp
 #+begin_src emacs-lisp
   (use-package paredit
     :hook ((emacs-lisp-mode 
@@ -778,20 +918,20 @@ Live updating:
             scheme-mode) .  enable-paredit-mode))
 #+end_src
 
-**** COMMENT Common Lisp
+***** COMMENT Common Lisp
 #+begin_src emacs-lisp
   (use-package sly
     :config
     (setq sly-lisp-implementations '(("ccl" ("ccl")))))
 #+end_src
 
-**** COMMENT Scheme
+***** COMMENT Scheme
 #+begin_src emacs-lisp
   (use-package geiser)
 #+end_src
 
-***** Specific Implementations
-****** Racket
+****** Specific Implementations
+******* Racket
 #+begin_src emacs-lisp
   (use-package racket-mode
     :pin "nongnu")
@@ -800,11 +940,12 @@ Live updating:
     :after 'racket-mode)
 #+end_src
 
-****** Guile
+******* Guile
 #+begin_src emacs-lisp
  (use-package geiser-guile) 
 #+end_src
-**** COMMENT C/C++
+
+***** COMMENT C/C++
 #+begin_src emacs-lisp
   (use-package irony
     :hook ((c++-mode c-mode) . irony-mode)
@@ -823,7 +964,7 @@ Live updating:
     :when (executable-find "astyle")
     :hook (c-mode-common . astyle-on-save-mode))
 #+end_src
-**** COMMENT Python
+***** COMMENT Python
 #+begin_src emacs-lisp
   (use-package python-mode
     :bind (:map python-mode-map
@@ -841,81 +982,16 @@ Live updating:
   ;(use-package company-jedi)
 #+end_src
 
-***** Completion
+****** Completion
 #+begin_src emacs-lisp
 ;  (add-hook 'python-mode-hook (set-company-backends '((company-jedi))))
 #+end_src
-**** COMMENT Zig
+***** COMMENT Zig
 #+begin_src emacs-lisp
   (use-package zig-mode)
 #+end_src
 
-**** COMMENT Rust
-#+begin_src emacs-lisp
-  (use-package rustic
-    :bind (:map rustic-mode-map
-                ("C-c C-e" . eglot-code-actions)
-                ("C-c e o" . eglot-code-action-organize-imports)
-                ("C-c e e" . eglot-code-action-extract)
-                ("C-c e q" . eglot-code-action-quickfix)
-                ("C-c e i" . eglot-code-action-inline)
-                ("C-c e r" . eglot-rename))
-    :init
-    (add-hook 'rustic-mode-hook (lambda () (set-fill-column 100)))
-    :config
-    (setq rustic-lsp-client 'eglot
-          rustic-format-trigger 'on-save))
-#+end_src
-
-***** Web App Development
-#+begin_src emacs-lisp
-  (defvar ojm/trunk-processes ())
-
-  (defvar ojm/trunk-process-port-alist ())
-
-  (defun ojm/kill-trunk-buffer (process)
-    (kill-buffer (process-buffer process))
-    (setq ojm/trunk-processes (delete process ojm/trunk-processes))
-    (setq ojm/trunk-process-port-alist
-          (assq-delete-all process ojm/trunk-process-port-alist)))
-
-  (defun ojm/list-sentinel (original list process event)
-    (funcall original process event)
-    (and (memq (process-status process) '(exit signal))
-         (buffer-live-p (process-buffer process))
-         (ojm/kill-trunk-buffer process)))
-
-  (defun ojm/trunk-free-port ()
-    (named-let rec ((port 8080))
-      (if (rassoc port ojm/trunk-process-port-alist)
-          (rec (+ port 1))
-        port)))
-
-  (defun ojm/trunk (target-dir port)
-    (interactive (list (in-project (unless (file-exists-p "index.html")
-                                     (read-directory-name "Dir Containing index.html")))
-                       (ojm/trunk-free-port)))
-    (in-project (let* ((target (expand-file-name "index.html" target-dir))
-                       (buffer-name (format "trunk on %s" target))
-                       (command (format "trunk serve --open %s %s" target
-                                        (when port (format "--port %d" port))))
-                       (proc (start-process-shell-command buffer-name (get-buffer-create buffer-name) command)))
-                  (push proc ojm/trunk-processes)
-                  (setf (alist-get proc ojm/trunk-process-port-alist) port)
-                  (let ((sentinel (process-sentinel proc)))
-                    (set-process-sentinel proc (apply-partially 'ojm/list-sentinel
-                                                                sentinel ojm/trunk-processes))))))
-
-  (defun ojm/trunk-kill (p)
-    (interactive (list (if ojm/trunk-processes
-                           (if (= (length ojm/trunk-processes) 1)
-                               (car ojm/trunk-processes)
-                             (completing-read "Kill trunk: " (mapcar 'process-name ojm/trunk-processes) () t))
-                         (user-error "No trunk processes found"))))
-    (delete-process p))
-#+end_src
-
-*** COMMENT It came from DOOM...
+**** COMMENT It came from DOOM...
 #+begin_src emacs-lisp
   ;; (use-package doom-modeline
   ;;   :hook (server-after-make-frame . doom-modeline-mode)
@@ -935,54 +1011,7 @@ Live updating:
     (load-theme 'doom-gruvbox-light t)
     (doom-themes-org-config))
 #+end_src
-*** Gruvbox
-#+begin_src emacs-lisp
-  (use-package gruvbox-theme
-    :demand t
-    :config
-    (load-theme 'gruvbox-light-medium t))
-#+end_src
-*** Org
-Lazy Load ox-extra and activate ignore-headlines.
-#+begin_src emacs-lisp
-  (use-package org-contrib)
-  (with-eval-after-load 'org 
-    (require 'ox-extra)
-    (ox-extras-activate '(ignore-headlines)))
-#+end_src
-
-**** COMMENT Exports
-#+begin_src emacs-lisp
-  (use-package ox-pandoc)
-#+end_src
-
-**** Table of Contents in Org
-#+begin_src emacs-lisp
-  (use-package toc-org
-    :hook ((org-mode . toc-org-mode)))
-#+end_src
-
-**** COMMENT Org-download
-#+begin_src emacs-lisp
-  (use-package org-download
-    :hook (dired-mode . org-download-enable))
-#+end_src
-*** PDF
-#+begin_src emacs-lisp
-  (use-package pdf-tools
-    :demand t
-    :mode "*.pdf"
-    :hook ((pdf-view-mode . pdf-view-themed-minor-mode)
-           (pdf-view-mode . pdf-view-fit-page-to-window)           )
-    :config
-    (pdf-loader-install)
-    (keymap-set pdf-view-mode-map "<remap> <scroll-up-command>"
-                #'pdf-view-scroll-up-or-next-page)
-    (keymap-set pdf-view-mode-map "<remap> <scroll-down-command>"
-                #'pdf-view-scroll-down-or-previous-page))
-#+end_src
-
-*** COMMENT Avy
+**** COMMENT Avy
 #+begin_src emacs-lisp
   (use-package avy
     :bind (("C-c C-j" . avy-resume)
@@ -1003,48 +1032,6 @@ Lazy Load ox-extra and activate ignore-headlines.
   (setq org-use-speed-commands t
         org-image-actual-width nil
         org-startup-folded "content")
-#+end_src
-
-*** Org Todo States
-'Stolen' from doomemacs.
-#+begin_src emacs-lisp
-  (with-no-warnings
-    (custom-declare-face '+org-todo-active  '((t (:inherit (bold font-lock-constant-face org-todo)))) "")
-    (custom-declare-face '+org-todo-project '((t (:inherit (bold font-lock-doc-face org-todo)))) "")
-    (custom-declare-face '+org-todo-onhold  '((t (:inherit (bold warning org-todo)))) "")
-    (custom-declare-face '+org-todo-cancel  '((t (:inherit (bold error org-todo)))) ""))
-  (setq org-todo-keywords
-        '((sequence
-           "TODO(t)"  ; A task that needs doing & is ready to do
-           "PROJ(p)"  ; A project, which usually contains other tasks
-           "LOOP(r)"  ; A recurring task
-           "STRT(s)"  ; A task that is in progress
-           "WAIT(w)"  ; Something external is holding up this task
-           "HOLD(h)"  ; This task is paused/on hold because of me
-           "IDEA(i)"  ; An unconfirmed and unapproved task or notion
-           "|"
-           "DONE(d)"  ; Task successfully completed
-           "KILL(k)") ; Task was cancelled, aborted or is no longer applicable
-          (sequence
-           "[ ](T)"   ; A task that needs doing
-           "[-](S)"   ; Task is in progress
-           "[?](W)"   ; Task is being held up or paused
-           "|"
-           "[X](D)")  ; Task was completed
-          (sequence
-           "|"
-           "OKAY(o)"
-           "YES(y)"
-           "NO(n)"))
-        org-todo-keyword-faces
-        '(("[-]"  . +org-todo-active)
-          ("STRT" . +org-todo-active)
-          ("[?]"  . +org-todo-onhold)
-          ("WAIT" . +org-todo-onhold)
-          ("HOLD" . +org-todo-onhold)
-          ("PROJ" . +org-todo-project)
-          ("NO"   . +org-todo-cancel)
-          ("KILL" . +org-todo-cancel)))
 #+end_src
 
 *** Org Capture Templates
@@ -1100,6 +1087,48 @@ Lazy Load ox-extra and activate ignore-headlines.
            (file+headline +org-capture-project-notes-file "Inbox")
            "* %U %?\n%i\n%a" :prepend t :kill-buffer t)))
 #+end_src
+*** COMMENT Org Todo States
+'Stolen' from doomemacs.
+#+begin_src emacs-lisp
+  (with-no-warnings
+    (custom-declare-face '+org-todo-active  '((t (:inherit (bold font-lock-constant-face org-todo)))) "")
+    (custom-declare-face '+org-todo-project '((t (:inherit (bold font-lock-doc-face org-todo)))) "")
+    (custom-declare-face '+org-todo-onhold  '((t (:inherit (bold warning org-todo)))) "")
+    (custom-declare-face '+org-todo-cancel  '((t (:inherit (bold error org-todo)))) ""))
+  (setq org-todo-keywords
+        '((sequence
+           "TODO(t)"  ; A task that needs doing & is ready to do
+           "PROJ(p)"  ; A project, which usually contains other tasks
+           "LOOP(r)"  ; A recurring task
+           "STRT(s)"  ; A task that is in progress
+           "WAIT(w)"  ; Something external is holding up this task
+           "HOLD(h)"  ; This task is paused/on hold because of me
+           "IDEA(i)"  ; An unconfirmed and unapproved task or notion
+           "|"
+           "DONE(d)"  ; Task successfully completed
+           "KILL(k)") ; Task was cancelled, aborted or is no longer applicable
+          (sequence
+           "[ ](T)"   ; A task that needs doing
+           "[-](S)"   ; Task is in progress
+           "[?](W)"   ; Task is being held up or paused
+           "|"
+           "[X](D)")  ; Task was completed
+          (sequence
+           "|"
+           "OKAY(o)"
+           "YES(y)"
+           "NO(n)"))
+        org-todo-keyword-faces
+        '(("[-]"  . +org-todo-active)
+          ("STRT" . +org-todo-active)
+          ("[?]"  . +org-todo-onhold)
+          ("WAIT" . +org-todo-onhold)
+          ("HOLD" . +org-todo-onhold)
+          ("PROJ" . +org-todo-project)
+          ("NO"   . +org-todo-cancel)
+          ("KILL" . +org-todo-cancel)))
+#+end_src
+
 ** Keys 
 #+begin_src emacs-lisp
   (with-eval-after-load 'org
