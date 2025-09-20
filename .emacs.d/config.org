@@ -98,7 +98,7 @@ Start a new line
 
 ** Window Splitting
 #+begin_src emacs-lisp  
-  (setq split-width-threshold 145)                                                                                                                       
+  (setq split-width-threshold 200)                                                                                                                       
   (advice-add 'other-window :before
               (defun other-window-split-if-single (&rest _)
                 "Split the frame if there is a single window."
@@ -204,13 +204,14 @@ And preserve the scratch buffer forever:
 #+begin_src emacs-lisp
   (with-eval-after-load 'erc 
     (dolist (module '(capab-identify
-                      nicks
+                      ;; nicks
                       notifications
                       scrolltobottom
                       spelling
                       services-regain))
       (add-to-list 'erc-modules module))
     (setq erc-scrolltobottom-all t
+          ;; erc-autojoin-channels-alist '((Libera.Chat '#emacs'))
           erc-fill-column 100))
 #+end_src
 
@@ -328,7 +329,7 @@ Live updating:
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (tooltip-mode -1)
-  (set-fringe-mode 1)
+  (set-fringe-mode nil)
   (menu-bar-mode -1)
   (auto-insert-mode 1)
   (setq frame-resize-pixelwise t)
@@ -365,7 +366,7 @@ Live updating:
   (display-battery-mode 1)
   (electric-pair-mode 1)
   (global-auto-revert-mode 1)
-  (global-completion-preview-mode 1)
+  ;;(global-completion-preview-mode 1)
   (global-hl-line-mode 1)
   (minibuffer-depth-indicate-mode 1)
   (repeat-mode 1)
@@ -534,6 +535,11 @@ Apply Flyspell to yanked text.
 
 *** Gruvbox
 #+begin_src emacs-lisp
+  (defun ojm/chanage-theme ()
+    (interactive)
+    (mapc 'disable-theme custom-enabled-themes)
+    (call-interactively 'load-theme))
+
   (use-package gruvbox-theme
     :demand t
     :config
