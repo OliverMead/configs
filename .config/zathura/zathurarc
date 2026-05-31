@@ -42,3 +42,4 @@ set recolor-darkcolor           "#ebdbb2" # base1
 
 set vertical-center		true
 set zoom-step			2
+set selection-clipboard clipboard
