@@ -9,10 +9,10 @@ shopt -s extglob globstar
 
 PS1='\[\e[1;32m\]»\h(\j) \s \D{%F}|\t [\#]\n\W/ \$\[\e[m\] '
 
-bind '"\e[A": history-search-backward'
-bind '"\e[B": history-search-forward'
+# bind '"\e[A": history-search-backward'
+# bind '"\e[B": history-search-forward'
 
-alias ls='ls --color=auto'
+alias ls='ls --color=auto --group-directories-first'
 alias grep='grep --color=auto'
 alias ll="ls -lhv"
 alias l="ls -alhv"
@@ -25,7 +25,7 @@ fi
 
 export LANG=en_GB.UTF-8
 
-export EDITOR='emacsclient -r -a "emacs -Q -nw"'
+export EDITOR='emacsclient -r -a emacs'
 export VISUAL=$EDITOR
 export GIT_EDITOR=$EDITOR
 export LESSHISTFILE=/dev/null

@@ -15,7 +15,7 @@ lxsession &
 unclutter --timeout 1 &
 xcape -e 'Caps_Lock=Escape'
 # picom &
-hsetroot -cover ~/wallpaper.png
+hsetroot -extend ~/wallpaper.png
 tmux &
 dunst &
 pa-notify &
