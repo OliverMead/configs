@@ -1,7 +1,3 @@
-[submodule ".emacs.d"]
-	path = .emacs.doom
-  branch = develop
-	url = https://github.com/hlissner/doom-emacs
 [submodule "org"]
 	path = org
 	url = git@github.com:OliverMead/org.git
