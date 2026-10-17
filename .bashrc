@@ -16,7 +16,9 @@ alias ls='ls --color=auto --group-directories-first'
 alias grep='grep --color=auto'
 alias ll="ls -lhv"
 alias l="ls -alhv"
+alias d="du -hs ./* ./.*"
 alias getip='curl icanhazip.com'
+alias dlsite='wget -mpEk'
 alias rip="HandBrakeCLI -Z 'Fast 576p25' --no-comb-detect --no-deinterlace -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
 
 if [[ -z "${PREFIX}" ]]; then
