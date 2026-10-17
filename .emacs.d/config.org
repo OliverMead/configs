@@ -385,9 +385,9 @@ Live updating:
 *** Fonts
 #+begin_src emacs-lisp
   (defun configure-fonts ()
-    (set-face-attribute 'default nil :font "IosevkaTermNerdFont" :height 90 :width 'narrow)
+    (set-face-attribute 'default nil :font "Iosevka Term Slab" :height 100 :width 'narrow)
     ;; (set-face-attribute 'default nil :font "Terminus")
-    (set-face-attribute 'fixed-pitch nil :font "IosevkaTermNerdFont" :height 90 :width 'narrow)
+    (set-face-attribute 'fixed-pitch nil :font "Iosevka Term Slab" :height 100 :width 'narrow)
     (set-face-attribute 'variable-pitch nil :font "TeX Gyre Termes"))
   (dolist
       (hook
@@ -519,8 +519,7 @@ Apply Flyspell to yanked text.
   (use-package exec-path-from-shell
     :demand t
     :config
-    (when (daemonp)
-      (exec-path-from-shell-initialize)))
+      (exec-path-from-shell-initialize))
 #+end_src
 
 *** Vundo
@@ -572,6 +571,7 @@ Lazy Load ox-extra and activate ignore-headlines.
   (use-package org-download
     :hook (dired-mode . org-download-enable))
 #+end_src
+
 *** PDF
 #+begin_src emacs-lisp
   (use-package pdf-tools
