@@ -385,9 +385,9 @@ Live updating:
 *** Fonts
 #+begin_src emacs-lisp
   (defun configure-fonts ()
-    (set-face-attribute 'default nil :font "Iosevka Term Slab" :height 100 :width 'narrow)
+    (set-face-attribute 'default nil :font "Iosevka Term Slab" :height 90 :width 'narrow)
     ;; (set-face-attribute 'default nil :font "Terminus")
-    (set-face-attribute 'fixed-pitch nil :font "Iosevka Term Slab" :height 100 :width 'narrow)
+    (set-face-attribute 'fixed-pitch nil :font "Iosevka Term Slab" :height 90 :width 'narrow)
     (set-face-attribute 'variable-pitch nil :font "TeX Gyre Termes"))
   (dolist
       (hook

@@ -6,7 +6,8 @@
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
  '(custom-safe-themes
-   '("fa49766f2acb82e0097e7512ae4a1d6f4af4d6f4655a48170d0a00bcb7183970"
+   '("7dafc13a94124433b68285e3a8860744a02042a40b0105fe4f4af8768676de91"
+     "fa49766f2acb82e0097e7512ae4a1d6f4af4d6f4655a48170d0a00bcb7183970"
      "3e374bb5eb46eb59dbd92578cae54b16de138bc2e8a31a2451bf6fdb0f3fd81b"
      "72ed8b6bffe0bfa8d097810649fd57d2b598deef47c992920aef8b5d9599eefe"
      "b7a09eb77a1e9b98cafba8ef1bd58871f91958538f6671b22976ea38c2580755" default))

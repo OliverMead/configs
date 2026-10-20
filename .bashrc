@@ -18,6 +18,9 @@ alias ll="ls -lhv"
 alias l="ls -alhv"
 alias d="du -hs ./* ./.*"
 alias getip='curl icanhazip.com'
+alias shrinkz="tar -I 'zstdmt -10' -cf"
+alias shrinkx="tar -I 'xz -T 0' -cf"
+alias fsttar="tar --zstd"
 alias dlsite='wget -mpEk'
 alias rip="HandBrakeCLI -Z 'Fast 576p25' --no-comb-detect --no-deinterlace -i /dev/sr0 --all-subtitles --subtitle-burned='none' --main-feature -o"
 
